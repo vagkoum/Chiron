@@ -9,9 +9,10 @@ export default function Admin() {
   const { user, loading } = useAuth()
   const navigate = useNavigate()
   const [tab, setTab] = useState('stats')
-  const [stats, setStats] = useState({ users: 0, listings: 0, messages: 0, threads: 0 })
+  const [stats, setStats] = useState({ users: 0, listings: 0, messages: 0, threads: 0, reports: 0 })
   const [users, setUsers] = useState([])
   const [listings, setListings] = useState([])
+  const [reports, setReports] = useState([])
   const [loadingData, setLoadingData] = useState(true)
 
   useEffect(() => {
@@ -32,15 +33,19 @@ export default function Admin() {
       { count: listingCount },
       { count: messageCount },
       { count: threadCount },
+      { count: reportCount },
       { data: usersData },
       { data: listingsData },
+      { data: reportsData },
     ] = await Promise.all([
       supabase.from('profiles').select('*', { count: 'exact', head: true }),
       supabase.from('listings').select('*', { count: 'exact', head: true }),
       supabase.from('messages').select('*', { count: 'exact', head: true }),
       supabase.from('message_threads').select('*', { count: 'exact', head: true }),
+      supabase.from('reports').select('*', { count: 'exact', head: true }).eq('status', 'pending'),
       supabase.from('profiles').select('*').order('created_at', { ascending: false }),
       supabase.from('listings').select('*, profiles(full_name, email)').order('created_at', { ascending: false }),
+      supabase.from('reports').select('*, reporter:profiles!reports_reporter_id_fkey(full_name), reported:profiles!reports_reported_user_id_fkey(full_name)').order('created_at', { ascending: false }),
     ])
 
     setStats({
@@ -48,9 +53,11 @@ export default function Admin() {
       listings: listingCount || 0,
       messages: messageCount || 0,
       threads: threadCount || 0,
+      reports: reportCount || 0,
     })
     setUsers(usersData || [])
     setListings(listingsData || [])
+    setReports(reportsData || [])
     setLoadingData(false)
   }
 
@@ -64,6 +71,11 @@ export default function Admin() {
     if (!window.confirm('Delete this user and all their data?')) return
     await supabase.from('profiles').delete().eq('id', id)
     setUsers(us => us.filter(u => u.id !== id))
+  }
+
+  async function resolveReport(id, status) {
+    await supabase.from('reports').update({ status }).eq('id', id)
+    setReports(rs => rs.map(r => r.id === id ? { ...r, status } : r))
   }
 
   async function toggleListing(id, active) {
@@ -86,9 +98,9 @@ export default function Admin() {
 
       {/* Tabs */}
       <div className="filter-row" style={{ marginBottom: '1.5rem' }}>
-        {['stats', 'users', 'listings'].map(t => (
+        {['stats', 'users', 'listings', 'reports'].map(t => (
           <button key={t} className={`chip ${tab === t ? 'active' : ''}`} onClick={() => setTab(t)}>
-            {t === 'stats' ? '📊 Statistics' : t === 'users' ? '👥 Users' : '📋 Listings'}
+            {t === 'stats' ? '📊 Statistics' : t === 'users' ? '👥 Users' : t === 'listings' ? '📋 Listings' : `🚩 Reports${stats.reports > 0 ? ` (${stats.reports})` : ''}`}
           </button>
         ))}
       </div>
@@ -96,11 +108,12 @@ export default function Admin() {
       {/* STATS */}
       {tab === 'stats' && (
         <>
-          <div className="stats-row" style={{ gridTemplateColumns: 'repeat(4,1fr)' }}>
+          <div className="stats-row" style={{ gridTemplateColumns: 'repeat(5,1fr)' }}>
             <div className="stat-card"><div className="stat-num">{stats.users}</div><div className="stat-lbl">Total users</div></div>
             <div className="stat-card"><div className="stat-num">{stats.listings}</div><div className="stat-lbl">Total listings</div></div>
             <div className="stat-card"><div className="stat-num">{stats.threads}</div><div className="stat-lbl">Conversations</div></div>
             <div className="stat-card"><div className="stat-num">{stats.messages}</div><div className="stat-lbl">Messages sent</div></div>
+            <div className="stat-card"><div className="stat-num" style={{ color: stats.reports > 0 ? '#dc2626' : 'var(--green)' }}>{stats.reports}</div><div className="stat-lbl">Pending reports</div></div>
           </div>
 
           <div className="card" style={{ marginTop: '1rem' }}>
@@ -210,6 +223,36 @@ export default function Admin() {
           {listings.length === 0 && (
             <div className="empty-state"><h3>No listings yet</h3></div>
           )}
+        </div>
+      )}
+      {/* REPORTS */}
+      {tab === 'reports' && (
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+          {reports.length === 0 && (
+            <div className="empty-state"><h3>No reports</h3><p>Your platform is clean!</p></div>
+          )}
+          {reports.map(r => (
+            <div key={r.id} className="card" style={{ borderLeft: r.status === 'pending' ? '3px solid #dc2626' : '3px solid var(--green)' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '8px' }}>
+                <div>
+                  <div style={{ fontWeight: 600, fontSize: '14px' }}>{r.reason}</div>
+                  <div style={{ fontSize: '12px', color: 'var(--text-muted)' }}>
+                    Reported by {r.reporter?.full_name || 'Unknown'} → against {r.reported?.full_name || 'Unknown'}
+                  </div>
+                </div>
+                <span className={`pill ${r.status === 'pending' ? 'pill-amber' : 'pill-green'}`}>{r.status}</span>
+              </div>
+              {r.details && <div style={{ fontSize: '13px', color: 'var(--text-muted)', marginBottom: '8px', background: 'var(--bg)', padding: '8px 10px', borderRadius: '6px' }}>{r.details}</div>}
+              <div style={{ fontSize: '11px', color: 'var(--text-faint)', marginBottom: '8px' }}>{new Date(r.created_at).toLocaleString()}</div>
+              {r.status === 'pending' && (
+                <div style={{ display: 'flex', gap: '6px' }}>
+                  <button className="btn btn-outline btn-sm" onClick={() => resolveReport(r.id, 'resolved')}>Mark resolved</button>
+                  <button className="btn btn-outline btn-sm" onClick={() => resolveReport(r.id, 'dismissed')}>Dismiss</button>
+                  <button className="btn btn-danger btn-sm" onClick={() => deleteUser(r.reported_user_id)}>Ban reported user</button>
+                </div>
+              )}
+            </div>
+          ))}
         </div>
       )}
     </div>
