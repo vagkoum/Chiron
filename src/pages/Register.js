@@ -6,7 +6,7 @@ export default function Register() {
     <div className="auth-page">
       <div className="auth-box">
         <div className="auth-logo">
-          {TRADE_CONFIG.platformName.replace('Swap', '')}<span>Swap</span>
+          {TRADE_CONFIG.platformName}
         </div>
         <h2 style={{ fontSize: '16px', fontWeight: 500, textAlign: 'center', marginBottom: '1rem', color: 'var(--text-muted)' }}>
           Sign-ups temporarily paused
