@@ -11,6 +11,7 @@ export default function ListingDetail() {
   const navigate = useNavigate()
   const [listing, setListing] = useState(null)
   const [loading, setLoading] = useState(true)
+  const [hasThread, setHasThread] = useState(false)
   const [refreshReviews, setRefreshReviews] = useState(0)
 
   useEffect(() => {
@@ -21,6 +22,16 @@ export default function ListingDetail() {
       .single()
       .then(({ data }) => { setListing(data); setLoading(false) })
   }, [id])
+
+  useEffect(() => {
+    if (!user || !listing) return
+    supabase
+      .from('message_threads')
+      .select('id')
+      .or(`and(user1_id.eq.${user.id},user2_id.eq.${listing.user_id}),and(user1_id.eq.${listing.user_id},user2_id.eq.${user.id})`)
+      .single()
+      .then(({ data }) => setHasThread(!!data))
+  }, [user, listing])
 
   async function handleContact() {
     if (!user) { navigate('/login'); return }
@@ -39,6 +50,7 @@ export default function ListingDetail() {
         .select()
         .single()
       navigate(`/messages/${thread.id}`)
+      setHasThread(true)
     }
   }
 
@@ -49,6 +61,7 @@ export default function ListingDetail() {
   const initials = name.split(' ').map(w => w[0]).join('').slice(0, 2).toUpperCase()
   const skills = listing.skills ? listing.skills.split(',').map(s => s.trim()).filter(Boolean) : []
   const isOwn = user?.id === listing.user_id
+  const canSeePrivate = isOwn || hasThread
 
   return (
     <div className="page-narrow">
@@ -64,7 +77,7 @@ export default function ListingDetail() {
             )}
             <div style={{ display: 'flex', gap: '6px', marginTop: '4px' }}>
               <span className={`pill ${listing.user_type === 'business' ? 'pill-blue' : 'pill-purple'}`}>
-                {listing.user_type === 'business' ? 'Company' : 'Individual'}
+                {listing.user_type === 'business' ? 'Company / Lab' : 'Individual / Researcher'}
               </span>
               <span className="pill pill-gray">{listing.category}</span>
             </div>
@@ -73,6 +86,23 @@ export default function ListingDetail() {
 
         <h2 style={{ fontSize: '18px', fontWeight: 600, marginBottom: '8px' }}>{listing.offer_title}</h2>
         <p style={{ fontSize: '14px', color: 'var(--text-muted)', lineHeight: 1.7, marginBottom: '1rem' }}>{listing.offer_description}</p>
+
+        {/* Private details section */}
+        {listing.private_details && (
+          <div style={{ marginBottom: '1rem' }}>
+            {canSeePrivate ? (
+              <div style={{ background: '#f0fdf4', border: '1px solid #86efac', borderRadius: '8px', padding: '12px 14px' }}>
+                <div style={{ fontSize: '12px', fontWeight: 600, color: '#166534', marginBottom: '6px' }}>🔒 Private details — visible only to you</div>
+                <div style={{ fontSize: '14px', color: '#166534', lineHeight: 1.7 }}>{listing.private_details}</div>
+              </div>
+            ) : (
+              <div style={{ background: '#fef9f0', border: '1px dashed #f59e0b', borderRadius: '8px', padding: '12px 14px', textAlign: 'center' }}>
+                <div style={{ fontSize: '13px', color: '#92400e', marginBottom: '6px' }}>🔒 This submission has private details</div>
+                <div style={{ fontSize: '12px', color: 'var(--text-muted)' }}>Contact the author to start a conversation — private details are revealed after a deal is agreed.</div>
+              </div>
+            )}
+          </div>
+        )}
 
         {listing.seek_description && (
           <div style={{ background: 'var(--green-light)', borderRadius: '8px', padding: '12px', marginBottom: '1rem' }}>
@@ -90,25 +120,24 @@ export default function ListingDetail() {
         <hr className="divider" />
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '8px', fontSize: '13px', color: 'var(--text-muted)', marginBottom: '1rem' }}>
           <div><strong>📍 Location</strong><br />{listing.location || '—'}</div>
-          <div><strong>⏱ Available</strong><br />{listing.availability}</div>
-          <div><strong>💶 Trade type</strong><br />{listing.trade_type === 'barter' ? 'Barter' : listing.trade_type === 'paid' ? 'Paid' : 'Open to both'}</div>
+          <div><strong>📋 Status</strong><br />{listing.availability}</div>
+          <div><strong>💶 Deal type</strong><br />{listing.trade_type === 'barter' ? 'Non-monetary' : listing.trade_type === 'paid' ? 'Monetary' : 'Open to all'}</div>
         </div>
 
         {!isOwn && (
-  <>
-    <button className="btn btn-primary" style={{ width: '100%', justifyContent: 'center' }} onClick={handleContact}>
-      💬 Contact {name.split(' ')[0]}
-    </button>
-    <div style={{ textAlign: 'center', marginTop: '10px' }}>
-      <ReportButton reportedUserId={listing.user_id} listingId={listing.id} />
-    </div>
-  </>
-)}
+          <>
+            <button className="btn btn-primary" style={{ width: '100%', justifyContent: 'center' }} onClick={handleContact}>
+              💬 Contact {name.split(' ')[0]}
+            </button>
+            <div style={{ textAlign: 'center', marginTop: '10px' }}>
+              <ReportButton reportedUserId={listing.user_id} listingId={listing.id} />
+            </div>
+          </>
+        )}
         {isOwn && (
-          <div style={{ textAlign: 'center', fontSize: '13px', color: 'var(--text-muted)', padding: '8px' }}>This is your listing.</div>
+          <div style={{ textAlign: 'center', fontSize: '13px', color: 'var(--text-muted)', padding: '8px' }}>This is your submission.</div>
         )}
 
-        {/* Reviews Section */}
         <hr className="divider" />
         <ReviewList reviewedId={listing.user_id} key={refreshReviews} />
         <ReviewForm
