@@ -12,6 +12,7 @@ export default function NewListing() {
   const [form, setForm] = useState({
     offer_title: '',
     offer_description: '',
+    private_details: '',
     seek_description: '',
     skills: '',
     category: TRADE_CONFIG.categories[0],
@@ -44,9 +45,12 @@ export default function NewListing() {
 
   return (
     <div className="page-narrow">
-      <h1 style={{ fontSize: '20px', fontWeight: 600, marginBottom: '1.5rem' }}>
-        Post a {TRADE_CONFIG.listingName}
+      <h1 style={{ fontSize: '20px', fontWeight: 600, marginBottom: '0.5rem' }}>
+        Submit your idea
       </h1>
+      <div style={{ background: '#fef3c7', border: '1px solid #f59e0b', borderRadius: '8px', padding: '12px 14px', fontSize: '13px', color: '#92400e', marginBottom: '1.5rem' }}>
+        ⚠️ <strong>Important:</strong> Do not reveal critical details in your public description. Share enough to attract interest — keep the key details for the private section below, which is only shown after a deal is agreed.
+      </div>
 
       <form onSubmit={handleSubmit}>
         <div className="card" style={{ display: 'flex', flexDirection: 'column', gap: 0 }}>
@@ -60,7 +64,7 @@ export default function NewListing() {
                   className={`chip ${form.user_type === t ? 'active' : ''}`}
                   onClick={() => update('user_type', t)}
                 >
-                  {t === 'individual' ? '👤 Individual' : '🏢 Company'}
+                  {t === 'individual' ? '👤 Individual / Researcher' : '🏢 Company / Lab'}
                 </button>
               ))}
             </div>
@@ -70,15 +74,16 @@ export default function NewListing() {
             <label className="form-label">Title *</label>
             <input
               className="form-input"
-              placeholder="e.g. Senior UX Designer available for 3 months"
+              placeholder="e.g. Novel water purification method using algae"
               value={form.offer_title}
               onChange={e => update('offer_title', e.target.value)}
               required
             />
+            <span className="form-hint">Keep it intriguing but not too specific</span>
           </div>
 
           <div className="form-group">
-            <label className="form-label">{TRADE_CONFIG.offerLabel} *</label>
+            <label className="form-label">Public description * <span style={{ color: 'var(--green)', fontSize: '11px', fontWeight: 500 }}>VISIBLE TO ALL REGISTERED USERS</span></label>
             <textarea
               className="form-textarea"
               placeholder={TRADE_CONFIG.offerPlaceholder}
@@ -86,6 +91,19 @@ export default function NewListing() {
               onChange={e => update('offer_description', e.target.value)}
               required
             />
+            <span className="form-hint">This is what everyone sees. Be compelling but protect your key details.</span>
+          </div>
+
+          <div className="form-group">
+            <label className="form-label">Private details <span style={{ color: '#dc2626', fontSize: '11px', fontWeight: 500 }}>🔒 ONLY REVEALED AFTER DEAL IS AGREED</span></label>
+            <textarea
+              className="form-textarea"
+              style={{ minHeight: '120px' }}
+              placeholder="Here you can describe the full details of your idea, methodology, data, or creative work. This section is never shown publicly."
+              value={form.private_details}
+              onChange={e => update('private_details', e.target.value)}
+            />
+            <span className="form-hint">Optional but recommended. You control when and to whom this is revealed.</span>
           </div>
 
           <div className="form-group">
@@ -99,14 +117,14 @@ export default function NewListing() {
           </div>
 
           <div className="form-group">
-            <label className="form-label">Key skills / tags</label>
+            <label className="form-label">Keywords / tags</label>
             <input
               className="form-input"
-              placeholder="e.g. Figma, React, Project Management (comma separated)"
+              placeholder="e.g. biotechnology, water, sustainability (comma separated)"
               value={form.skills}
               onChange={e => update('skills', e.target.value)}
             />
-            <span className="form-hint">Separate each skill with a comma</span>
+            <span className="form-hint">Helps others find your submission</span>
           </div>
 
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
@@ -117,7 +135,7 @@ export default function NewListing() {
               </select>
             </div>
             <div className="form-group">
-              <label className="form-label">Availability</label>
+              <label className="form-label">Status</label>
               <select className="form-select" value={form.availability} onChange={e => update('availability', e.target.value)}>
                 {TRADE_CONFIG.availabilityOptions.map(o => <option key={o}>{o}</option>)}
               </select>
@@ -126,16 +144,16 @@ export default function NewListing() {
 
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
             <div className="form-group">
-              <label className="form-label">Location</label>
+              <label className="form-label">Country / Location</label>
               <input
                 className="form-input"
-                placeholder="City or Remote"
+                placeholder="e.g. Greece, Remote"
                 value={form.location}
                 onChange={e => update('location', e.target.value)}
               />
             </div>
             <div className="form-group">
-              <label className="form-label">Trade type</label>
+              <label className="form-label">Deal type</label>
               <select className="form-select" value={form.trade_type} onChange={e => update('trade_type', e.target.value)}>
                 {TRADE_CONFIG.tradeTypes.map(t => <option key={t.value} value={t.value}>{t.label}</option>)}
               </select>
@@ -146,7 +164,7 @@ export default function NewListing() {
 
           <div style={{ display: 'flex', gap: '10px', marginTop: '0.5rem' }}>
             <button type="submit" className="btn btn-primary" disabled={loading}>
-              {loading ? 'Publishing…' : 'Publish listing'}
+              {loading ? 'Submitting…' : 'Submit idea'}
             </button>
             <button type="button" className="btn btn-outline" onClick={() => navigate(-1)}>Cancel</button>
           </div>
