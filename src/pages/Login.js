@@ -27,7 +27,7 @@ export default function Login() {
     <div className="auth-page">
       <div className="auth-box">
         <div className="auth-logo">
-          {TRADE_CONFIG.platformName.replace('Swap', '')}<span>Swap</span>
+          {TRADE_CONFIG.platformName}
         </div>
         <h2 style={{ fontSize: '16px', fontWeight: 500, textAlign: 'center', marginBottom: '1.5rem', color: 'var(--text-muted)' }}>
           Welcome back
