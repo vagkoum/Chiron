@@ -1,63 +1,54 @@
-// ─────────────────────────────────────────────────────────────────
-// 👉 THIS IS YOUR CUSTOMISATION FILE
-//    Edit the values below to define what is traded on your platform
-//    No other file needs to be changed.
-// ─────────────────────────────────────────────────────────────────
-
 export const TRADE_CONFIG = {
-  // The name of your platform
+  // Platform identity
   platformName: 'Chiron',
 
-  // What is a single listing called? (singular and plural)
-  listingName: 'listing',
-  listingNamePlural: 'listings',
+  // Listing terminology
+  listingName: 'submission',
+  listingNamePlural: 'submissions',
 
-  // The main noun being traded (e.g. "staff", "shift", "service", "skill")
+  // What is being traded
   tradeNoun: 'idea',
   tradeNounPlural: 'ideas',
 
-  // Label for the "what you offer" field
-  offerLabel: 'Who or what are you offering?',
-  offerPlaceholder: 'e.g. A senior UX designer available for 3 months',
+  // Offer / Seek labels
+  offerLabel: 'What are you offering?',
+  offerPlaceholder: 'Describe your idea, invention, lyrics, or research — share enough to attract interest but keep key details private until a deal is agreed.',
 
-  // Label for the "what you want in return" field
   seekLabel: 'What are you looking for in return?',
-  seekPlaceholder: 'e.g. A backend developer with Python experience',
+  seekPlaceholder: 'e.g. Funding, co-development, revenue share, publishing deal, or open to offers',
 
-  // Categories users can pick from when posting
+  // Categories
   categories: [
-    'Design & Creative',
-    'Engineering & Tech',
-    'Marketing & Content',
-    'Operations & Admin',
-    'Finance & Legal',
-    'Sales & Customer Success',
-    'Healthcare',
-    'Hospitality & Events',
-    'Education & Training',
-    'Other',
+    'Scientific Innovation',
+    'Technology & Engineering',
+    'Medical & Pharmaceutical',
+    'Environmental & Energy',
+    'Laboratory Collaboration',
+    'Music & Lyrics',
+    'Literature & Publishing',
+    'Film & Screenplay',
+    'Art & Design',
+    'Other Creative Work',
   ],
 
-  // Availability options
+  // Availability options (repurposed for readiness)
   availabilityOptions: [
-    'Immediately',
-    '1 week',
-    '2 weeks',
-    '1 month',
-    '2 months',
-    '3 months',
-    '6 months',
+    'Ready for immediate deal',
+    'Open to discussion',
+    'Seeking co-development partner',
+    'Seeking funding only',
+    'Seeking lab collaboration',
     'Flexible',
   ],
 
-  // Trade type options
+  // Trade types
   tradeTypes: [
-    { value: 'barter', label: 'Barter (no money)' },
-    { value: 'paid', label: 'Paid trade' },
-    { value: 'both', label: 'Open to both' },
+    { value: 'barter', label: 'Non-monetary (credits, naming rights, participation)' },
+    { value: 'paid', label: 'Monetary purchase' },
+    { value: 'both', label: 'Open to all offers' },
   ],
 
-  // Hero tagline on the home page
-  heroTagline: 'Trade talent, not money.',
-  heroSubtitle: 'Connect with businesses and individuals to swap staff, skills, and services.',
+  // Home page
+  heroTagline: 'Where ideas find their future.',
+  heroSubtitle: 'A private marketplace for scientists, inventors, labs, and creators to connect with those who can bring their ideas to life.',
 }
