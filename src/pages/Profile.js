@@ -49,7 +49,18 @@ export default function Profile() {
     await signOut()
     navigate('/')
   }
-
+async function handleDeleteAccount() {
+    if (!window.confirm('Are you sure you want to delete your account? This will permanently delete all your data, listings, messages and reviews. This cannot be undone.')) return
+    if (!window.confirm('This is your final confirmation. Your account and all associated data will be permanently deleted. Are you absolutely sure?')) return
+    
+    const { error } = await supabase.from('profiles').delete().eq('id', user.id)
+    if (error) {
+      alert('Something went wrong. Please contact us at legal@chironevo.com')
+      return
+    }
+    await signOut()
+    navigate('/')
+  }
   const initials = form.full_name.split(' ').map(w => w[0]).join('').slice(0, 2).toUpperCase() || '?'
 
   return (
