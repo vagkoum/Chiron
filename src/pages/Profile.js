@@ -13,7 +13,14 @@ export default function Profile() {
 
   useEffect(() => {
     if (profile) setForm({ full_name: profile.full_name || '', company: profile.company || '', bio: profile.bio || '', location: profile.location || '' })
-    supabase.from('listings').select('*').eq('user_id', user.id).order('created_at', { ascending: false }).then(({ data }) => setListings(data || []))
+    
+    function loadListings() {
+      supabase.from('listings').select('*').eq('user_id', user.id).order('created_at', { ascending: false }).then(({ data }) => setListings(data || []))
+    }
+    
+    loadListings()
+    window.addEventListener('listings-updated', loadListings)
+    return () => window.removeEventListener('listings-updated', loadListings)
   }, [profile])
 
   async function handleSave(e) {
