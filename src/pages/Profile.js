@@ -32,10 +32,12 @@ export default function Profile() {
 
   async function deleteListing(id) {
     if (!window.confirm('Delete this listing?')) return
-    await supabase.from('listings').delete().eq('id', id)
-    setListings(ls => ls.filter(l => l.id !== id))
+    const { error } = await supabase.from('listings').delete().eq('id', id)
+    if (!error) {
+      setListings(ls => ls.filter(l => l.id !== id))
+      window.dispatchEvent(new Event('listings-updated'))
+    }
   }
-
   async function handleSignOut() {
     await signOut()
     navigate('/')
