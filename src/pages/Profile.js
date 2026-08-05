@@ -128,9 +128,19 @@ async function handleDeleteAccount() {
       )}
 
       <hr className="divider" />
-      <button className="btn btn-outline btn-sm" onClick={handleSignOut} style={{ color: 'var(--text-muted)' }}>
-        Sign out
-      </button>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+        <button className="btn btn-outline btn-sm" onClick={handleSignOut} style={{ color: 'var(--text-muted)' }}>
+          Sign out
+        </button>
+        <hr className="divider" />
+        <div style={{ fontSize: '13px', color: 'var(--text-muted)', marginBottom: '4px' }}>Danger zone</div>
+        <button className="btn btn-danger btn-sm" onClick={handleDeleteAccount}>
+          🗑 Delete my account permanently
+        </button>
+        <div style={{ fontSize: '11px', color: 'var(--text-faint)' }}>
+          This will permanently delete your account, listings, messages and reviews. This cannot be undone.
+        </div>
+      </div>
     </div>
   )
 }
