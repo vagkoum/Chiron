@@ -118,10 +118,13 @@ async function handleDeleteAccount() {
                 <div style={{ fontSize: '12px', color: 'var(--text-muted)' }}>{l.category} · {l.availability}</div>
               </div>
               <span className={`pill ${l.active ? 'pill-green' : 'pill-gray'}`}>{l.active ? 'Active' : 'Paused'}</span>
-              <button className="btn btn-outline btn-sm" onClick={() => toggleListing(l.id, l.active)}>
-                {l.active ? 'Pause' : 'Activate'}
-              </button>
-              <button className="btn btn-danger btn-sm" onClick={() => deleteListing(l.id)}>Delete</button>
+             <button className="btn btn-outline btn-sm" onClick={() => navigate(`/edit-listing/${l.id}`)}>
+              Edit
+            </button>
+            <button className="btn btn-outline btn-sm" onClick={() => toggleListing(l.id, l.active)}>
+              {l.active ? 'Pause' : 'Activate'}
+            </button>
+            <button className="btn btn-danger btn-sm" onClick={() => deleteListing(l.id)}>Delete</button>
             </div>
           ))}
         </div>
