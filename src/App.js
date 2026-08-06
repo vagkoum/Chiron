@@ -1,3 +1,4 @@
+import EditListing from './pages/EditListing'
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import { AuthProvider, useAuth } from './lib/AuthContext'
 import Layout from './components/Layout'
