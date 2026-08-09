@@ -14,6 +14,7 @@ export default function ListingDetail() {
   const [loading, setLoading] = useState(true)
   const [hasThread, setHasThread] = useState(false)
   const [showNDA, setShowNDA] = useState(false)
+  const [activeDeal, setActiveDeal] = useState(null)
   const [refreshReviews, setRefreshReviews] = useState(0)
 
   useEffect(() => {
