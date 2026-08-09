@@ -2,6 +2,7 @@ import { useEffect, useState, useRef } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import { supabase } from '../lib/supabase'
 import { useAuth } from '../lib/AuthContext'
+import { DealPanel } from '../components/Deal'
 
 export default function Messages() {
   const { user } = useAuth()
@@ -33,10 +34,10 @@ export default function Messages() {
       .select(`id, user1_id, user2_id, listing_id,
         user1:profiles!message_threads_user1_id_fkey(full_name),
         user2:profiles!message_threads_user2_id_fkey(full_name),
+        listing:listings(offer_title),
         messages(content, created_at, read, receiver_id)`)
       .or(`user1_id.eq.${user.id},user2_id.eq.${user.id}`)
       .order('created_at', { referencedTable: 'messages', ascending: false })
-
     setThreads(data || [])
   }
 
@@ -49,7 +50,6 @@ export default function Messages() {
       .eq('thread_id', thread.id)
       .order('created_at')
     setMessages(data || [])
-    // Mark as read
     await supabase.from('messages')
       .update({ read: true })
       .eq('thread_id', thread.id)
@@ -70,16 +70,14 @@ export default function Messages() {
     if (!error && data) {
       setMessages(m => [...m, data])
       setNewMsg('')
-      // Send email notification
-      // Send email notification
-// Send email notification
-fetch(`/api/notify`, {
-  method: 'POST',
-  headers: {
-    'Content-Type': 'application/json',
-  },
-  body: JSON.stringify({ receiverId: receiverId })
-})
+      fetch(`https://fnqkylgekrnpvczbivzh.supabase.co/functions/v1/notify-message`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer sb_publishable_zX1qS0QmH5RIkvOexSAYqQ_RqrzgYof`,
+        },
+        body: JSON.stringify({ record: data })
+      })
     }
     setSending(false)
   }
@@ -89,6 +87,11 @@ fetch(`/api/notify`, {
     return thread.user1_id === user.id
       ? thread.user2?.full_name || 'User'
       : thread.user1?.full_name || 'User'
+  }
+
+  function getOtherId(thread) {
+    if (!thread) return ''
+    return thread.user1_id === user.id ? thread.user2_id : thread.user1_id
   }
 
   function getInitials(name) {
@@ -114,7 +117,7 @@ fetch(`/api/notify`, {
         <div className="msg-sidebar">
           {threads.length === 0 && (
             <div style={{ padding: '1.5rem', textAlign: 'center', color: 'var(--text-muted)', fontSize: '13px' }}>
-              No conversations yet.<br />Contact someone from a listing!
+              No conversations yet.
             </div>
           )}
           {threads.map(t => {
@@ -131,6 +134,11 @@ fetch(`/api/notify`, {
                   <div className="avatar" style={{ width: '34px', height: '34px', fontSize: '11px' }}>{initials}</div>
                   <div style={{ flex: 1, minWidth: 0 }}>
                     <div style={{ fontSize: '13px', fontWeight: unread ? 600 : 400 }}>{name}</div>
+                    {t.listing?.offer_title && (
+                      <div style={{ fontSize: '11px', color: 'var(--green-dark)', marginBottom: '1px', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                        re: {t.listing.offer_title}
+                      </div>
+                    )}
                     <div className="msg-preview">{getLastMessage(t)}</div>
                   </div>
                   {unread && <div style={{ width: '7px', height: '7px', borderRadius: '50%', background: 'var(--green)', flexShrink: 0 }} />}
@@ -149,7 +157,14 @@ fetch(`/api/notify`, {
           ) : (
             <>
               <div className="msg-header">
-                💬 {getOtherName(activeThread)}
+                <div>
+                  <div>💬 {getOtherName(activeThread)}</div>
+                  {activeThread.listing?.offer_title && (
+                    <div style={{ fontSize: '11px', color: 'var(--green-dark)', marginTop: '1px' }}>
+                      re: {activeThread.listing.offer_title}
+                    </div>
+                  )}
+                </div>
               </div>
               <div className="msg-body">
                 {messages.length === 0 && (
@@ -164,32 +179,38 @@ fetch(`/api/notify`, {
                 ))}
                 <div ref={bottomRef} />
               </div>
-              <div className="msg-footer">
-              <input
-                className="msg-input"
-                placeholder="Type a message…"
-                value={newMsg}
-                onChange={e => setNewMsg(e.target.value)}
-                onKeyDown={e => {
-                  if (e.key === 'Enter' && !e.shiftKey) {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    if (!sending && newMsg.trim()) sendMessage();
-                    return false;
-                  }
-                }}
+
+              {/* Deal Panel */}
+              <DealPanel
+                threadId={activeThread.id}
+                listingId={activeThread.listing_id}
+                otherUserId={getOtherId(activeThread)}
+                otherUserName={getOtherName(activeThread)}
               />
-              <button 
-                className="btn btn-primary btn-sm" 
-                type="button"
-                onClick={e => {
-                  e.preventDefault();
-                  sendMessage();
-                }} 
-                disabled={sending || !newMsg.trim()}>
-                Send
-              </button>
-            </div>
+
+              <div className="msg-footer">
+                <input
+                  className="msg-input"
+                  placeholder="Type a message…"
+                  value={newMsg}
+                  onChange={e => setNewMsg(e.target.value)}
+                  onKeyDown={e => {
+                    if (e.key === 'Enter' && !e.shiftKey) {
+                      e.preventDefault()
+                      e.stopPropagation()
+                      if (!sending && newMsg.trim()) sendMessage()
+                      return false
+                    }
+                  }}
+                />
+                <button
+                  className="btn btn-primary btn-sm"
+                  type="button"
+                  onClick={e => { e.preventDefault(); sendMessage() }}
+                  disabled={sending || !newMsg.trim()}>
+                  Send
+                </button>
+              </div>
             </>
           )}
         </div>
