@@ -85,11 +85,26 @@ export function DealPanel({ threadId, listingId, otherUserId, otherUserName }) {
   }
 
   async function disputeDeal() {
-    if (!window.confirm('Are you sure you want to mark this deal as disputed? This will notify the platform administrator.')) return
+    if (!window.confirm('Are you sure you want to dispute this deal? The listing will be locked for 48 hours before being freed. This action cannot be undone.')) return
     setSubmitting(true)
     const { data } = await supabase
       .from('deals')
-      .update({ status: 'disputed', updated_at: new Date().toISOString() })
+      .update({ 
+        status: 'disputed', 
+        updated_at: new Date().toISOString(),
+        disputed_at: new Date().toISOString()
+      })
+      .eq('id', deal.id)
+      .select().single()
+    setDeal(data)
+    setSubmitting(false)
+  }
+
+  async function releaseListing() {
+    setSubmitting(true)
+    const { data } = await supabase
+      .from('deals')
+      .update({ status: 'released', updated_at: new Date().toISOString() })
       .eq('id', deal.id)
       .select().single()
     setDeal(data)
