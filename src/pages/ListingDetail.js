@@ -4,6 +4,7 @@ import { supabase } from '../lib/supabase'
 import { useAuth } from '../lib/AuthContext'
 import { ReviewForm, ReviewList } from '../components/Reviews'
 import { ReportButton } from '../components/Report'
+import { NDAModal } from '../components/NDA'
 
 export default function ListingDetail() {
   const { id } = useParams()
@@ -12,6 +13,7 @@ export default function ListingDetail() {
   const [listing, setListing] = useState(null)
   const [loading, setLoading] = useState(true)
   const [hasThread, setHasThread] = useState(false)
+  const [showNDA, setShowNDA] = useState(false)
   const [refreshReviews, setRefreshReviews] = useState(0)
 
   useEffect(() => {
@@ -33,7 +35,7 @@ export default function ListingDetail() {
       .then(({ data }) => setHasThread(!!data))
   }, [user, listing])
 
-  async function handleContact() {
+  async function openConversation() {
     if (!user) { navigate('/login'); return }
     const { data: existing } = await supabase
       .from('message_threads')
@@ -54,6 +56,15 @@ export default function ListingDetail() {
     }
   }
 
+  function handleContactClick() {
+    if (!user) { navigate('/login'); return }
+    if (hasThread) {
+      openConversation()
+    } else {
+      setShowNDA(true)
+    }
+  }
+
   if (loading) return <div className="page"><div className="spinner" /></div>
   if (!listing) return <div className="page"><p>Listing not found.</p></div>
 
@@ -65,6 +76,14 @@ export default function ListingDetail() {
 
   return (
     <div className="page-narrow">
+      {showNDA && (
+        <NDAModal
+          listing={listing}
+          onAgreed={() => { setShowNDA(false); openConversation() }}
+          onCancel={() => setShowNDA(false)}
+        />
+      )}
+
       <button className="btn btn-outline btn-sm" onClick={() => navigate(-1)} style={{ marginBottom: '1rem' }}>← Back</button>
 
       <div className="card" style={{ marginBottom: '14px' }}>
@@ -87,18 +106,17 @@ export default function ListingDetail() {
         <h2 style={{ fontSize: '18px', fontWeight: 600, marginBottom: '8px' }}>{listing.offer_title}</h2>
         <p style={{ fontSize: '14px', color: 'var(--text-muted)', lineHeight: 1.7, marginBottom: '1rem' }}>{listing.offer_description}</p>
 
-        {/* Private details section */}
         {listing.private_details && (
           <div style={{ marginBottom: '1rem' }}>
             {canSeePrivate ? (
               <div style={{ background: '#f0fdf4', border: '1px solid #86efac', borderRadius: '8px', padding: '12px 14px' }}>
-                <div style={{ fontSize: '12px', fontWeight: 600, color: '#166534', marginBottom: '6px' }}>🔒 Private details — visible only to you</div>
+                <div style={{ fontSize: '12px', fontWeight: 600, color: '#166534', marginBottom: '6px' }}>🔒 Private details — visible only after NDA agreement</div>
                 <div style={{ fontSize: '14px', color: '#166534', lineHeight: 1.7 }}>{listing.private_details}</div>
               </div>
             ) : (
               <div style={{ background: '#fef9f0', border: '1px dashed #f59e0b', borderRadius: '8px', padding: '12px 14px', textAlign: 'center' }}>
                 <div style={{ fontSize: '13px', color: '#92400e', marginBottom: '6px' }}>🔒 This submission has private details</div>
-                <div style={{ fontSize: '12px', color: 'var(--text-muted)' }}>Contact the author to start a conversation — private details are revealed after a deal is agreed.</div>
+                <div style={{ fontSize: '12px', color: 'var(--text-muted)' }}>You must agree to a Non-Disclosure Agreement before accessing private details and contacting the author.</div>
               </div>
             )}
           </div>
@@ -124,12 +142,25 @@ export default function ListingDetail() {
           <div><strong>💶 Deal type</strong><br />{listing.trade_type === 'barter' ? 'Non-monetary' : listing.trade_type === 'paid' ? 'Monetary' : 'Open to all'}</div>
         </div>
 
+        {listing.submitted_at && (
+          <div style={{ fontSize: '11px', color: 'var(--text-faint)', marginBottom: '1rem' }}>
+            📅 Submitted: {new Date(listing.submitted_at).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })}
+          </div>
+        )}
+
         {!isOwn && (
           <>
-            <button className="btn btn-primary" style={{ width: '100%', justifyContent: 'center' }} onClick={handleContact}>
-              💬 Contact {name.split(' ')[0]}
+            <button
+              className="btn btn-primary"
+              style={{ width: '100%', justifyContent: 'center' }}
+              onClick={handleContactClick}
+            >
+              {hasThread ? `💬 Continue conversation with ${name.split(' ')[0]}` : `🔒 Sign NDA & contact ${name.split(' ')[0]}`}
             </button>
-            <div style={{ textAlign: 'center', marginTop: '10px' }}>
+            <div style={{ textAlign: 'center', marginTop: '8px', fontSize: '12px', color: 'var(--text-muted)' }}>
+              {!hasThread && 'A Non-Disclosure Agreement is required before contacting'}
+            </div>
+            <div style={{ textAlign: 'center', marginTop: '8px' }}>
               <ReportButton reportedUserId={listing.user_id} listingId={listing.id} />
             </div>
           </>
