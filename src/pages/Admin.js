@@ -38,6 +38,7 @@ export default function Admin() {
       { data: usersData },
       { data: listingsData },
       { data: reportsData },
+      { data: disputesData },
     ] = await Promise.all([
       supabase.from('profiles').select('*', { count: 'exact', head: true }),
       supabase.from('listings').select('*', { count: 'exact', head: true }),
@@ -258,6 +259,30 @@ export default function Admin() {
           ))}
         </div>
       )}
+        {tab === 'disputes' && (
+  <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+    {disputes.length === 0 && (
+      <div className="empty-state"><h3>No disputes</h3><p>All deals are going smoothly!</p></div>
+    )}
+    {disputes.map(d => (
+      <div key={d.id} className="card" style={{ borderLeft: '3px solid #dc2626' }}>
+        <div style={{ fontWeight: 600, fontSize: '14px', marginBottom: '4px' }}>
+          ⚠️ Disputed deal
+        </div>
+        <div style={{ fontSize: '13px', color: 'var(--text-muted)', marginBottom: '8px' }}>
+          {d.proposer?.full_name} ↔ {d.receiver?.full_name}
+          {d.listing?.offer_title && ` — re: "${d.listing.offer_title}"`}
+        </div>
+        <div style={{ fontSize: '12px', background: 'var(--bg)', borderRadius: '6px', padding: '8px 10px', marginBottom: '8px' }}>
+          <strong>Deal terms:</strong> {d.terms}
+        </div>
+        <div style={{ fontSize: '11px', color: 'var(--text-faint)' }}>
+          Disputed on: {new Date(d.updated_at).toLocaleString()}
+        </div>
+      </div>
+    ))}
+  </div>
+)}
     </div>
   )
 }
