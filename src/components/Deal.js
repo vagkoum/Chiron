@@ -8,6 +8,7 @@ const STATUS_LABELS = {
   completed: { label: 'Completed', color: '#0F6E56', bg: '#E1F5EE', icon: '✅' },
   disputed: { label: 'Disputed', color: '#991b1b', bg: '#fee2e2', icon: '⚠️' },
   declined: { label: 'Declined', color: '#6b6b6b', bg: '#f0efe8', icon: '❌' },
+  released: { label: 'Released', color: '#6b6b6b', bg: '#f0efe8', icon: '🔓' },
 }
 
 export function DealPanel({ threadId, listingId, otherUserId, otherUserName }) {
