@@ -211,11 +211,36 @@ export function DealPanel({ threadId, listingId, otherUserId, otherUserName }) {
             </div>
           )}
 
-          {deal.status === 'disputed' && (
-            <div style={{ fontSize: '12px', color: '#991b1b' }}>
-              This deal has been marked as disputed. The platform administrator has been notified.
+          {deal.status === 'disputed' && (() => {
+    const disputedAt = deal.disputed_at ? new Date(deal.disputed_at) : new Date(deal.updated_at)
+    const releaseTime = new Date(disputedAt.getTime() + 48 * 60 * 60 * 1000)
+    const now = new Date()
+    const hoursLeft = Math.max(0, Math.ceil((releaseTime - now) / (1000 * 60 * 60)))
+    const canRelease = now >= releaseTime
+
+    return (
+      <div>
+        <div style={{ fontSize: '12px', color: '#991b1b', marginBottom: '8px', fontWeight: 500 }}>
+          ⚠️ This deal has been disputed.
+        </div>
+        {!canRelease ? (
+          <div style={{ fontSize: '12px', color: 'var(--text-muted)', background: '#fef3c7', borderRadius: '6px', padding: '8px 10px' }}>
+            🕐 The listing will be freed in approximately <strong>{hoursLeft} hour{hoursLeft !== 1 ? 's' : ''}</strong>. 
+            This cooling period gives both parties time to resolve the situation.
+          </div>
+        ) : (
+          <div>
+            <div style={{ fontSize: '12px', color: 'var(--text-muted)', marginBottom: '8px' }}>
+              The 48-hour cooling period has ended. The listing can now be freed.
             </div>
-          )}
+            <button className="btn btn-outline btn-sm" onClick={releaseListing} disabled={submitting}>
+              Release listing
+            </button>
+          </div>
+        )}
+      </div>
+    )
+  })()}
 
           {deal.status === 'declined' && (
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
