@@ -30,6 +30,7 @@ export default function ListingDetail() {
     supabase
       .from('message_threads')
       .select('id')
+      .eq('listing_id', listing.id)
       .or(`and(user1_id.eq.${user.id},user2_id.eq.${listing.user_id}),and(user1_id.eq.${listing.user_id},user2_id.eq.${user.id})`)
       .single()
       .then(({ data }) => setHasThread(!!data))
