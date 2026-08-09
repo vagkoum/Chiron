@@ -59,6 +59,7 @@ export default function Admin() {
     })
     setUsers(usersData || [])
     setListings(listingsData || [])
+    setDisputes(disputesData || [])
     setReports(reportsData || [])
     setLoadingData(false)
   }
