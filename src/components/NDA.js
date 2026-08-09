@@ -1,0 +1,145 @@
+import { useState, useEffect } from 'react'
+import { supabase } from '../lib/supabase'
+import { useAuth } from '../lib/AuthContext'
+
+export function NDAModal({ listing, onAgreed, onCancel }) {
+  const { user } = useAuth()
+  const [agreed, setAgreed] = useState(false)
+  const [loading, setLoading] = useState(false)
+  const [alreadySigned, setAlreadySigned] = useState(false)
+
+  const listingOwnerName = listing.profiles?.full_name || 'the listing owner'
+  const today = new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })
+
+  useEffect(() => {
+    if (!user) return
+    supabase
+      .from('nda_agreements')
+      .select('id')
+      .eq('user_id', user.id)
+      .eq('listing_id', listing.id)
+      .single()
+      .then(({ data }) => {
+        if (data) { setAlreadySigned(true); onAgreed() }
+      })
+  }, [user, listing.id])
+
+  async function handleAgree() {
+    if (!agreed) return
+    setLoading(true)
+    const { error } = await supabase.from('nda_agreements').insert({
+      user_id: user.id,
+      listing_id: listing.id,
+      listing_owner_id: listing.user_id,
+    })
+    if (error && error.code !== '23505') {
+      setLoading(false)
+      return
+    }
+    setLoading(false)
+    onAgreed()
+  }
+
+  if (alreadySigned) return null
+
+  return (
+    <div
+      style={{
+        position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.5)',
+        display: 'flex', alignItems: 'center', justifyContent: 'center',
+        zIndex: 1000, padding: '1rem'
+      }}
+    >
+      <div
+        style={{
+          background: 'var(--bg-card)', borderRadius: '14px',
+          maxWidth: '560px', width: '100%',
+          maxHeight: '90vh', overflow: 'auto',
+          boxShadow: '0 20px 60px rgba(0,0,0,0.2)'
+        }}
+      >
+        {/* Header */}
+        <div style={{ padding: '1.5rem 1.5rem 0', borderBottom: '1px solid var(--border)', paddingBottom: '1rem' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '4px' }}>
+            <span style={{ fontSize: '20px' }}>🔒</span>
+            <h2 style={{ fontSize: '16px', fontWeight: 600 }}>Non-Disclosure Agreement</h2>
+          </div>
+          <p style={{ fontSize: '13px', color: 'var(--text-muted)' }}>
+            You must agree to the following terms before contacting this user.
+          </p>
+        </div>
+
+        {/* NDA Text */}
+        <div style={{ padding: '1.25rem 1.5rem', fontSize: '13px', lineHeight: 1.8, color: 'var(--text)', maxHeight: '340px', overflowY: 'auto' }}>
+          <p style={{ marginBottom: '12px', fontWeight: 500 }}>
+            NON-DISCLOSURE AGREEMENT — {today}
+          </p>
+
+          <p style={{ marginBottom: '10px' }}>
+            This Non-Disclosure Agreement ("Agreement") is entered into between you ("Recipient") and {listingOwnerName} ("Discloser"), the owner of the listing titled <strong>"{listing.offer_title}"</strong> on the Chiron platform (chironevo.com).
+          </p>
+
+          <p style={{ marginBottom: '8px', fontWeight: 500 }}>By agreeing, you confirm that:</p>
+
+          <ol style={{ paddingLeft: '1.5rem', marginBottom: '10px' }}>
+            <li style={{ marginBottom: '8px' }}>
+              <strong>Confidentiality:</strong> Any information shared by the Discloser in the context of this listing — whether in messages, private details, documents, or any other form — is confidential and must not be disclosed to any third party without the Discloser's prior written consent.
+            </li>
+            <li style={{ marginBottom: '8px' }}>
+              <strong>Non-use:</strong> You will not use any information shared by the Discloser for any purpose other than evaluating a potential collaboration, purchase, or agreement related to this specific listing.
+            </li>
+            <li style={{ marginBottom: '8px' }}>
+              <strong>No reproduction:</strong> You will not copy, reproduce, publish, or distribute any information shared by the Discloser without their explicit written permission.
+            </li>
+            <li style={{ marginBottom: '8px' }}>
+              <strong>Intellectual property:</strong> You acknowledge that all ideas, inventions, creative works, or other intellectual property shared by the Discloser remain the exclusive property of the Discloser unless a formal written agreement stating otherwise is signed by both parties.
+            </li>
+            <li style={{ marginBottom: '8px' }}>
+              <strong>Duration:</strong> This agreement remains in effect for 3 years from the date of signing, or until the information becomes publicly available through no fault of the Recipient.
+            </li>
+            <li style={{ marginBottom: '8px' }}>
+              <strong>Governing law:</strong> This Agreement is governed by the laws of Greece. Any disputes shall be subject to the jurisdiction of the courts of Athens, Greece.
+            </li>
+          </ol>
+
+          <p style={{ marginBottom: '10px' }}>
+            <strong>Platform disclaimer:</strong> Chiron acts only as the platform facilitating this connection and is not a party to this Agreement. The Discloser and Recipient are solely responsible for enforcing this Agreement between themselves.
+          </p>
+
+          <p style={{ fontSize: '12px', color: 'var(--text-muted)', borderTop: '1px solid var(--border)', paddingTop: '10px', marginTop: '10px' }}>
+            This agreement is digitally recorded with your user ID, the listing ID, and a timestamp on the Chiron platform as evidence of your acceptance. Date: {today}.
+          </p>
+        </div>
+
+        {/* Agreement checkbox and buttons */}
+        <div style={{ padding: '1.25rem 1.5rem', borderTop: '1px solid var(--border)' }}>
+          <label style={{ display: 'flex', gap: '10px', alignItems: 'flex-start', cursor: 'pointer', marginBottom: '1rem' }}>
+            <input
+              type="checkbox"
+              checked={agreed}
+              onChange={e => setAgreed(e.target.checked)}
+              style={{ marginTop: '2px', width: '16px', height: '16px', flexShrink: 0 }}
+            />
+            <span style={{ fontSize: '13px', color: 'var(--text)' }}>
+              I have read and agree to this Non-Disclosure Agreement. I understand that by agreeing, I am legally bound by these terms and my acceptance is digitally recorded with a timestamp.
+            </span>
+          </label>
+
+          <div style={{ display: 'flex', gap: '8px' }}>
+            <button
+              className="btn btn-primary"
+              onClick={handleAgree}
+              disabled={!agreed || loading}
+              style={{ flex: 1, justifyContent: 'center' }}
+            >
+              {loading ? 'Recording agreement…' : '✓ I agree — Continue to contact'}
+            </button>
+            <button className="btn btn-outline" onClick={onCancel}>
+              Cancel
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+}
