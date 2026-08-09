@@ -163,16 +163,30 @@ export default function ListingDetail() {
 
         {!isOwn && (
           <>
-            <button
-              className="btn btn-primary"
-              style={{ width: '100%', justifyContent: 'center' }}
-              onClick={handleContactClick}
-            >
-              {hasThread ? `💬 Continue conversation with ${name.split(' ')[0]}` : `🔒 Sign NDA & contact ${name.split(' ')[0]}`}
-            </button>
-            <div style={{ textAlign: 'center', marginTop: '8px', fontSize: '12px', color: 'var(--text-muted)' }}>
-              {!hasThread && 'A Non-Disclosure Agreement is required before contacting'}
-            </div>
+            {activeDeal && !hasThread ? (
+              <div style={{ background: '#fef3c7', border: '1px solid #f59e0b', borderRadius: '8px', padding: '12px 14px', textAlign: 'center' }}>
+                <div style={{ fontSize: '13px', fontWeight: 600, color: '#92400e', marginBottom: '4px' }}>
+                  🤝 Deal in progress
+                </div>
+                <div style={{ fontSize: '12px', color: '#92400e' }}>
+                  This submission is currently under negotiation with another party. 
+                  It will become available again once the current deal is completed, cancelled, or released.
+                </div>
+              </div>
+            ) : (
+              <>
+                <button
+                  className="btn btn-primary"
+                  style={{ width: '100%', justifyContent: 'center' }}
+                  onClick={handleContactClick}
+                >
+                  {hasThread ? `💬 Continue conversation with ${name.split(' ')[0]}` : `🔒 Sign NDA & contact ${name.split(' ')[0]}`}
+                </button>
+                <div style={{ textAlign: 'center', marginTop: '8px', fontSize: '12px', color: 'var(--text-muted)' }}>
+                  {!hasThread && 'A Non-Disclosure Agreement is required before contacting'}
+                </div>
+              </>
+            )}
             <div style={{ textAlign: 'center', marginTop: '8px' }}>
               <ReportButton reportedUserId={listing.user_id} listingId={listing.id} />
             </div>
