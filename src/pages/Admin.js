@@ -13,6 +13,7 @@ export default function Admin() {
   const [users, setUsers] = useState([])
   const [listings, setListings] = useState([])
   const [reports, setReports] = useState([])
+  const [disputes, setDisputes] = useState([])
   const [loadingData, setLoadingData] = useState(true)
 
   useEffect(() => {
