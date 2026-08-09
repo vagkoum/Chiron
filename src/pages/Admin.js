@@ -101,7 +101,7 @@ export default function Admin() {
 
       {/* Tabs */}
       <div className="filter-row" style={{ marginBottom: '1.5rem' }}>
-        {['stats', 'users', 'listings', 'reports'].map(t => (
+        {['stats', 'users', 'listings', 'reports', 'disputes'].map(t => (
           <button key={t} className={`chip ${tab === t ? 'active' : ''}`} onClick={() => setTab(t)}>
             {t === 'stats' ? '📊 Statistics' : t === 'users' ? '👥 Users' : t === 'listings' ? '📋 Listings' : t === 'reports' ? `🚩 Reports${stats.reports > 0 ? ` (${stats.reports})` : ''}` : `⚠️ Disputes${disputes.length > 0 ? ` (${disputes.length})` : ''}`}
           </button>
