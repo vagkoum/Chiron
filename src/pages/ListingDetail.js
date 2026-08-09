@@ -27,6 +27,7 @@ export default function ListingDetail() {
 
   useEffect(() => {
     if (!user || !listing) return
+    // Check if current user has a thread for this listing
     supabase
       .from('message_threads')
       .select('id')
@@ -34,6 +35,15 @@ export default function ListingDetail() {
       .or(`and(user1_id.eq.${user.id},user2_id.eq.${listing.user_id}),and(user1_id.eq.${listing.user_id},user2_id.eq.${user.id})`)
       .single()
       .then(({ data }) => setHasThread(!!data))
+
+    // Check if this listing has an active deal in progress
+    supabase
+      .from('deals')
+      .select('id, status')
+      .eq('listing_id', listing.id)
+      .in('status', ['proposed', 'accepted', 'disputed'])
+      .single()
+      .then(({ data }) => setActiveDeal(data || null))
   }, [user, listing])
 
   async function openConversation() {
