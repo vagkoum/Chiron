@@ -80,7 +80,42 @@ export default function ListingDetail() {
 
   if (loading) return <div className="page"><div className="spinner" /></div>
   if (!listing) return <div className="page"><p>Listing not found.</p></div>
-
+  // SOLD listing — show minimal info to non-participants
+  if (listing.status === 'sold' && !isOwn && !hasThread) {
+    const soldDate = listing.sold_at ? new Date(listing.sold_at).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' }) : '—'
+    return (
+      <div className="page-narrow">
+        <button className="btn btn-outline btn-sm" onClick={() => navigate(-1)} style={{ marginBottom: '1rem' }}>← Back</button>
+        <div className="card" style={{ textAlign: 'center', padding: '2rem' }}>
+          <div style={{ fontSize: '48px', marginBottom: '1rem' }}>🔒</div>
+          <div style={{ display: 'inline-block', background: '#E1F5EE', color: '#0F6E56', fontWeight: 700, fontSize: '13px', padding: '4px 14px', borderRadius: '20px', marginBottom: '1rem', letterSpacing: '1px' }}>SOLD</div>
+          <h2 style={{ fontSize: '18px', fontWeight: 600, marginBottom: '8px' }}>{listing.offer_title}</h2>
+          <p style={{ fontSize: '13px', color: 'var(--text-muted)', marginBottom: '1.5rem' }}>
+            This submission has been sold and its content is no longer publicly available.
+          </p>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '10px', marginBottom: '1.5rem', fontSize: '13px' }}>
+            <div style={{ background: 'var(--bg)', borderRadius: '8px', padding: '10px' }}>
+              <div style={{ color: 'var(--text-muted)', fontSize: '11px', marginBottom: '3px' }}>Seller</div>
+              <div style={{ fontWeight: 500 }}>{listing.profiles?.full_name || '—'}</div>
+            </div>
+            <div style={{ background: 'var(--bg)', borderRadius: '8px', padding: '10px' }}>
+              <div style={{ color: 'var(--text-muted)', fontSize: '11px', marginBottom: '3px' }}>Buyer</div>
+              <div style={{ fontWeight: 500 }}>{listing.buyer_anonymous ? 'Anonymous' : '—'}</div>
+            </div>
+            <div style={{ background: 'var(--bg)', borderRadius: '8px', padding: '10px' }}>
+              <div style={{ color: 'var(--text-muted)', fontSize: '11px', marginBottom: '3px' }}>Sold on</div>
+              <div style={{ fontWeight: 500 }}>{soldDate}</div>
+            </div>
+          </div>
+          {listing.sold_certificate_id && (
+            <div style={{ fontSize: '11px', color: 'var(--text-faint)' }}>
+              Certificate ID: {listing.sold_certificate_id}
+            </div>
+          )}
+        </div>
+      </div>
+    )
+  }
   const name = listing.profiles?.full_name || 'Anonymous'
   const initials = name.split(' ').map(w => w[0]).join('').slice(0, 2).toUpperCase()
   const skills = listing.skills ? listing.skills.split(',').map(s => s.trim()).filter(Boolean) : []
