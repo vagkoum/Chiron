@@ -165,6 +165,15 @@ export default function Admin() {
                     {new Date(u.created_at).toLocaleDateString()}
                   </td>
                   <td style={{ padding: '10px 14px' }}>
+                    <TrustBadge userId={u.id} />
+                  </td>
+                  <td style={{ padding: '10px 14px' }}>
+                    {u.id !== ADMIN_ID && (
+                      <button className="btn btn-danger btn-sm" onClick={() => deleteUser(u.id)}>Delete</button>
+                    )}
+                    {u.id === ADMIN_ID && <span style={{ color: 'var(--text-faint)', fontSize: '11px' }}>You</span>}
+                  </td>
+                  <td style={{ padding: '10px 14px' }}>
                     {u.id !== ADMIN_ID && (
                       <button className="btn btn-danger btn-sm" onClick={() => deleteUser(u.id)}>Delete</button>
                     )}
