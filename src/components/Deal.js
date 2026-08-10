@@ -39,6 +39,15 @@ export function DealPanel({ threadId, listingId, otherUserId, otherUserName }) {
   async function proposeDeal() {
     if (!terms.trim()) return
     setSubmitting(true)
+
+    // Check deal limit
+    const { allowed, reason } = await canStartDeal(user.id)
+    if (!allowed) {
+      alert(reason)
+      setSubmitting(false)
+      return
+    }
+
     const { data, error } = await supabase.from('deals').insert({
       listing_id: listingId,
       proposer_id: user.id,
@@ -47,7 +56,12 @@ export function DealPanel({ threadId, listingId, otherUserId, otherUserName }) {
       terms: terms.trim(),
       status: 'proposed',
     }).select().single()
-    if (!error) { setDeal(data); setShowPropose(false); setTerms('') }
+    if (!error) {
+      setDeal(data)
+      setShowPropose(false)
+      setTerms('')
+      await updateTrustScore(user.id, 'DEAL_STARTED')
+    }
     setSubmitting(false)
   }
 
