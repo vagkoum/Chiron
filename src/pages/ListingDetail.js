@@ -162,6 +162,9 @@ export default function ListingDetail() {
             📅 Submitted: {new Date(listing.submitted_at).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })}
           </div>
         )}
+<div style={{ marginBottom: '1rem' }}>
+          <TrustBadge userId={listing.user_id} showDetails={true} />
+        </div>
 
         {!isOwn && (
           <>
