@@ -119,21 +119,46 @@ export function DealPanel({ threadId, listingId, otherUserId, otherUserName }) {
         'Congratulations — deal completed! 🎉\n\nDo you want to remain anonymous as the buyer? Click OK for anonymous, Cancel to show your name.'
       )
 
+      const soldAt = new Date().toISOString()
+
+      // Get listing details for certificate
+      const { data: listingData } = await supabase
+        .from('listings')
+        .select('*, profiles(full_name)')
+        .eq('id', deal.listing_id)
+        .single()
+
+      // Get buyer name
+      const { data: buyerProfile } = await supabase
+        .from('profiles')
+        .select('full_name')
+        .eq('id', buyerId)
+        .single()
+
       // Mark listing as sold
       await supabase
         .from('listings')
         .update({
           status: 'sold',
           sold_to: buyerId,
-          sold_at: new Date().toISOString(),
+          sold_at: soldAt,
           buyer_anonymous: isReceiver ? stayAnonymous : false,
           sold_certificate_id: certId,
           active: false,
         })
         .eq('id', deal.listing_id)
-    }
-    setSubmitting(false)
-  }
+
+      // Generate and open certificate
+      openCertificate({
+        certId,
+        listingTitle: listingData?.offer_title || '—',
+        sellerName: listingData?.profiles?.full_name || '—',
+        buyerName: buyerProfile?.full_name || '—',
+        buyerAnonymous: isReceiver ? stayAnonymous : false,
+        submittedAt: listingData?.submitted_at,
+        soldAt,
+        category: listingData?.category,
+      })
 
   async function disputeDeal() {
     if (!window.confirm('Are you sure you want to dispute this deal? The listing will be locked for 48 hours before being freed. This action cannot be undone.')) return
