@@ -283,8 +283,37 @@ export function DealPanel({ threadId, listingId, otherUserId, otherUserName }) {
           )}
 
           {deal.status === 'completed' && (
-            <div style={{ fontSize: '12px', color: '#0F6E56', fontWeight: 500 }}>
-              🎉 Deal completed! You can now leave a review for {otherUserName}.
+            <div>
+              <div style={{ fontSize: '12px', color: '#0F6E56', fontWeight: 500, marginBottom: '8px' }}>
+                🎉 Deal completed! You can now leave a review for {otherUserName}.
+              </div>
+              <button
+                className="btn btn-outline btn-sm"
+                onClick={async () => {
+                  const { data: listingData } = await supabase
+                    .from('listings')
+                    .select('*, profiles(full_name)')
+                    .eq('id', deal.listing_id)
+                    .single()
+                  const { data: buyerProfile } = await supabase
+                    .from('profiles')
+                    .select('full_name')
+                    .eq('id', deal.receiver_id)
+                    .single()
+                  openCertificate({
+                    certId: listingData?.sold_certificate_id || '—',
+                    listingTitle: listingData?.offer_title || '—',
+                    sellerName: listingData?.profiles?.full_name || '—',
+                    buyerName: buyerProfile?.full_name || '—',
+                    buyerAnonymous: listingData?.buyer_anonymous,
+                    submittedAt: listingData?.submitted_at,
+                    soldAt: listingData?.sold_at,
+                    category: listingData?.category,
+                  })
+                }}
+              >
+                📄 View Certificate
+              </button>
             </div>
           )}
 
