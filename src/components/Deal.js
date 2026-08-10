@@ -73,6 +73,9 @@ export function DealPanel({ threadId, listingId, otherUserId, otherUserName }) {
       .eq('id', deal.id)
       .select().single()
     setDeal(data)
+    if (!accept) {
+      await updateTrustScore(deal.proposer_id, 'DEAL_ENDED')
+    }
     setSubmitting(false)
   }
 
