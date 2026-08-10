@@ -1,4 +1,3 @@
-import { TrustBadge } from '../components/TrustBadge'
 import { useEffect, useState } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import { supabase } from '../lib/supabase'
@@ -6,6 +5,7 @@ import { useAuth } from '../lib/AuthContext'
 import { ReviewForm, ReviewList } from '../components/Reviews'
 import { ReportButton } from '../components/Report'
 import { NDAModal } from '../components/NDA'
+import { TrustBadge } from '../components/TrustBadge'
 
 export default function ListingDetail() {
   const { id } = useParams()
@@ -29,7 +29,6 @@ export default function ListingDetail() {
 
   useEffect(() => {
     if (!user || !listing) return
-    // Check if current user has a thread for this listing
     supabase
       .from('message_threads')
       .select('id')
@@ -38,7 +37,6 @@ export default function ListingDetail() {
       .single()
       .then(({ data }) => setHasThread(!!data))
 
-    // Check if this listing has an active deal in progress
     supabase
       .from('deals')
       .select('id, status')
@@ -162,7 +160,8 @@ export default function ListingDetail() {
             📅 Submitted: {new Date(listing.submitted_at).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })}
           </div>
         )}
-<div style={{ marginBottom: '1rem' }}>
+
+        <div style={{ marginBottom: '1rem' }}>
           <TrustBadge userId={listing.user_id} showDetails={true} />
         </div>
 
@@ -174,7 +173,7 @@ export default function ListingDetail() {
                   🤝 Deal in progress
                 </div>
                 <div style={{ fontSize: '12px', color: '#92400e' }}>
-                  This submission is currently under negotiation with another party. 
+                  This submission is currently under negotiation with another party.
                   It will become available again once the current deal is completed, cancelled, or released.
                 </div>
               </div>
@@ -197,6 +196,7 @@ export default function ListingDetail() {
             </div>
           </>
         )}
+
         {isOwn && (
           <div style={{ textAlign: 'center', fontSize: '13px', color: 'var(--text-muted)', padding: '8px' }}>This is your submission.</div>
         )}
