@@ -1,5 +1,5 @@
-import { TrustBadge } from './TrustBadge'
 import { useNavigate } from 'react-router-dom'
+import { TrustBadge } from './TrustBadge'
 
 export default function ListingCard({ listing }) {
   const navigate = useNavigate()
@@ -24,6 +24,7 @@ export default function ListingCard({ listing }) {
             {!listing.private_details && (
               <span className="pill" style={{ background: '#fef3c7', color: '#92400e' }}>⚠️ No private details</span>
             )}
+            <TrustBadge userId={listing.user_id} />
           </div>
         </div>
       </div>
@@ -46,7 +47,7 @@ export default function ListingCard({ listing }) {
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: '12px', color: 'var(--text-muted)' }}>
         <span>⏱ {listing.availability}</span>
         <span style={{ color: 'var(--green)', fontWeight: 500 }}>
-          {listing.trade_type === 'barter' ? '🔄 Barter' : listing.trade_type === 'paid' ? '💶 Paid' : '🔄💶 Open'}
+          {listing.trade_type === 'barter' ? '🔄 Non-monetary' : listing.trade_type === 'paid' ? '💶 Monetary' : '🔄💶 Open to all'}
         </span>
       </div>
       {listing.seek_description && (
