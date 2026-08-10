@@ -36,11 +36,20 @@ export default function ListingCard({ listing }) {
         </div>
       </div>
 
-      {skills.length > 0 && (
-        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '4px' }}>
-          {skills.slice(0, 4).map(s => <span key={s} className="pill pill-gray">{s}</span>)}
-          {skills.length > 4 && <span className="pill pill-gray">+{skills.length - 4}</span>}
+      {listing.status === 'sold' ? (
+        <div style={{ background: '#E1F5EE', borderRadius: '8px', padding: '8px 12px', textAlign: 'center' }}>
+          <span style={{ color: '#0F6E56', fontWeight: 700, fontSize: '12px', letterSpacing: '1px' }}>🔒 SOLD</span>
+          <span style={{ color: 'var(--text-muted)', fontSize: '11px', marginLeft: '8px' }}>
+            {listing.sold_at ? new Date(listing.sold_at).toLocaleDateString() : ''}
+          </span>
         </div>
+      ) : (
+        skills.length > 0 && (
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '4px' }}>
+            {skills.slice(0, 4).map(s => <span key={s} className="pill pill-gray">{s}</span>)}
+            {skills.length > 4 && <span className="pill pill-gray">+{skills.length - 4}</span>}
+          </div>
+        )
       )}
 
       <hr className="divider" />
