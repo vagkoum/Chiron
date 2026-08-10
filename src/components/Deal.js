@@ -102,8 +102,34 @@ export function DealPanel({ threadId, listingId, otherUserId, otherUserName }) {
     setDeal(data)
 
     if (newProposerConfirmed && newReceiverConfirmed) {
+      // Update trust scores
       await updateTrustScore(deal.proposer_id, 'DEAL_COMPLETED')
       await updateTrustScore(deal.receiver_id, 'DEAL_COMPLETED')
+
+      // Generate certificate ID
+      const certId = `CHIRON-${Date.now()}-${Math.random().toString(36).substr(2, 6).toUpperCase()}`
+
+      // Determine buyer and seller
+      const buyerId = deal.receiver_id
+      const sellerId = deal.proposer_id
+
+      // Ask buyer about anonymity
+      const stayAnonymous = window.confirm(
+        'Congratulations — deal completed! 🎉\n\nDo you want to remain anonymous as the buyer? Click OK for anonymous, Cancel to show your name.'
+      )
+
+      // Mark listing as sold
+      await supabase
+        .from('listings')
+        .update({
+          status: 'sold',
+          sold_to: buyerId,
+          sold_at: new Date().toISOString(),
+          buyer_anonymous: isReceiver ? stayAnonymous : false,
+          sold_certificate_id: certId,
+          active: false,
+        })
+        .eq('id', deal.listing_id)
     }
     setSubmitting(false)
   }
