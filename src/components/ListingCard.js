@@ -18,8 +18,11 @@ export default function ListingCard({ listing }) {
           </div>
         </div>
         <span className={`pill ${listing.user_type === 'business' ? 'pill-blue' : 'pill-purple'}`}>
-          {listing.user_type === 'business' ? 'Company' : 'Individual'}
+          {listing.user_type === 'business' ? 'Company / Lab' : 'Individual / Researcher'}
         </span>
+        {!listing.private_details && (
+          <span className="pill" style={{ background: '#fef3c7', color: '#92400e' }}>⚠️ No private details</span>
+        )}
       </div>
 
       <div>
