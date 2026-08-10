@@ -196,8 +196,6 @@ export default function ListingDetail() {
               <ReportButton reportedUserId={listing.user_id} listingId={listing.id} />
             </div>
           </>
-            )}
-          </>
         )}
         {isOwn && (
           <div style={{ textAlign: 'center', fontSize: '13px', color: 'var(--text-muted)', padding: '8px' }}>This is your submission.</div>
