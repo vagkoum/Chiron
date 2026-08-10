@@ -108,11 +108,12 @@ export default function ListingDetail() {
             {listing.profiles?.company && (
               <div style={{ fontSize: '13px', color: 'var(--text-muted)' }}>{listing.profiles.company}</div>
             )}
-            <div style={{ display: 'flex', gap: '6px', marginTop: '4px' }}>
+            <div style={{ display: 'flex', gap: '6px', marginTop: '4px', flexWrap: 'wrap' }}>
               <span className={`pill ${listing.user_type === 'business' ? 'pill-blue' : 'pill-purple'}`}>
                 {listing.user_type === 'business' ? 'Company / Lab' : 'Individual / Researcher'}
               </span>
               <span className="pill pill-gray">{listing.category}</span>
+              <TrustBadge userId={listing.user_id} />
             </div>
           </div>
         </div>
