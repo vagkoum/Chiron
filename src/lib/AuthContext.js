@@ -34,11 +34,63 @@ export function AuthProvider({ children }) {
     const { data, error } = await supabase.auth.signUp({ email, password })
     if (error) throw error
     if (data.user) {
+      // Get IP address
+      let ip = null
+      try {
+        const ipRes = await fetch('https://api.ipify.org?format=json')
+        const ipData = await ipRes.json()
+        ip = ipData.ip
+      } catch (e) { ip = null }
+
+      // Extract email domain
+      const emailDomain = email.split('@')[1]?.toLowerCase() || null
+
       await supabase.from('profiles').insert({
         id: data.user.id,
         full_name: fullName,
         email,
+        signup_ip: ip,
+        email_domain: emailDomain,
       })
+
+      // Create trust score
+      await supabase.from('trust_scores').insert({
+        user_id: data.user.id,
+        score: 0,
+        level: 'new',
+      }).onConflict('user_id').ignore()
+
+      // Check for duplicate IP — flag if 2+ accounts from same IP
+      if (ip) {
+        const { data: sameIP } = await supabase
+          .from('profiles')
+          .select('id')
+          .eq('signup_ip', ip)
+          .neq('id', data.user.id)
+
+        if (sameIP && sameIP.length >= 1) {
+          await supabase
+            .from('trust_scores')
+            .update({ flagged: true, updated_at: new Date().toISOString() })
+            .eq('user_id', data.user.id)
+        }
+      }
+
+      // Institutional email bonus
+      const institutionalDomains = [
+        '.edu', '.ac.uk', '.ac.gr', '.edu.gr', '.gov', '.gov.gr',
+        'uoa.gr', 'auth.gr', 'ntua.gr', 'upatras.gr'
+      ]
+      const isInstitutional = institutionalDomains.some(d => emailDomain?.endsWith(d))
+      if (isInstitutional) {
+        await supabase
+          .from('trust_scores')
+          .update({ 
+            score: 5, 
+            updated_at: new Date().toISOString() 
+          })
+          .eq('user_id', data.user.id)
+      }
     }
     return data
   }
