@@ -192,6 +192,7 @@ export default function Admin() {
                 <th style={{ padding: '10px 14px', textAlign: 'left', fontWeight: 500 }}>Type</th>
                 <th style={{ padding: '10px 14px', textAlign: 'left', fontWeight: 500 }}>Status</th>
                 <th style={{ padding: '10px 14px', textAlign: 'left', fontWeight: 500 }}>Date</th>
+                <th style={{ padding: '10px 14px', textAlign: 'left', fontWeight: 500 }}>Trust</th>
                 <th style={{ padding: '10px 14px', textAlign: 'left', fontWeight: 500 }}>Actions</th>
               </tr>
             </thead>
