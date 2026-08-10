@@ -100,6 +100,11 @@ export function DealPanel({ threadId, listingId, otherUserId, otherUserName }) {
       .eq('id', deal.id)
       .select().single()
     setDeal(data)
+
+    if (newProposerConfirmed && newReceiverConfirmed) {
+      await updateTrustScore(deal.proposer_id, 'DEAL_COMPLETED')
+      await updateTrustScore(deal.receiver_id, 'DEAL_COMPLETED')
+    }
     setSubmitting(false)
   }
 
