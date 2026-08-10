@@ -121,6 +121,7 @@ export function DealPanel({ threadId, listingId, otherUserId, otherUserName }) {
       .eq('id', deal.id)
       .select().single()
     setDeal(data)
+    await updateTrustScore(user.id, 'DISPUTE_INITIATED')
     setSubmitting(false)
   }
 
