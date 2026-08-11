@@ -40,15 +40,12 @@ export function DealPanel({ threadId, listingId, otherUserId, otherUserName }) {
   async function proposeDeal() {
     if (!terms.trim()) return
     setSubmitting(true)
-
-    // Check deal limit
     const { allowed, reason } = await canStartDeal(user.id)
     if (!allowed) {
       alert(reason)
       setSubmitting(false)
       return
     }
-
     const { data, error } = await supabase.from('deals').insert({
       listing_id: listingId,
       proposer_id: user.id,
@@ -83,10 +80,8 @@ export function DealPanel({ threadId, listingId, otherUserId, otherUserName }) {
   async function confirmCompletion() {
     setSubmitting(true)
     const isProposer = user.id === deal.proposer_id
-    const updates = isProposer
-      ? { proposer_confirmed: true }
-      : { receiver_confirmed: true }
-
+    const isReceiver = user.id === deal.receiver_id
+    const updates = isProposer ? { proposer_confirmed: true } : { receiver_confirmed: true }
     const newProposerConfirmed = isProposer ? true : deal.proposer_confirmed
     const newReceiverConfirmed = !isProposer ? true : deal.receiver_confirmed
 
@@ -103,39 +98,29 @@ export function DealPanel({ threadId, listingId, otherUserId, otherUserName }) {
     setDeal(data)
 
     if (newProposerConfirmed && newReceiverConfirmed) {
-      // Update trust scores
       await updateTrustScore(deal.proposer_id, 'DEAL_COMPLETED')
       await updateTrustScore(deal.receiver_id, 'DEAL_COMPLETED')
 
-      // Generate certificate ID
       const certId = `CHIRON-${Date.now()}-${Math.random().toString(36).substr(2, 6).toUpperCase()}`
-
-      // Determine buyer and seller
       const buyerId = deal.receiver_id
-      const sellerId = deal.proposer_id
+      const soldAt = new Date().toISOString()
 
-      // Ask buyer about anonymity
       const stayAnonymous = window.confirm(
         'Congratulations — deal completed! 🎉\n\nDo you want to remain anonymous as the buyer? Click OK for anonymous, Cancel to show your name.'
       )
 
-      const soldAt = new Date().toISOString()
-
-      // Get listing details for certificate
       const { data: listingData } = await supabase
         .from('listings')
         .select('*, profiles(full_name)')
         .eq('id', deal.listing_id)
         .single()
 
-      // Get buyer name
       const { data: buyerProfile } = await supabase
         .from('profiles')
         .select('full_name')
         .eq('id', buyerId)
         .single()
 
-      // Mark listing as sold
       await supabase
         .from('listings')
         .update({
@@ -148,7 +133,6 @@ export function DealPanel({ threadId, listingId, otherUserId, otherUserName }) {
         })
         .eq('id', deal.listing_id)
 
-      // Generate and open certificate
       openCertificate({
         certId,
         listingTitle: listingData?.offer_title || '—',
@@ -159,14 +143,17 @@ export function DealPanel({ threadId, listingId, otherUserId, otherUserName }) {
         soldAt,
         category: listingData?.category,
       })
+    }
+    setSubmitting(false)
+  }
 
   async function disputeDeal() {
     if (!window.confirm('Are you sure you want to dispute this deal? The listing will be locked for 48 hours before being freed. This action cannot be undone.')) return
     setSubmitting(true)
     const { data } = await supabase
       .from('deals')
-      .update({ 
-        status: 'disputed', 
+      .update({
+        status: 'disputed',
         updated_at: new Date().toISOString(),
         disputed_at: new Date().toISOString()
       })
@@ -318,35 +305,34 @@ export function DealPanel({ threadId, listingId, otherUserId, otherUserName }) {
           )}
 
           {deal.status === 'disputed' && (() => {
-    const disputedAt = deal.disputed_at ? new Date(deal.disputed_at) : new Date(deal.updated_at)
-    const releaseTime = new Date(disputedAt.getTime() + 48 * 60 * 60 * 1000)
-    const now = new Date()
-    const hoursLeft = Math.max(0, Math.ceil((releaseTime - now) / (1000 * 60 * 60)))
-    const canRelease = now >= releaseTime
-
-    return (
-      <div>
-        <div style={{ fontSize: '12px', color: '#991b1b', marginBottom: '8px', fontWeight: 500 }}>
-          ⚠️ This deal has been disputed.
-        </div>
-        {!canRelease ? (
-          <div style={{ fontSize: '12px', color: 'var(--text-muted)', background: '#fef3c7', borderRadius: '6px', padding: '8px 10px' }}>
-            🕐 The listing will be freed in approximately <strong>{hoursLeft} hour{hoursLeft !== 1 ? 's' : ''}</strong>. 
-            This cooling period gives both parties time to resolve the situation.
-          </div>
-        ) : (
-          <div>
-            <div style={{ fontSize: '12px', color: 'var(--text-muted)', marginBottom: '8px' }}>
-              The 48-hour cooling period has ended. The listing can now be freed.
-            </div>
-            <button className="btn btn-outline btn-sm" onClick={releaseListing} disabled={submitting}>
-              Release listing
-            </button>
-          </div>
-        )}
-      </div>
-    )
-  })()}
+            const disputedAt = deal.disputed_at ? new Date(deal.disputed_at) : new Date(deal.updated_at)
+            const releaseTime = new Date(disputedAt.getTime() + 48 * 60 * 60 * 1000)
+            const now = new Date()
+            const hoursLeft = Math.max(0, Math.ceil((releaseTime - now) / (1000 * 60 * 60)))
+            const canRelease = now >= releaseTime
+            return (
+              <div>
+                <div style={{ fontSize: '12px', color: '#991b1b', marginBottom: '8px', fontWeight: 500 }}>
+                  ⚠️ This deal has been disputed.
+                </div>
+                {!canRelease ? (
+                  <div style={{ fontSize: '12px', color: 'var(--text-muted)', background: '#fef3c7', borderRadius: '6px', padding: '8px 10px' }}>
+                    🕐 The listing will be freed in approximately <strong>{hoursLeft} hour{hoursLeft !== 1 ? 's' : ''}</strong>.
+                    This cooling period gives both parties time to resolve the situation.
+                  </div>
+                ) : (
+                  <div>
+                    <div style={{ fontSize: '12px', color: 'var(--text-muted)', marginBottom: '8px' }}>
+                      The 48-hour cooling period has ended. The listing can now be freed.
+                    </div>
+                    <button className="btn btn-outline btn-sm" onClick={releaseListing} disabled={submitting}>
+                      Release listing
+                    </button>
+                  </div>
+                )}
+              </div>
+            )
+          })()}
 
           {deal.status === 'declined' && (
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
