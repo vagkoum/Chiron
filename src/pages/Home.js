@@ -13,7 +13,6 @@ export default function Home() {
       .from('listings')
       .select('*, profiles(full_name, company)')
       .eq('active', true)
-      .or('status.eq.active,status.is.null')
       .order('created_at', { ascending: false })
       .limit(6)
       .then(({ data }) => setListings(data || []))
