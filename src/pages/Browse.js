@@ -21,7 +21,7 @@ export default function Browse() {
       .from('listings')
       .select('*, profiles(full_name, company)')
       .eq('active', true)
-      .neq('status', 'sold')
+      .or('status.eq.active,status.is.null')
       .order('created_at', { ascending: false })
 
     if (category !== 'all') query = query.eq('category', category)
