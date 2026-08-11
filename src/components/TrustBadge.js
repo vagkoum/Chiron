@@ -4,20 +4,25 @@ import { getLevelInfo } from '../lib/trustScore'
 
 export function TrustBadge({ userId, showDetails = false }) {
   const [trustScore, setTrustScore] = useState(null)
+  const [loaded, setLoaded] = useState(false)
 
   useEffect(() => {
-    if (!userId) return
+    if (!userId) { setLoaded(true); return }
     supabase
       .from('trust_scores')
       .select('*')
       .eq('user_id', userId)
       .single()
-      .then(({ data }) => setTrustScore(data))
+      .then(({ data }) => {
+        setTrustScore(data || { level: 'new', score: 0, completed_deals: 0, active_deals: 0 })
+        setLoaded(true)
+      })
   }, [userId])
 
+  if (!loaded) return null
   if (!trustScore) return null
 
-  const levelInfo = getLevelInfo(trustScore.level)
+  const levelInfo = getLevelInfo(trustScore.level || 'new')
 
   if (!showDetails) {
     return (
@@ -38,7 +43,7 @@ export function TrustBadge({ userId, showDetails = false }) {
         <span style={{ fontSize: '24px' }}>{levelInfo.icon}</span>
         <div>
           <div style={{ fontWeight: 600, fontSize: '14px' }}>{levelInfo.label} user</div>
-          <div style={{ fontSize: '12px', color: 'var(--text-muted)' }}>Trust score: {trustScore.score} points</div>
+          <div style={{ fontSize: '12px', color: 'var(--text-muted)' }}>Trust score: {trustScore.score || 0} points</div>
         </div>
       </div>
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '8px' }}>
@@ -60,8 +65,8 @@ export function TrustBadge({ userId, showDetails = false }) {
       {trustScore.level !== 'verified' && (
         <div style={{ fontSize: '11px', color: 'var(--text-muted)', marginTop: '8px', textAlign: 'center' }}>
           {trustScore.level === 'new'
-            ? `${10 - trustScore.score} more points to reach 🥈 Trusted (5 active deals)`
-            : `${30 - trustScore.score} more points to reach 🥇 Verified (10 active deals)`
+            ? `${10 - (trustScore.score || 0)} more points to reach 🥈 Trusted (5 active deals)`
+            : `${30 - (trustScore.score || 0)} more points to reach 🥇 Verified (10 active deals)`
           }
         </div>
       )}
