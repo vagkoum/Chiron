@@ -47,7 +47,7 @@ export default function Admin() {
       supabase.from('message_threads').select('*', { count: 'exact', head: true }),
       supabase.from('reports').select('*', { count: 'exact', head: true }).eq('status', 'pending'),
       supabase.from('profiles').select('*').order('created_at', { ascending: false }),
-      supabase.from('listings').select('*, profiles(full_name, email)').order('created_at', { ascending: false }),
+      supabase.from('listings').select('*, profiles!listings_user_id_fkey(full_name, email)').order('created_at', { ascending: false }),
       supabase.from('reports').select('*, reporter:profiles!reports_reporter_id_fkey(full_name), reported:profiles!reports_reported_user_id_fkey(full_name)').order('created_at', { ascending: false }),
       supabase.from('deals').select('*, proposer:profiles!deals_proposer_id_fkey(full_name), receiver:profiles!deals_receiver_id_fkey(full_name), listing:listings(offer_title)').eq('status', 'disputed').order('updated_at', { ascending: false }),
     ])
