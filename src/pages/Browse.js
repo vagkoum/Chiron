@@ -10,6 +10,7 @@ export default function Browse() {
   const [category, setCategory] = useState('all')
   const [userType, setUserType] = useState('all')
   const [tradeType, setTradeType] = useState('all')
+  const [error, setError] = useState(null)
 
   useEffect(() => {
     fetchListings()
@@ -17,18 +18,30 @@ export default function Browse() {
 
   async function fetchListings() {
     setLoading(true)
-    let query = supabase
-      .from('listings')
-      .select('*, profiles(full_name, company)')
-      .eq('active', true)
-      .order('created_at', { ascending: false })
+    setError(null)
+    try {
+      let query = supabase
+        .from('listings')
+        .select('*, profiles(full_name, company)')
+        .eq('active', true)
+        .order('created_at', { ascending: false })
 
-    if (category !== 'all') query = query.eq('category', category)
-    if (userType !== 'all') query = query.eq('user_type', userType)
-    if (tradeType !== 'all') query = query.eq('trade_type', tradeType)
+      if (category !== 'all') query = query.eq('category', category)
+      if (userType !== 'all') query = query.eq('user_type', userType)
+      if (tradeType !== 'all') query = query.eq('trade_type', tradeType)
 
-    const { data } = await query
-    setListings(data || [])
+      const { data, error: queryError } = await query
+      
+      if (queryError) {
+        setError(queryError.message)
+        setListings([])
+      } else {
+        setListings(data || [])
+      }
+    } catch (err) {
+      setError(err.message)
+      setListings([])
+    }
     setLoading(false)
   }
 
@@ -59,7 +72,7 @@ export default function Browse() {
         <span className="search-icon">🔍</span>
         <input
           type="text"
-          placeholder={`Search by role, skill, location…`}
+          placeholder="Search by title, skill, location…"
           value={search}
           onChange={e => setSearch(e.target.value)}
         />
@@ -89,16 +102,34 @@ export default function Browse() {
         ))}
       </div>
 
+      {error && (
+        <div style={{ background: '#fee2e2', borderRadius: '8px', padding: '12px', marginBottom: '1rem', fontSize: '13px', color: '#991b1b' }}>
+          Error: {error}
+        </div>
+      )}
+
       {loading ? (
         <div className="empty-state"><div className="spinner" /></div>
       ) : filtered.length === 0 ? (
         <div className="empty-state">
           <h3>No listings found</h3>
+          <p>Total fetched: {listings.length}</p>
           <p>Try adjusting your filters or search terms.</p>
         </div>
       ) : (
         <div className="grid-listings">
-          {filtered.map(l => <ListingCard key={l.id} listing={l} />)}
+          {filtered.map(l => {
+            try {
+              return <ListingCard key={l.id} listing={l} />
+            } catch (err) {
+              return (
+                <div key={l.id} className="card">
+                  <div style={{ fontWeight: 500 }}>{l.offer_title}</div>
+                  <div style={{ fontSize: '12px', color: 'red' }}>Card error: {err.message}</div>
+                </div>
+              )
+            }
+          })}
         </div>
       )}
     </div>
