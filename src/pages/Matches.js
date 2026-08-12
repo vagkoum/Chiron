@@ -40,7 +40,7 @@ export default function Matches() {
       const { data: mine } = await supabase.from('listings').select('*').eq('user_id', user.id).eq('active', true)
       const { data: others } = await supabase
         .from('listings')
-        .select('*, profiles(full_name, company)')
+        .select('*, profiles!listings_user_id_fkey(full_name, company)')
         .neq('user_id', user.id)
         .eq('active', true)
 
