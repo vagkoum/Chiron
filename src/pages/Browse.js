@@ -22,7 +22,7 @@ export default function Browse() {
     try {
       let query = supabase
         .from('listings')
-        .select('*, profiles(full_name, company)')
+        .select('*, profiles!listings_user_id_fkey(full_name, company)')
         .eq('active', true)
         .order('created_at', { ascending: false })
 
