@@ -52,6 +52,10 @@ export default function Layout() {
                 <span>Messages</span>
                 {unread > 0 && <span className="nav-badge">{unread}</span>}
               </NavLink>
+              <NavLink to="/access-requests" className={({ isActive }) => 'nav-link' + (isActive ? ' active' : '')}>
+                <span>Requests</span>
+                {pendingRequests > 0 && <span className="nav-badge">{pendingRequests}</span>}
+              </NavLink>
             </>
           )}
 
