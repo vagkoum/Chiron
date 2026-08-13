@@ -22,6 +22,16 @@ export default function ListingDetail() {
   const [privateDetails, setPrivateDetails] = useState(null)
 
   useEffect(() => {
+  if (!listing) return
+  supabase
+    .from('listing_private_details')
+    .select('private_details')
+    .eq('listing_id', listing.id)
+    .maybeSingle()
+    .then(({ data }) => setPrivateDetails(data?.private_details || null))
+}, [listing])
+  
+  useEffect(() => {
     supabase
       .from('listings')
       .select('*, profiles!listings_user_id_fkey(full_name, company, bio, location)')
