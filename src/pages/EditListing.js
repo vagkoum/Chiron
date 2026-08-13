@@ -61,21 +61,30 @@ export default function EditListing() {
   }
 
   async function handleSubmit(e) {
-    e.preventDefault()
-    if (!form.offer_title || !form.offer_description) {
-      setError('Please fill in the required fields.')
-      return
-    }
-    setSaving(true)
-    setError('')
-    const { error: err } = await supabase
-      .from('listings')
-      .update({ ...form })
-      .eq('id', id)
-      .eq('user_id', user.id)
-    if (err) { setError(err.message); setSaving(false); return }
-    navigate('/profile')
+  e.preventDefault()
+  if (!form.offer_title || !form.offer_description) {
+    setError('Please fill in the required fields.')
+    return
   }
+  setSaving(true)
+  setError('')
+
+  const { private_details, ...publicFields } = form
+
+  const { error: err } = await supabase
+    .from('listings')
+    .update({ ...publicFields })
+    .eq('id', id)
+    .eq('user_id', user.id)
+  if (err) { setError(err.message); setSaving(false); return }
+
+  const { error: pdErr } = await supabase
+    .from('listing_private_details')
+    .upsert({ listing_id: id, private_details: private_details || null }, { onConflict: 'listing_id' })
+  if (pdErr) { setError(pdErr.message); setSaving(false); return }
+
+  navigate('/profile')
+}
 
   if (loading) return <div className="page"><div className="spinner" /></div>
 
