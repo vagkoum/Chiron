@@ -38,10 +38,11 @@ export default function NewListing() {
   const { private_details, ...publicFields } = form
 
   const { data: newListing, error: err } = await supabase.from('listings').insert({
-    ...publicFields,
-    user_id: user.id,
-    active: true,
-  }).select().single()
+  ...publicFields,
+  user_id: user.id,
+  active: true,
+  has_private_details: !!(private_details && private_details.trim()),
+}).select().single()
 
   if (err) { setError(err.message); setLoading(false); return }
 
