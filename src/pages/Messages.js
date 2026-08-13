@@ -204,7 +204,7 @@ export default function Messages() {
                 listingId={activeThread.listing_id}
                 listingOwnerId={activeThread.listing?.user_id}
                 otherUserId={getOtherId(activeThread)}
-                isOwner={getOtherId(activeThread) !== user.id && activeThread.listing?.user_id === user.id}
+                isOwner={activeThread.listing?.user_id === user.id}
               />
               <div className="msg-footer">
                 <input
