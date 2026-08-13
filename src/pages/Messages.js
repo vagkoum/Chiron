@@ -54,7 +54,18 @@ export default function Messages() {
       .update({ read: true })
       .eq('thread_id', thread.id)
       .eq('receiver_id', user.id)
-  }
+    // NEW: reflect the read status locally so the unread badge updates immediately
+  setThreads(prev => prev.map(t =>
+    t.id === thread.id
+      ? {
+          ...t,
+          messages: (t.messages || []).map(m =>
+            m.receiver_id === user.id ? { ...m, read: true } : m
+          )
+        }
+      : t
+  ))
+}
 
   async function sendMessage() {
     if (!newMsg.trim() || !activeThread) return
