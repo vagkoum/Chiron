@@ -3,6 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom'
 import { supabase } from '../lib/supabase'
 import { useAuth } from '../lib/AuthContext'
 import { DealPanel } from '../components/Deal'
+import { AccessRequestPanel } from '../components/NDA'
 
 export default function Messages() {
   const { user } = useAuth()
