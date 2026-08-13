@@ -18,7 +18,6 @@ export default function ListingDetail() {
   const [showNDA, setShowNDA] = useState(false)
   const [activeDeal, setActiveDeal] = useState(null)
   const [refreshReviews, setRefreshReviews] = useState(0)
-  const [refreshReviews, setRefreshReviews] = useState(0)
   const [privateDetails, setPrivateDetails] = useState(null)
 
   useEffect(() => {
