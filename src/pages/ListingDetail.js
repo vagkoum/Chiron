@@ -19,7 +19,8 @@ export default function ListingDetail() {
   const [activeDeal, setActiveDeal] = useState(null)
   const [refreshReviews, setRefreshReviews] = useState(0)
   const [privateDetails, setPrivateDetails] = useState(null)
-
+  const [accessStatus, setAccessStatus] = useState(null)
+  
   useEffect(() => {
   if (!listing) return
   supabase
