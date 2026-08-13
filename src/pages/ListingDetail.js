@@ -167,14 +167,16 @@ export default function ListingDetail() {
         <h2 style={{ fontSize: '18px', fontWeight: 600, marginBottom: '8px' }}>{listing.offer_title}</h2>
         <p style={{ fontSize: '14px', color: 'var(--text-muted)', lineHeight: 1.7, marginBottom: '1rem' }}>{listing.offer_description}</p>
 
-        {listing.private_details && (
+        {(canSeePrivate ? privateDetails : true) && (
           <div style={{ marginBottom: '1rem' }}>
             {canSeePrivate ? (
-              <div style={{ background: '#f0fdf4', border: '1px solid #86efac', borderRadius: '8px', padding: '12px 14px' }}>
-                <div style={{ fontSize: '12px', fontWeight: 600, color: '#166534', marginBottom: '6px' }}>🔒 Private details — visible only after NDA agreement</div>
-                <div style={{ fontSize: '14px', color: '#166534', lineHeight: 1.7 }}>{listing.private_details}</div>
-              </div>
-            ) : (
+              privateDetails && (
+                <div style={{ background: '#f0fdf4', border: '1px solid #86efac', borderRadius: '8px', padding: '12px 14px' }}>
+                  <div style={{ fontSize: '12px', fontWeight: 600, color: '#166534', marginBottom: '6px' }}>🔒 Private details — visible only after NDA agreement</div>
+                  <div style={{ fontSize: '14px', color: '#166534', lineHeight: 1.7 }}>{privateDetails}</div>
+                </div>
+               )
+             ) : (
               <div style={{ background: '#fef9f0', border: '1px dashed #f59e0b', borderRadius: '8px', padding: '12px 14px', textAlign: 'center' }}>
                 <div style={{ fontSize: '13px', color: '#92400e', marginBottom: '6px' }}>🔒 This submission has private details</div>
                 <div style={{ fontSize: '12px', color: 'var(--text-muted)' }}>You must agree to a Non-Disclosure Agreement before accessing private details and contacting the author.</div>
