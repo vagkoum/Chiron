@@ -73,7 +73,7 @@ export default function EditListing() {
 
   const { error: err } = await supabase
     .from('listings')
-    .update({ ...publicFields })
+    .update({ ...publicFields, has_private_details: !!(private_details && private_details.trim()) })
     .eq('id', id)
     .eq('user_id', user.id)
   if (err) { setError(err.message); setSaving(false); return }
