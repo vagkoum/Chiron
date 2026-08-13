@@ -188,24 +188,32 @@ export default function ListingDetail() {
         <h2 style={{ fontSize: '18px', fontWeight: 600, marginBottom: '8px' }}>{listing.offer_title}</h2>
         <p style={{ fontSize: '14px', color: 'var(--text-muted)', lineHeight: 1.7, marginBottom: '1rem' }}>{listing.offer_description}</p>
 
-        {(canSeePrivate ? privateDetails : true) && (
+        {(canSeePrivate) && (
           <div style={{ marginBottom: '1rem' }}>
-            {canSeePrivate ? (
-              privateDetails && (
-                <div style={{ background: '#f0fdf4', border: '1px solid #86efac', borderRadius: '8px', padding: '12px 14px' }}>
-                  <div style={{ fontSize: '12px', fontWeight: 600, color: '#166534', marginBottom: '6px' }}>🔒 Private details — visible only after NDA agreement</div>
-                  <div style={{ fontSize: '14px', color: '#166534', lineHeight: 1.7 }}>{privateDetails}</div>
-                </div>
-               )
-             ) : (
+            {isOwn && privateDetails && (
+              <div style={{ background: '#f0fdf4', border: '1px solid #86efac', borderRadius: '8px', padding: '12px 14px' }}>
+                <div style={{ fontSize: '12px', fontWeight: 600, color: '#166534', marginBottom: '6px' }}>🔒 Private details</div>
+                <div style={{ fontSize: '14px', color: '#166534', lineHeight: 1.7 }}>{privateDetails}</div>
+              </div>
+            )}
+            {!isOwn && accessStatus === 'granted' && privateDetails && (
+              <div style={{ background: '#f0fdf4', border: '1px solid #86efac', borderRadius: '8px', padding: '12px 14px' }}>
+                <div style={{ fontSize: '12px', fontWeight: 600, color: '#166534', marginBottom: '6px' }}>🔒 Private details — access granted</div>
+                <div style={{ fontSize: '14px', color: '#166534', lineHeight: 1.7 }}>{privateDetails}</div>
+              </div>
+            )}
+            {!isOwn && accessStatus === 'pending' && (
               <div style={{ background: '#fef9f0', border: '1px dashed #f59e0b', borderRadius: '8px', padding: '12px 14px', textAlign: 'center' }}>
-                <div style={{ fontSize: '13px', color: '#92400e', marginBottom: '6px' }}>🔒 This submission has private details</div>
-                <div style={{ fontSize: '12px', color: 'var(--text-muted)' }}>You must agree to a Non-Disclosure Agreement before accessing private details and contacting the author.</div>
+                <div style={{ fontSize: '13px', color: '#92400e' }}>🔒 Waiting for seller approval to view private details.</div>
+              </div>
+            )}
+            {!isOwn && accessStatus === 'denied' && (
+              <div style={{ background: '#fee2e2', border: '1px dashed #dc2626', borderRadius: '8px', padding: '12px 14px', textAlign: 'center' }}>
+                <div style={{ fontSize: '13px', color: '#991b1b' }}>🔒 The seller has not approved access to private details.</div>
               </div>
             )}
           </div>
         )}
-
         {listing.seek_description && (
           <div style={{ background: 'var(--green-light)', borderRadius: '8px', padding: '12px', marginBottom: '1rem' }}>
             <div style={{ fontSize: '12px', fontWeight: 600, color: 'var(--green-dark)', marginBottom: '4px' }}>↔ Looking for in return</div>
