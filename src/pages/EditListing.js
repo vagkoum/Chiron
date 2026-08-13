@@ -25,30 +25,37 @@ export default function EditListing() {
   })
 
   useEffect(() => {
-    supabase
-      .from('listings')
-      .select('*')
-      .eq('id', id)
-      .single()
-      .then(({ data, error }) => {
-        if (error || !data) { navigate('/profile'); return }
-        if (data.user_id !== user.id) { navigate('/profile'); return }
-        setForm({
-          offer_title: data.offer_title || '',
-          offer_description: data.offer_description || '',
-          private_details: data.private_details || '',
-          seek_description: data.seek_description || '',
-          skills: data.skills || '',
-          category: data.category || TRADE_CONFIG.categories[0],
-          availability: data.availability || TRADE_CONFIG.availabilityOptions[0],
-          location: data.location || '',
-          user_type: data.user_type || 'individual',
-          trade_type: data.trade_type || 'both',
+  supabase
+    .from('listings')
+    .select('*')
+    .eq('id', id)
+    .single()
+    .then(({ data, error }) => {
+      if (error || !data) { navigate('/profile'); return }
+      if (data.user_id !== user.id) { navigate('/profile'); return }
+      setForm(f => ({
+        ...f,
+        offer_title: data.offer_title || '',
+        offer_description: data.offer_description || '',
+        seek_description: data.seek_description || '',
+        skills: data.skills || '',
+        category: data.category || TRADE_CONFIG.categories[0],
+        availability: data.availability || TRADE_CONFIG.availabilityOptions[0],
+        location: data.location || '',
+        user_type: data.user_type || 'individual',
+        trade_type: data.trade_type || 'both',
+      }))
+      supabase
+        .from('listing_private_details')
+        .select('private_details')
+        .eq('listing_id', id)
+        .maybeSingle()
+        .then(({ data: pd }) => {
+          setForm(f => ({ ...f, private_details: pd?.private_details || '' }))
+          setLoading(false)
         })
-        setLoading(false)
-      })
-  }, [id, user])
-
+    })
+}, [id, user])
   function update(field, value) {
     setForm(f => ({ ...f, [field]: value }))
   }
