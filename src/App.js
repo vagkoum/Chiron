@@ -31,6 +31,7 @@ export default function App() {
           <Route path="/register" element={<Register />} />
           <Route path="/" element={<Layout />}>
             <Route index element={<Home />} />
+            <Route path="access-requests" element={<PrivateRoute><AccessRequests /></PrivateRoute>} />
             <Route path="browse" element={<Browse />} />
             <Route path="listing/:id" element={<ListingDetail />} />
             <Route path="new-listing" element={<PrivateRoute><NewListing /></PrivateRoute>} />
