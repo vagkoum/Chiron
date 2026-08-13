@@ -22,14 +22,35 @@ export default function ListingDetail() {
   const [accessStatus, setAccessStatus] = useState(null)
   
   useEffect(() => {
-  if (!listing) return
+  if (!listing || !user) return
+  if (user.id === listing.user_id) {
+    // owner always has full access
+    supabase
+      .from('listing_private_details')
+      .select('private_details')
+      .eq('listing_id', listing.id)
+      .maybeSingle()
+      .then(({ data }) => setPrivateDetails(data?.private_details || null))
+    return
+  }
   supabase
-    .from('listing_private_details')
-    .select('private_details')
+    .from('nda_agreements')
+    .select('access_status')
     .eq('listing_id', listing.id)
+    .eq('user_id', user.id)
     .maybeSingle()
-    .then(({ data }) => setPrivateDetails(data?.private_details || null))
-}, [listing])
+    .then(({ data }) => {
+      setAccessStatus(data?.access_status || null)
+      if (data?.access_status === 'granted') {
+        supabase
+          .from('listing_private_details')
+          .select('private_details')
+          .eq('listing_id', listing.id)
+          .maybeSingle()
+          .then(({ data: pd }) => setPrivateDetails(pd?.private_details || null))
+      }
+    })
+}, [listing, user])
   
   useEffect(() => {
     supabase
