@@ -200,6 +200,12 @@ export default function Messages() {
                 otherUserName={getOtherName(activeThread)}
               />
 
+              <AccessRequestPanel
+                listingId={activeThread.listing_id}
+                listingOwnerId={activeThread.listing?.user_id}
+                otherUserId={getOtherId(activeThread)}
+                isOwner={getOtherId(activeThread) !== user.id && activeThread.listing?.user_id === user.id}
+              />
               <div className="msg-footer">
                 <input
                   className="msg-input"
