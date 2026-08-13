@@ -27,21 +27,34 @@ export default function NewListing() {
   }
 
   async function handleSubmit(e) {
-    e.preventDefault()
-    if (!form.offer_title || !form.offer_description) {
-      setError('Please fill in the required fields.')
-      return
-    }
-    setLoading(true)
-    setError('')
-    const { error: err } = await supabase.from('listings').insert({
-      ...form,
-      user_id: user.id,
-      active: true,
-    })
-    if (err) { setError(err.message); setLoading(false); return }
-    navigate('/browse')
+  e.preventDefault()
+  if (!form.offer_title || !form.offer_description) {
+    setError('Please fill in the required fields.')
+    return
   }
+  setLoading(true)
+  setError('')
+
+  const { private_details, ...publicFields } = form
+
+  const { data: newListing, error: err } = await supabase.from('listings').insert({
+    ...publicFields,
+    user_id: user.id,
+    active: true,
+  }).select().single()
+
+  if (err) { setError(err.message); setLoading(false); return }
+
+  if (private_details && private_details.trim()) {
+    const { error: pdErr } = await supabase.from('listing_private_details').insert({
+      listing_id: newListing.id,
+      private_details: private_details.trim(),
+    })
+    if (pdErr) { setError(pdErr.message); setLoading(false); return }
+  }
+
+  navigate('/browse')
+}
 
   return (
     <div className="page-narrow">
