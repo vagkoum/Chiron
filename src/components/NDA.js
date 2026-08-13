@@ -143,3 +143,65 @@ export function NDAModal({ listing, onAgreed, onCancel }) {
     </div>
   )
 }
+export function AccessRequestPanel({ listingId, listingOwnerId, otherUserId, isOwner }) {
+  const { user } = useAuth()
+  const [ndaRecord, setNdaRecord] = useState(null)
+  const [loading, setLoading] = useState(true)
+  const [submitting, setSubmitting] = useState(false)
+
+  useEffect(() => {
+    const buyerId = isOwner ? otherUserId : user.id
+    supabase
+      .from('nda_agreements')
+      .select('*')
+      .eq('listing_id', listingId)
+      .eq('user_id', buyerId)
+      .maybeSingle()
+      .then(({ data }) => { setNdaRecord(data); setLoading(false) })
+  }, [listingId, otherUserId, isOwner])
+
+  async function respond(grant) {
+    setSubmitting(true)
+    const { data } = await supabase
+      .from('nda_agreements')
+      .update({ access_status: grant ? 'granted' : 'denied', access_decided_at: new Date().toISOString() })
+      .eq('id', ndaRecord.id)
+      .select().single()
+    setNdaRecord(data)
+    setSubmitting(false)
+  }
+
+  if (loading || !ndaRecord) return null
+
+  if (isOwner) {
+    if (ndaRecord.access_status !== 'pending') return null
+    return (
+      <div style={{ borderTop: '1px solid var(--border)', padding: '12px 14px', background: '#fef9f0' }}>
+        <div style={{ fontSize: '13px', fontWeight: 600, marginBottom: '6px' }}>🔒 Access request</div>
+        <div style={{ fontSize: '12px', color: 'var(--text-muted)', marginBottom: '8px' }}>
+          This user signed the NDA and is requesting access to your private details.
+        </div>
+        <div style={{ display: 'flex', gap: '8px' }}>
+          <button className="btn btn-primary btn-sm" onClick={() => respond(true)} disabled={submitting}>✓ Grant access</button>
+          <button className="btn btn-outline btn-sm" onClick={() => respond(false)} disabled={submitting}>✗ Deny</button>
+        </div>
+      </div>
+    )
+  }
+
+  if (ndaRecord.access_status === 'pending') {
+    return (
+      <div style={{ borderTop: '1px solid var(--border)', padding: '12px 14px', background: 'var(--bg)' }}>
+        <div style={{ fontSize: '12px', color: 'var(--text-muted)' }}>🔒 Waiting for seller approval to view private details.</div>
+      </div>
+    )
+  }
+  if (ndaRecord.access_status === 'denied') {
+    return (
+      <div style={{ borderTop: '1px solid var(--border)', padding: '12px 14px', background: '#fee2e2' }}>
+        <div style={{ fontSize: '12px', color: '#991b1b' }}>🔒 The seller has not approved access to private details.</div>
+      </div>
+    )
+  }
+  return null
+}
