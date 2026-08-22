@@ -14,7 +14,7 @@ export default function Profile() {
   useEffect(() => {
   if (profile) setForm({ full_name: profile.full_name || '', company: profile.company || '', bio: profile.bio || '', location: profile.location || '' })
 
-      async function loadListings() {
+          async function loadListings() {
       const { data: listingsData } = await supabase
         .from('listings')
         .select('*')
@@ -23,6 +23,7 @@ export default function Profile() {
 
       const ids = (listingsData || []).map(l => l.id)
       const ndaSigned = new Set()
+      const failedDeal = new Set()
 
       if (ids.length > 0) {
         const { data: ndaData } = await supabase
@@ -30,15 +31,22 @@ export default function Profile() {
           .select('listing_id')
           .in('listing_id', ids)
         ndaData?.forEach(n => ndaSigned.add(n.listing_id))
+
+        const { data: dealsData } = await supabase
+          .from('deals')
+          .select('listing_id, status')
+          .in('listing_id', ids)
+          .in('status', ['declined', 'disputed', 'released'])
+        dealsData?.forEach(d => failedDeal.add(d.listing_id))
       }
 
       setListings((listingsData || []).map(l => ({
         ...l,
-        locked: ndaSigned.has(l.id),
+        editLocked: ndaSigned.has(l.id),
+        pauseLocked: ndaSigned.has(l.id) && !failedDeal.has(l.id),
         canDelete: !ndaSigned.has(l.id) && l.status !== 'sold',
       })))
     }
-
     
 
   loadListings()
