@@ -12,16 +12,41 @@ export default function Profile() {
   const [saved, setSaved] = useState(false)
 
   useEffect(() => {
-    if (profile) setForm({ full_name: profile.full_name || '', company: profile.company || '', bio: profile.bio || '', location: profile.location || '' })
-    
-    function loadListings() {
-      supabase.from('listings').select('*').eq('user_id', user.id).order('created_at', { ascending: false }).then(({ data }) => setListings(data || []))
+  if (profile) setForm({ full_name: profile.full_name || '', company: profile.company || '', bio: profile.bio || '', location: profile.location || '' })
+
+  async function loadListings() {
+    const { data: listingsData } = await supabase
+      .from('listings')
+      .select('*')
+      .eq('user_id', user.id)
+      .order('created_at', { ascending: false })
+
+    const ids = (listingsData || []).map(l => l.id)
+    const blocked = new Set()
+
+    if (ids.length > 0) {
+      const { data: dealsData } = await supabase
+        .from('deals')
+        .select('listing_id, status')
+        .in('listing_id', ids)
+        .in('status', ['proposed', 'accepted', 'disputed', 'completed'])
+      dealsData?.forEach(d => blocked.add(d.listing_id))
+
+      const { data: ndaData } = await supabase
+        .from('nda_agreements')
+        .select('listing_id, access_status')
+        .in('listing_id', ids)
+        .eq('access_status', 'granted')
+      ndaData?.forEach(n => blocked.add(n.listing_id))
     }
-    
-    loadListings()
-    window.addEventListener('listings-updated', loadListings)
-    return () => window.removeEventListener('listings-updated', loadListings)
-  }, [profile])
+
+    setListings((listingsData || []).map(l => ({ ...l, canDelete: !blocked.has(l.id) })))
+  }
+
+  loadListings()
+  window.addEventListener('listings-updated', loadListings)
+  return () => window.removeEventListener('listings-updated', loadListings)
+}, [profile, user])
 
   async function handleSave(e) {
     e.preventDefault()
