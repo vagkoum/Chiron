@@ -40,18 +40,18 @@ export default function EditListing() {
           .eq('listing_id', id)
         if (count > 0) { navigate('/profile'); return }
 
-        setForm({
-        ...f,
-        offer_title: data.offer_title || '',
-        offer_description: data.offer_description || '',
-        seek_description: data.seek_description || '',
-        skills: data.skills || '',
-        category: data.category || TRADE_CONFIG.categories[0],
-        availability: data.availability || TRADE_CONFIG.availabilityOptions[0],
-        location: data.location || '',
-        user_type: data.user_type || 'individual',
-        trade_type: data.trade_type || 'both',
-      }))
+        setForm(f => ({
+          ...f,
+          offer_title: data.offer_title || '',
+          offer_description: data.offer_description || '',
+          seek_description: data.seek_description || '',
+          skills: data.skills || '',
+          category: data.category || TRADE_CONFIG.categories[0],
+          availability: data.availability || TRADE_CONFIG.availabilityOptions[0],
+          location: data.location || '',
+          user_type: data.user_type || 'individual',
+          trade_type: data.trade_type || 'both',
+        }))
       supabase
         .from('listing_private_details')
         .select('private_details')
