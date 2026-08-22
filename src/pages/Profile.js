@@ -149,7 +149,13 @@ async function handleDeleteAccount() {
             <button className="btn btn-outline btn-sm" onClick={() => toggleListing(l.id, l.active)}>
               {l.active ? 'Pause' : 'Activate'}
             </button>
-            <button className="btn btn-danger btn-sm" onClick={() => deleteListing(l.id)}>Delete</button>
+                        {l.canDelete ? (
+              <button className="btn btn-danger btn-sm" onClick={() => deleteListing(l.id)}>Delete</button>
+            ) : (
+              <button className="btn btn-outline btn-sm" disabled title="Cannot delete: this listing has an active or completed deal, or granted NDA access">
+                🔒 Delete
+              </button>
+            )}
             </div>
           ))}
         </div>
