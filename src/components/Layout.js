@@ -10,7 +10,7 @@ export default function Layout() {
   const [unread, setUnread] = useState(0)
   const [pendingRequests, setPendingRequests] = useState(0)
   
-  useEffect(() => {
+ 
   useEffect(() => {
   if (!user) return
 
