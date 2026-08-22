@@ -24,16 +24,23 @@ export default function EditListing() {
     trade_type: 'both',
   })
 
-  useEffect(() => {
-  supabase
-    .from('listings')
-    .select('*')
-    .eq('id', id)
-    .single()
-    .then(({ data, error }) => {
-      if (error || !data) { navigate('/profile'); return }
-      if (data.user_id !== user.id) { navigate('/profile'); return }
-      setForm(f => ({
+    useEffect(() => {
+    supabase
+      .from('listings')
+      .select('*')
+      .eq('id', id)
+      .single()
+      .then(async ({ data, error }) => {
+        if (error || !data) { navigate('/profile'); return }
+        if (data.user_id !== user.id) { navigate('/profile'); return }
+
+        const { count } = await supabase
+          .from('nda_agreements')
+          .select('id', { count: 'exact' })
+          .eq('listing_id', id)
+        if (count > 0) { navigate('/profile'); return }
+
+        setForm({
         ...f,
         offer_title: data.offer_title || '',
         offer_description: data.offer_description || '',
