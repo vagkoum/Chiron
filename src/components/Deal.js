@@ -278,11 +278,16 @@ export function DealPanel({ threadId, listingId, otherUserId, otherUserName }) {
               </div>
               <button
                 className="btn btn-outline btn-sm"
-                onClick={async () => {
+                                onClick={async () => {
                   const { data: listingData } = await supabase
                     .from('listings')
-                    .select('*, profiles(full_name)')
+                    .select('*')
                     .eq('id', deal.listing_id)
+                    .single()
+                  const { data: sellerProfile } = await supabase
+                    .from('profiles')
+                    .select('full_name')
+                    .eq('id', listingData?.original_seller_id)
                     .single()
                   const { data: buyerProfile } = await supabase
                     .from('profiles')
@@ -292,7 +297,7 @@ export function DealPanel({ threadId, listingId, otherUserId, otherUserName }) {
                   openCertificate({
                     certId: listingData?.sold_certificate_id || '—',
                     listingTitle: listingData?.offer_title || '—',
-                    sellerName: listingData?.profiles?.full_name || '—',
+                    sellerName: sellerProfile?.full_name || '—',
                     buyerName: buyerProfile?.full_name || '—',
                     buyerAnonymous: listingData?.buyer_anonymous,
                     submittedAt: listingData?.submitted_at,
