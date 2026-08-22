@@ -66,6 +66,8 @@ export default function Messages() {
         }
       : t
   ))
+
+    window.dispatchEvent(new Event('messages-read'))
 }
 
   async function sendMessage() {
