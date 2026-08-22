@@ -24,6 +24,7 @@ export default function Profile() {
       const ids = (listingsData || []).map(l => l.id)
       const ndaSigned = new Set()
       const failedDeal = new Set()
+      const negotiating = new Set()
 
       if (ids.length > 0) {
         const { data: ndaData } = await supabase
