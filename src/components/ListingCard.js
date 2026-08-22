@@ -24,6 +24,9 @@ export default function ListingCard({ listing }) {
             {!listing.has_private_details && (
               <span className="pill" style={{ background: '#fef3c7', color: '#92400e' }}>⚠️ No private details</span>
             )}
+            {listing.underNegotiation && (
+              <span className="pill" style={{ background: '#fef3c7', color: '#92400e' }}>🤝 Under negotiation</span>
+            )}
             <TrustBadge userId={listing.user_id} />
           </div>
         </div>
