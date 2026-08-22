@@ -122,7 +122,14 @@ export default function ListingDetail() {
         <div className="card" style={{ textAlign: 'center', padding: '2rem' }}>
           <div style={{ fontSize: '48px', marginBottom: '1rem' }}>🔒</div>
           <div style={{ display: 'inline-block', background: '#E1F5EE', color: '#0F6E56', fontWeight: 700, fontSize: '13px', padding: '4px 14px', borderRadius: '20px', marginBottom: '1rem', letterSpacing: '1px' }}>SOLD</div>
-          <h2 style={{ fontSize: '18px', fontWeight: 600, marginBottom: '8px' }}>{listing.offer_title}</h2>
+          <h2 style={{ fontSize: '18px', fontWeight: 600, marginBottom: '8px' }}>
+          {listing.offer_title}
+          {activeDeal && (activeDeal.status === 'proposed' || activeDeal.status === 'accepted') && (
+            <span style={{ marginLeft: '8px', fontSize: '11px', fontWeight: 600, padding: '3px 10px', borderRadius: '20px', background: '#fef3c7', color: '#92400e', verticalAlign: 'middle' }}>
+              🤝 Under negotiation
+            </span>
+          )}
+        </h2>
           <p style={{ fontSize: '13px', color: 'var(--text-muted)', marginBottom: '1.5rem' }}>
             This submission has been sold and its content is no longer publicly available.
           </p>
