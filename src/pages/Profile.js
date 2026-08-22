@@ -14,30 +14,29 @@ export default function Profile() {
   useEffect(() => {
   if (profile) setForm({ full_name: profile.full_name || '', company: profile.company || '', bio: profile.bio || '', location: profile.location || '' })
 
-  async function loadListings() {
-    const { data: listingsData } = await supabase
-      .from('listings')
-      .select('*')
-      .eq('user_id', user.id)
-      .order('created_at', { ascending: false })
+      async function loadListings() {
+      const { data: listingsData } = await supabase
+        .from('listings')
+        .select('*')
+        .eq('user_id', user.id)
+        .order('created_at', { ascending: false })
 
-    const ids = (listingsData || []).map(l => l.id)
-    const blocked = new Set()
+      const ids = (listingsData || []).map(l => l.id)
+      const ndaSigned = new Set()
 
-    if (ids.length > 0) {
-      const { data: dealsData } = await supabase
-        .from('deals')
-        .select('listing_id, status')
-        .in('listing_id', ids)
-        .in('status', ['proposed', 'accepted', 'disputed', 'completed'])
-      dealsData?.forEach(d => blocked.add(d.listing_id))
+      if (ids.length > 0) {
+        const { data: ndaData } = await supabase
+          .from('nda_agreements')
+          .select('listing_id')
+          .in('listing_id', ids)
+        ndaData?.forEach(n => ndaSigned.add(n.listing_id))
+      }
 
-      const { data: ndaData } = await supabase
-        .from('nda_agreements')
-        .select('listing_id, access_status')
-        .in('listing_id', ids)
-        .eq('access_status', 'granted')
-      ndaData?.forEach(n => blocked.add(n.listing_id))
+      setListings((listingsData || []).map(l => ({
+        ...l,
+        locked: ndaSigned.has(l.id),
+        canDelete: !ndaSigned.has(l.id) && l.status !== 'sold',
+      })))
     }
 
     setListings((listingsData || []).map(l => ({ ...l, canDelete: !blocked.has(l.id) })))
