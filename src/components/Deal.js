@@ -85,10 +85,7 @@ export function DealPanel({ threadId, listingId, otherUserId, otherUserName }) {
     const newProposerConfirmed = isProposer ? true : deal.proposer_confirmed
     const newReceiverConfirmed = !isProposer ? true : deal.receiver_confirmed
 
-    if (newProposerConfirmed && newReceiverConfirmed) {
-      updates.status = 'completed'
-    }
-    updates.updated_at = new Date().toISOString()
+       updates.updated_at = new Date().toISOString()
 
     const { data } = await supabase
       .from('deals')
@@ -98,21 +95,38 @@ export function DealPanel({ threadId, listingId, otherUserId, otherUserName }) {
     setDeal(data)
 
     if (newProposerConfirmed && newReceiverConfirmed) {
+      const { error: transferError } = await supabase.rpc('complete_deal_and_transfer', { p_deal_id: deal.id })
+      if (transferError) {
+        alert('Something went wrong finalizing the deal: ' + transferError.message)
+        setSubmitting(false)
+        return
+      }
+
       await updateTrustScore(deal.proposer_id, 'DEAL_COMPLETED')
       await updateTrustScore(deal.receiver_id, 'DEAL_COMPLETED')
 
-      const certId = `CHIRON-${Date.now()}-${Math.random().toString(36).substr(2, 6).toUpperCase()}`
       const buyerId = deal.receiver_id
-      const soldAt = new Date().toISOString()
-
       const stayAnonymous = window.confirm(
-        'Congratulations — deal completed! 🎉\n\nDo you want to remain anonymous as the buyer? Click OK for anonymous, Cancel to show your name.'
+        'Congratulations — deal completed! 🎉\n\nOn the seller\'s record of this sale, do you want your name hidden? Click OK to stay anonymous there, Cancel to show your name.'
       )
+
+      if (isReceiver) {
+        await supabase
+          .from('listings')
+          .update({ buyer_anonymous: stayAnonymous })
+          .eq('id', deal.listing_id)
+      }
 
       const { data: listingData } = await supabase
         .from('listings')
-        .select('*, profiles(full_name)')
+        .select('*')
         .eq('id', deal.listing_id)
+        .single()
+
+      const { data: sellerProfile } = await supabase
+        .from('profiles')
+        .select('full_name')
+        .eq('id', listingData?.original_seller_id)
         .single()
 
       const { data: buyerProfile } = await supabase
@@ -121,26 +135,14 @@ export function DealPanel({ threadId, listingId, otherUserId, otherUserName }) {
         .eq('id', buyerId)
         .single()
 
-      await supabase
-        .from('listings')
-        .update({
-          status: 'sold',
-          sold_to: buyerId,
-          sold_at: soldAt,
-          buyer_anonymous: isReceiver ? stayAnonymous : false,
-          sold_certificate_id: certId,
-          active: false,
-        })
-        .eq('id', deal.listing_id)
-
       openCertificate({
-        certId,
+        certId: listingData?.sold_certificate_id || '—',
         listingTitle: listingData?.offer_title || '—',
-        sellerName: listingData?.profiles?.full_name || '—',
+        sellerName: sellerProfile?.full_name || '—',
         buyerName: buyerProfile?.full_name || '—',
-        buyerAnonymous: isReceiver ? stayAnonymous : false,
+        buyerAnonymous: listingData?.buyer_anonymous,
         submittedAt: listingData?.submitted_at,
-        soldAt,
+        soldAt: listingData?.sold_at,
         category: listingData?.category,
       })
     }
