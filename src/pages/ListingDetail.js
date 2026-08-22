@@ -149,10 +149,26 @@ export default function ListingDetail() {
       </div>
     )
   }
+
+  const isOwn = user?.id === listing.user_id
+
+  if (!isOwn && listing.active === false && listing.status !== 'sold') {
+    return (
+      <div className="page-narrow">
+        <button className="btn btn-outline btn-sm" onClick={() => navigate(-1)} style={{ marginBottom: '1rem' }}>← Back</button>
+        <div className="card" style={{ textAlign: 'center', padding: '2rem' }}>
+          <div style={{ fontSize: '48px', marginBottom: '1rem' }}>⏸️</div>
+          <h2 style={{ fontSize: '18px', fontWeight: 600, marginBottom: '8px' }}>This listing is currently paused</h2>
+          <p style={{ fontSize: '13px', color: 'var(--text-muted)' }}>
+            The owner has paused this submission. Check back later or browse other listings.
+          </p>
+        </div>
+      </div>
+    )
+  }
   const name = listing.profiles?.full_name || 'Anonymous'
   const initials = name.split(' ').map(w => w[0]).join('').slice(0, 2).toUpperCase()
   const skills = listing.skills ? listing.skills.split(',').map(s => s.trim()).filter(Boolean) : []
-  const isOwn = user?.id === listing.user_id
   const canSeePrivate = isOwn || hasThread
 
   return (
