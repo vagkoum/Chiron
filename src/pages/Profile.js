@@ -36,8 +36,11 @@ export default function Profile() {
           .from('deals')
           .select('listing_id, status')
           .in('listing_id', ids)
-          .in('status', ['declined', 'disputed', 'released'])
-        dealsData?.forEach(d => failedDeal.add(d.listing_id))
+          .in('status', ['declined', 'disputed', 'released', 'proposed', 'accepted'])
+        dealsData?.forEach(d => {
+          if (['declined', 'disputed', 'released'].includes(d.status)) failedDeal.add(d.listing_id)
+          if (['proposed', 'accepted'].includes(d.status)) negotiating.add(d.listing_id)
+        })
       }
 
       setListings((listingsData || []).map(l => ({
@@ -45,6 +48,7 @@ export default function Profile() {
         editLocked: ndaSigned.has(l.id),
         pauseLocked: ndaSigned.has(l.id) && !failedDeal.has(l.id),
         canDelete: !ndaSigned.has(l.id) && l.status !== 'sold',
+        underNegotiation: negotiating.has(l.id),
       })))
     }
     
