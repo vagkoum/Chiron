@@ -39,8 +39,7 @@ export default function Profile() {
       })))
     }
 
-    setListings((listingsData || []).map(l => ({ ...l, canDelete: !blocked.has(l.id) })))
-  }
+    
 
   loadListings()
   window.addEventListener('listings-updated', loadListings)
