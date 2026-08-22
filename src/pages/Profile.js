@@ -149,7 +149,7 @@ async function handleDeleteAccount() {
                 <div style={{ fontSize: '12px', color: 'var(--text-muted)' }}>{l.category} · {l.availability}</div>
               </div>
               <span className={`pill ${l.active ? 'pill-green' : 'pill-gray'}`}>{l.active ? 'Active' : 'Paused'}</span>
-                         {l.locked ? (
+                         {l.editLocked ? (
               <button className="btn btn-outline btn-sm" disabled title="Locked: an NDA has been signed on this listing">
                 🔒 Edit
               </button>
@@ -158,8 +158,8 @@ async function handleDeleteAccount() {
                 Edit
               </button>
             )}
-            {l.locked ? (
-              <button className="btn btn-outline btn-sm" disabled title="Locked: an NDA has been signed on this listing">
+            {l.pauseLocked ? (
+              <button className="btn btn-outline btn-sm" disabled title="Locked: an NDA has been signed and the deal hasn't failed">
                 🔒 {l.active ? 'Pause' : 'Activate'}
               </button>
             ) : (
