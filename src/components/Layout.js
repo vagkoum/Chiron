@@ -11,20 +11,28 @@ export default function Layout() {
   const [pendingRequests, setPendingRequests] = useState(0)
   
   useEffect(() => {
+  useEffect(() => {
   if (!user) return
-  supabase
-    .from('messages')
-    .select('id', { count: 'exact' })
-    .eq('receiver_id', user.id)
-    .eq('read', false)
-    .then(({ count }) => setUnread(count || 0))
 
+  function loadUnread() {
+    supabase
+      .from('messages')
+      .select('id', { count: 'exact' })
+      .eq('receiver_id', user.id)
+      .eq('read', false)
+      .then(({ count }) => setUnread(count || 0))
+  }
+
+  loadUnread()
   supabase
     .from('nda_agreements')
     .select('id', { count: 'exact' })
     .eq('listing_owner_id', user.id)
     .eq('access_status', 'pending')
     .then(({ count }) => setPendingRequests(count || 0))
+
+  window.addEventListener('messages-read', loadUnread)
+  return () => window.removeEventListener('messages-read', loadUnread)
 }, [user])
 
   const initials = profile?.full_name
