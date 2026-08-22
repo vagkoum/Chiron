@@ -16,7 +16,7 @@ export default function Browse() {
     fetchListings()
   }, [category, userType, tradeType])
 
-  async function fetchListings() {
+    async function fetchListings() {
     setLoading(true)
     setError(null)
     try {
@@ -31,12 +31,22 @@ export default function Browse() {
       if (tradeType !== 'all') query = query.eq('trade_type', tradeType)
 
       const { data, error: queryError } = await query
-      
+
       if (queryError) {
         setError(queryError.message)
         setListings([])
       } else {
-        setListings(data || [])
+        const ids = (data || []).map(l => l.id)
+        const negotiating = new Set()
+        if (ids.length > 0) {
+          const { data: dealsData } = await supabase
+            .from('deals')
+            .select('listing_id')
+            .in('listing_id', ids)
+            .in('status', ['proposed', 'accepted'])
+          dealsData?.forEach(d => negotiating.add(d.listing_id))
+        }
+        setListings((data || []).map(l => ({ ...l, underNegotiation: negotiating.has(l.id) })))
       }
     } catch (err) {
       setError(err.message)
