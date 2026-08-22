@@ -24,8 +24,13 @@ export function NDAModal({ listing, onAgreed, onCancel }) {
       })
   }, [user, listing.id])
 
-  async function handleAgree() {
+    async function handleAgree() {
     if (!agreed) return
+    if (listing.active === false) {
+      alert('This listing is currently paused and is not accepting new NDA agreements.')
+      onCancel()
+      return
+    }
     setLoading(true)
     const { error } = await supabase.from('nda_agreements').insert({
       user_id: user.id,
