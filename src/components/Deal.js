@@ -137,63 +137,7 @@ export function DealPanel({ threadId, listingId, otherUserId, otherUserName }) {
     }
     setSubmitting(false)
   }
-      window.dispatchEvent(new Event('deals-updated'))
-
-      await updateTrustScore(deal.proposer_id, 'DEAL_COMPLETED')
-      await updateTrustScore(deal.receiver_id, 'DEAL_COMPLETED')
-
-      // Ownership has already transferred by this point (the RPC above did it),
-      // so the listing's current user_id IS the buyer — no need to guess from proposer/receiver.
-      const { data: listingAfterTransfer } = await supabase
-        .from('listings')
-        .select('user_id')
-        .eq('id', deal.listing_id)
-        .single()
-
-      const buyerId = listingAfterTransfer?.user_id
-      const isBuyer = user.id === buyerId
-
-      if (isBuyer) {
-        const stayAnonymous = window.confirm(
-          'Congratulations — deal completed! 🎉\n\nOn the seller\'s record of this sale, do you want your name hidden? Click OK to stay anonymous there, Cancel to show your name.'
-        )
-        await supabase
-          .from('listings')
-          .update({ buyer_anonymous: stayAnonymous })
-          .eq('id', deal.listing_id)
-      }
-
-      const { data: listingData } = await supabase
-        .from('listings')
-        .select('*')
-        .eq('id', deal.listing_id)
-        .single()
-
-      const { data: sellerProfile } = await supabase
-        .from('profiles')
-        .select('full_name')
-        .eq('id', listingData?.original_seller_id)
-        .single()
-
-      const { data: buyerProfile } = await supabase
-        .from('profiles')
-        .select('full_name')
-        .eq('id', buyerId)
-        .single()
-
-      openCertificate({
-        certId: listingData?.sold_certificate_id || '—',
-        listingTitle: listingData?.offer_title || '—',
-        sellerName: sellerProfile?.full_name || '—',
-        buyerName: buyerProfile?.full_name || '—',
-        buyerAnonymous: false,
-        submittedAt: listingData?.submitted_at,
-        soldAt: listingData?.sold_at,
-        category: listingData?.category,
-      })
-    }
-    setSubmitting(false)
-  }
+      
 
   async function disputeDeal() {
     if (!window.confirm('Are you sure you want to dispute this deal? The listing will be locked for 48 hours before being freed. This action cannot be undone.')) return
