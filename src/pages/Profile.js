@@ -172,7 +172,7 @@ async function handleDeleteAccount() {
         <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', marginBottom: '2rem' }}>
           {listings.map(l => (
             <div key={l.id} className="card" style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
-              <div style={{ flex: 1 }}>
+                            <div style={{ flex: 1, cursor: 'pointer' }} onClick={() => navigate(`/listing/${l.id}`)}>
                 <div style={{ fontWeight: 500, fontSize: '14px' }}>{l.offer_title}</div>
                 <div style={{ fontSize: '12px', color: 'var(--text-muted)' }}>{l.category} · {l.availability}</div>
               </div>
