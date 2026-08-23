@@ -46,11 +46,14 @@ export default function Layout() {
 
     loadUnread()
     loadPendingRequests()
+    loadPendingDeals()
     window.addEventListener('messages-read', loadUnread)
     window.addEventListener('access-requests-updated', loadPendingRequests)
+    window.addEventListener('deals-updated', loadPendingDeals)
     return () => {
       window.removeEventListener('messages-read', loadUnread)
       window.removeEventListener('access-requests-updated', loadPendingRequests)
+      window.removeEventListener('deals-updated', loadPendingDeals)
     }
   }, [user])
 
