@@ -186,7 +186,7 @@ export function DealPanel({ threadId, listingId, otherUserId, otherUserName }) {
         listingTitle: listingData?.offer_title || '—',
         sellerName: sellerProfile?.full_name || '—',
         buyerName: buyerProfile?.full_name || '—',
-        buyerAnonymous: listingData?.buyer_anonymous,
+        buyerAnonymous: false,
         submittedAt: listingData?.submitted_at,
         soldAt: listingData?.sold_at,
         category: listingData?.category,
