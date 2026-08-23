@@ -35,11 +35,12 @@ export default function EditListing() {
         if (data.user_id !== user.id) { navigate('/profile'); return }
 
         if (data.status !== 'sold') {
-          const { count } = await supabase
+          const { data: ndaRows } = await supabase
             .from('nda_agreements')
-            .select('id', { count: 'exact' })
+            .select('agreed_at')
             .eq('listing_id', id)
-          if (count > 0) { navigate('/profile'); return }
+          const hasCurrentNda = (ndaRows || []).some(n => new Date(n.agreed_at) > new Date(data.owner_since))
+          if (hasCurrentNda) { navigate('/profile'); return }
         }
 
         setForm(f => ({
