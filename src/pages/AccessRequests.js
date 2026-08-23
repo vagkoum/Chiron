@@ -34,6 +34,7 @@ export default function AccessRequests() {
       .eq('id', id)
     setRequests(r => r.filter(req => req.id !== id))
     setSubmitting(null)
+    window.dispatchEvent(new Event('access-requests-updated'))
   }
 
   if (loading) return <div className="page"><div className="spinner" /></div>
