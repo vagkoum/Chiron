@@ -34,11 +34,13 @@ export default function EditListing() {
         if (error || !data) { navigate('/profile'); return }
         if (data.user_id !== user.id) { navigate('/profile'); return }
 
-        const { count } = await supabase
-          .from('nda_agreements')
-          .select('id', { count: 'exact' })
-          .eq('listing_id', id)
-        if (count > 0) { navigate('/profile'); return }
+        if (data.status !== 'sold') {
+          const { count } = await supabase
+            .from('nda_agreements')
+            .select('id', { count: 'exact' })
+            .eq('listing_id', id)
+          if (count > 0) { navigate('/profile'); return }
+        }
 
         setForm(f => ({
           ...f,
