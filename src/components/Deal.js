@@ -304,7 +304,7 @@ export function DealPanel({ threadId, listingId, otherUserId, otherUserName }) {
                   const { data: buyerProfile } = await supabase
                     .from('profiles')
                     .select('full_name')
-                    .eq('id', deal.receiver_id)
+                    .eq('id', listingData?.user_id)
                     .single()
                   openCertificate({
                     certId: listingData?.sold_certificate_id || '—',
