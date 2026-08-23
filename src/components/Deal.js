@@ -82,12 +82,10 @@ export function DealPanel({ threadId, listingId, otherUserId, otherUserName }) {
   async function confirmCompletion() {
     setSubmitting(true)
     const isProposer = user.id === deal.proposer_id
-    const isReceiver = user.id === deal.receiver_id
-    const updates = isProposer ? { proposer_confirmed: true } : { receiver_confirmed: true }
     const newProposerConfirmed = isProposer ? true : deal.proposer_confirmed
     const newReceiverConfirmed = !isProposer ? true : deal.receiver_confirmed
-
-       updates.updated_at = new Date().toISOString()
+    const updates = isProposer ? { proposer_confirmed: true } : { receiver_confirmed: true }
+    updates.updated_at = new Date().toISOString()
 
     const { data } = await supabase
       .from('deals')
@@ -96,7 +94,6 @@ export function DealPanel({ threadId, listingId, otherUserId, otherUserName }) {
       .select().single()
     setDeal(data)
 
-    const amBuyer = user.id !== (data?.listing_owner_id || null) // placeholder, replaced below
     if (newProposerConfirmed && newReceiverConfirmed) {
       const { error: transferError } = await supabase.rpc('complete_deal_and_transfer', { p_deal_id: deal.id })
       if (transferError) {
@@ -104,6 +101,42 @@ export function DealPanel({ threadId, listingId, otherUserId, otherUserName }) {
         setSubmitting(false)
         return
       }
+      window.dispatchEvent(new Event('deals-updated'))
+
+      await updateTrustScore(deal.proposer_id, 'DEAL_COMPLETED')
+      await updateTrustScore(deal.receiver_id, 'DEAL_COMPLETED')
+
+      const { data: listingData } = await supabase
+        .from('listings')
+        .select('*')
+        .eq('id', deal.listing_id)
+        .single()
+
+      const { data: sellerProfile } = await supabase
+        .from('profiles')
+        .select('full_name')
+        .eq('id', listingData?.original_seller_id)
+        .single()
+
+      const { data: buyerProfile } = await supabase
+        .from('profiles')
+        .select('full_name')
+        .eq('id', listingData?.user_id)
+        .single()
+
+      openCertificate({
+        certId: listingData?.sold_certificate_id || '—',
+        listingTitle: listingData?.offer_title || '—',
+        sellerName: sellerProfile?.full_name || '—',
+        buyerName: buyerProfile?.full_name || '—',
+        buyerAnonymous: false,
+        submittedAt: listingData?.submitted_at,
+        soldAt: listingData?.sold_at,
+        category: listingData?.category,
+      })
+    }
+    setSubmitting(false)
+  }
       window.dispatchEvent(new Event('deals-updated'))
 
       await updateTrustScore(deal.proposer_id, 'DEAL_COMPLETED')
