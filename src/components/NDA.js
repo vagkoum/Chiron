@@ -15,14 +15,19 @@ export function NDAModal({ listing, onAgreed, onCancel }) {
     if (!user) return
     supabase
       .from('nda_agreements')
-      .select('id')
+      .select('id, agreed_at')
       .eq('user_id', user.id)
       .eq('listing_id', listing.id)
-      .single()
+      .order('agreed_at', { ascending: false })
+      .limit(1)
+      .maybeSingle()
       .then(({ data }) => {
-        if (data) { setAlreadySigned(true); onAgreed() }
+        if (data && listing.owner_since && new Date(data.agreed_at) > new Date(listing.owner_since)) {
+          setAlreadySigned(true)
+          onAgreed()
+        }
       })
-  }, [user, listing.id])
+  }, [user, listing.id, listing.owner_since])
 
     async function handleAgree() {
     if (!agreed) return
