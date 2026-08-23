@@ -166,7 +166,7 @@ async function handleDeleteAccount() {
                 Edit
               </button>
             )}
-            {l.pauseLocked ? (
+            {l.status === 'sold' ? null : l.pauseLocked ? (
               <button className="btn btn-outline btn-sm" disabled title="Locked: an NDA has been signed and the deal hasn't failed">
                 🔒 {l.active ? 'Pause' : 'Activate'}
               </button>
