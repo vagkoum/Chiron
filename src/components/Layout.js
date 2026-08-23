@@ -11,29 +11,36 @@ export default function Layout() {
   const [pendingRequests, setPendingRequests] = useState(0)
   
  
-  useEffect(() => {
-  if (!user) return
+    useEffect(() => {
+    if (!user) return
 
-  function loadUnread() {
-    supabase
-      .from('messages')
-      .select('id', { count: 'exact' })
-      .eq('receiver_id', user.id)
-      .eq('read', false)
-      .then(({ count }) => setUnread(count || 0))
-  }
+    function loadUnread() {
+      supabase
+        .from('messages')
+        .select('id', { count: 'exact' })
+        .eq('receiver_id', user.id)
+        .eq('read', false)
+        .then(({ count }) => setUnread(count || 0))
+    }
 
-  loadUnread()
-  supabase
-    .from('nda_agreements')
-    .select('id', { count: 'exact' })
-    .eq('listing_owner_id', user.id)
-    .eq('access_status', 'pending')
-    .then(({ count }) => setPendingRequests(count || 0))
+    function loadPendingRequests() {
+      supabase
+        .from('nda_agreements')
+        .select('id', { count: 'exact' })
+        .eq('listing_owner_id', user.id)
+        .eq('access_status', 'pending')
+        .then(({ count }) => setPendingRequests(count || 0))
+    }
 
-  window.addEventListener('messages-read', loadUnread)
-  return () => window.removeEventListener('messages-read', loadUnread)
-}, [user])
+    loadUnread()
+    loadPendingRequests()
+    window.addEventListener('messages-read', loadUnread)
+    window.addEventListener('access-requests-updated', loadPendingRequests)
+    return () => {
+      window.removeEventListener('messages-read', loadUnread)
+      window.removeEventListener('access-requests-updated', loadPendingRequests)
+    }
+  }, [user])
 
   const initials = profile?.full_name
     ? profile.full_name.split(' ').map(w => w[0]).join('').slice(0, 2).toUpperCase()
