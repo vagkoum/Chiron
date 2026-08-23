@@ -96,6 +96,7 @@ export function DealPanel({ threadId, listingId, otherUserId, otherUserName }) {
       .select().single()
     setDeal(data)
 
+    const amBuyer = user.id !== (data?.listing_owner_id || null) // placeholder, replaced below
     if (newProposerConfirmed && newReceiverConfirmed) {
       const { error: transferError } = await supabase.rpc('complete_deal_and_transfer', { p_deal_id: deal.id })
       if (transferError) {
