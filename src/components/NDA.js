@@ -174,6 +174,7 @@ export function AccessRequestPanel({ listingId, listingOwnerId, otherUserId, isO
       .select().single()
     setNdaRecord(data)
     setSubmitting(false)
+    window.dispatchEvent(new Event('access-requests-updated'))
   }
 
   if (loading || !ndaRecord) return null
