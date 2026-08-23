@@ -9,7 +9,7 @@ export default function Layout() {
   const navigate = useNavigate()
   const [unread, setUnread] = useState(0)
   const [pendingRequests, setPendingRequests] = useState(0)
-  
+  const [pendingDeals, setPendingDeals] = useState(0)
  
     useEffect(() => {
     if (!user) return
@@ -31,6 +31,18 @@ export default function Layout() {
         .eq('access_status', 'pending')
         .then(({ count }) => setPendingRequests(count || 0))
     }
+
+    function loadPendingDeals() {
+      supabase
+        .from('deals')
+        .select('id', { count: 'exact' })
+        .eq('receiver_id', user.id)
+        .eq('status', 'proposed')
+        .then(({ count }) => setPendingDeals(count || 0))
+    }
+      
+    loadPendingDeals()
+    window.addEventListener('deals-updated', loadPendingDeals)
 
     loadUnread()
     loadPendingRequests()
