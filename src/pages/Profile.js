@@ -14,7 +14,7 @@ export default function Profile() {
   useEffect(() => {
   if (profile) setForm({ full_name: profile.full_name || '', company: profile.company || '', bio: profile.bio || '', location: profile.location || '' })
 
-          async function loadListings() {
+    async function loadListings() {
       const { data: listingsData } = await supabase
         .from('listings')
         .select('*')
@@ -22,6 +22,9 @@ export default function Profile() {
         .order('created_at', { ascending: false })
 
       const ids = (listingsData || []).map(l => l.id)
+      const ownerSinceMap = {}
+      ;(listingsData || []).forEach(l => { ownerSinceMap[l.id] = l.owner_since })
+
       const ndaSigned = new Set()
       const failedDeal = new Set()
       const negotiating = new Set()
@@ -29,16 +32,24 @@ export default function Profile() {
       if (ids.length > 0) {
         const { data: ndaData } = await supabase
           .from('nda_agreements')
-          .select('listing_id')
+          .select('listing_id, agreed_at')
           .in('listing_id', ids)
-        ndaData?.forEach(n => ndaSigned.add(n.listing_id))
+        ndaData?.forEach(n => {
+          const since = ownerSinceMap[n.listing_id]
+          if (!since || new Date(n.agreed_at) > new Date(since)) {
+            ndaSigned.add(n.listing_id)
+          }
+        })
 
         const { data: dealsData } = await supabase
           .from('deals')
-          .select('listing_id, status')
+          .select('listing_id, status, updated_at')
           .in('listing_id', ids)
           .in('status', ['declined', 'disputed', 'released', 'proposed', 'accepted'])
         dealsData?.forEach(d => {
+          const since = ownerSinceMap[d.listing_id]
+          const isCurrent = !since || new Date(d.updated_at) > new Date(since)
+          if (!isCurrent) return
           if (['declined', 'disputed', 'released'].includes(d.status)) failedDeal.add(d.listing_id)
           if (['proposed', 'accepted'].includes(d.status)) negotiating.add(d.listing_id)
         })
