@@ -103,6 +103,7 @@ export function DealPanel({ threadId, listingId, otherUserId, otherUserName }) {
         setSubmitting(false)
         return
       }
+      window.dispatchEvent(new Event('deals-updated'))
 
       await updateTrustScore(deal.proposer_id, 'DEAL_COMPLETED')
       await updateTrustScore(deal.receiver_id, 'DEAL_COMPLETED')
