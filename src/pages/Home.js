@@ -13,6 +13,7 @@ export default function Home() {
       .from('listings')
       .select('*, profiles!listings_user_id_fkey(full_name, company)')
       .eq('active', true)
+      .neq('status', 'sold')
       .order('created_at', { ascending: false })
       .limit(6)
       .then(({ data }) => setListings(data || []))
