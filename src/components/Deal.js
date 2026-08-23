@@ -109,11 +109,11 @@ export function DealPanel({ threadId, listingId, otherUserId, otherUserName }) {
       await updateTrustScore(deal.receiver_id, 'DEAL_COMPLETED')
 
       const buyerId = deal.receiver_id
-      const stayAnonymous = window.confirm(
-        'Congratulations — deal completed! 🎉\n\nOn the seller\'s record of this sale, do you want your name hidden? Click OK to stay anonymous there, Cancel to show your name.'
-      )
 
       if (isReceiver) {
+        const stayAnonymous = window.confirm(
+          'Congratulations — deal completed! 🎉\n\nOn the seller\'s record of this sale, do you want your name hidden? Click OK to stay anonymous there, Cancel to show your name.'
+        )
         await supabase
           .from('listings')
           .update({ buyer_anonymous: stayAnonymous })
