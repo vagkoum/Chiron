@@ -160,8 +160,7 @@ export default function ListingDetail() {
     )
   }
 
-  const isOwn = user?.id === listing.user_id
-
+  
   if (!isOwn && listing.active === false && listing.status !== 'sold') {
     return (
       <div className="page-narrow">
