@@ -70,12 +70,13 @@ export default function Profile() {
 
   async function repostListing(id) {
     if (!window.confirm('Repost this listing to Browse? It will become publicly visible and available for new offers.')) return
+    const now = new Date().toISOString()
     await supabase
       .from('listings')
-      .update({ status: null, active: true })
+      .update({ status: 'active', active: true, owner_since: now })
       .eq('id', id)
       .eq('user_id', user.id)
-    setListings(ls => ls.map(l => l.id === id ? { ...l, status: null, active: true } : l))
+    setListings(ls => ls.map(l => l.id === id ? { ...l, status: 'active', active: true, owner_since: now } : l))
     window.dispatchEvent(new Event('listings-updated'))
   }
 
