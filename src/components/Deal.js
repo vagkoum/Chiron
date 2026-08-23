@@ -59,6 +59,7 @@ export function DealPanel({ threadId, listingId, otherUserId, otherUserName }) {
       setShowPropose(false)
       setTerms('')
       await updateTrustScore(user.id, 'DEAL_STARTED')
+      window.dispatchEvent(new Event('deals-updated'))
     }
     setSubmitting(false)
   }
