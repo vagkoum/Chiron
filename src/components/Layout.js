@@ -41,9 +41,14 @@ export default function Layout() {
         .then(({ data }) => {
           const count = (data || []).filter(d => {
             if (d.status === 'proposed') return d.receiver_id === user.id
-            const isProposer = d.proposer_id === user.id
-            const myConfirmed = isProposer ? d.proposer_confirmed : d.receiver_confirmed
-            return !myConfirmed
+            if (d.status === 'accepted') {
+              const isProposer = d.proposer_id === user.id
+              const myConfirmed = isProposer ? d.proposer_confirmed : d.receiver_confirmed
+              const otherConfirmed = isProposer ? d.receiver_confirmed : d.proposer_confirmed
+              // only notify me if the OTHER side already confirmed and it's now on me
+              return otherConfirmed && !myConfirmed
+            }
+            return false
           }).length
           setPendingDeals(count)
         })
