@@ -113,6 +113,9 @@ export default function ListingDetail() {
 
   if (loading) return <div className="page"><div className="spinner" /></div>
   if (!listing) return <div className="page"><p>Listing not found.</p></div>
+
+  const isOwn = user?.id === listing.user_id
+
   // SOLD listing — show minimal info to non-participants
   if (listing.status === 'sold' && !isOwn && !hasThread) {
     const soldDate = listing.sold_at ? new Date(listing.sold_at).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' }) : '—'
