@@ -46,8 +46,8 @@ export default function Profile() {
 
       setListings((listingsData || []).map(l => ({
         ...l,
-        editLocked: ndaSigned.has(l.id),
-        pauseLocked: ndaSigned.has(l.id) && !failedDeal.has(l.id),
+        editLocked: l.status !== 'sold' && ndaSigned.has(l.id),
+        pauseLocked: l.status !== 'sold' && ndaSigned.has(l.id) && !failedDeal.has(l.id),
         canDelete: !ndaSigned.has(l.id) && l.status !== 'sold',
         underNegotiation: negotiating.has(l.id),
       })))
