@@ -32,13 +32,21 @@ export default function Layout() {
         .then(({ count }) => setPendingRequests(count || 0))
     }
 
-    function loadPendingDeals() {
+     function loadPendingDeals() {
       supabase
         .from('deals')
-        .select('id', { count: 'exact' })
-        .eq('receiver_id', user.id)
-        .eq('status', 'proposed')
-        .then(({ count }) => setPendingDeals(count || 0))
+        .select('id, proposer_id, receiver_id, proposer_confirmed, receiver_confirmed, status')
+        .or(`proposer_id.eq.${user.id},receiver_id.eq.${user.id}`)
+        .in('status', ['proposed', 'accepted'])
+        .then(({ data }) => {
+          const count = (data || []).filter(d => {
+            if (d.status === 'proposed') return d.receiver_id === user.id
+            const isProposer = d.proposer_id === user.id
+            const myConfirmed = isProposer ? d.proposer_confirmed : d.receiver_confirmed
+            return !myConfirmed
+          }).length
+          setPendingDeals(count)
+        })
     }
       
     loadPendingDeals()
