@@ -108,9 +108,18 @@ export function DealPanel({ threadId, listingId, otherUserId, otherUserName }) {
       await updateTrustScore(deal.proposer_id, 'DEAL_COMPLETED')
       await updateTrustScore(deal.receiver_id, 'DEAL_COMPLETED')
 
-      const buyerId = deal.receiver_id
+      // Ownership has already transferred by this point (the RPC above did it),
+      // so the listing's current user_id IS the buyer — no need to guess from proposer/receiver.
+      const { data: listingAfterTransfer } = await supabase
+        .from('listings')
+        .select('user_id')
+        .eq('id', deal.listing_id)
+        .single()
 
-      if (isReceiver) {
+      const buyerId = listingAfterTransfer?.user_id
+      const isBuyer = user.id === buyerId
+
+      if (isBuyer) {
         const stayAnonymous = window.confirm(
           'Congratulations — deal completed! 🎉\n\nOn the seller\'s record of this sale, do you want your name hidden? Click OK to stay anonymous there, Cancel to show your name.'
         )
