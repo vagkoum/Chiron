@@ -68,6 +68,17 @@ export default function Profile() {
     setTimeout(() => setSaved(false), 2000)
   }
 
+  async function repostListing(id) {
+    if (!window.confirm('Repost this listing to Browse? It will become publicly visible and available for new offers.')) return
+    await supabase
+      .from('listings')
+      .update({ status: null, active: true })
+      .eq('id', id)
+      .eq('user_id', user.id)
+    setListings(ls => ls.map(l => l.id === id ? { ...l, status: null, active: true } : l))
+    window.dispatchEvent(new Event('listings-updated'))
+  }
+
   async function toggleListing(id, active) {
     await supabase.from('listings').update({ active: !active }).eq('id', id)
     setListings(ls => ls.map(l => l.id === id ? { ...l, active: !active } : l))
