@@ -20,7 +20,35 @@ export default function ListingDetail() {
   const [refreshReviews, setRefreshReviews] = useState(0)
   const [privateDetails, setPrivateDetails] = useState(null)
   const [accessStatus, setAccessStatus] = useState(null)
+  const [pastOwnerRole, setPastOwnerRole] = useState(null)
+
+  useEffect(() => {
+  if (!listing || !user || isOwn) return
+  supabase
+    .from('listing_ownership_history')
+    .select('seller_id, buyer_id')
+    .eq('listing_id', listing.id)
+    .or(`seller_id.eq.${user.id},buyer_id.eq.${user.id}`)
+    .then(({ data }) => {
+      if (!data || data.length === 0) return setPastOwnerRole(null)
+      const wasSeller = data.some(r => r.seller_id === user.id)
+      setPastOwnerRole(wasSeller ? 'seller' : 'buyer')
+    })
+}, [listing, user, isOwn])
   
+  useEffect(() => {
+  if (!listing || !user || isOwn) return
+  supabase
+    .from('listing_ownership_history')
+    .select('seller_id, buyer_id')
+    .eq('listing_id', listing.id)
+    .or(`seller_id.eq.${user.id},buyer_id.eq.${user.id}`)
+    .then(({ data }) => {
+      if (!data || data.length === 0) return setPastOwnerRole(null)
+      const wasSeller = data.some(r => r.seller_id === user.id)
+      setPastOwnerRole(wasSeller ? 'seller' : 'buyer')
+    })
+}, [listing, user, isOwn])
   useEffect(() => {
   if (!listing || !user) return
   if (user.id === listing.user_id) {
