@@ -238,7 +238,14 @@ export default function ListingDetail() {
           </div>
         </div>
 
-        <h2 style={{ fontSize: '18px', fontWeight: 600, marginBottom: '8px' }}>{listing.offer_title}</h2>
+        <h2 style={{ fontSize: '18px', fontWeight: 600, marginBottom: '8px' }}>
+          {listing.offer_title}
+          {pastOwnerRole && (
+            <span style={{ marginLeft: '8px', fontSize: '11px', fontWeight: 600, padding: '3px 10px', borderRadius: '20px', background: '#e6f1fb', color: '#0c447c' }}>
+              🕓 You previously {pastOwnerRole === 'seller' ? 'owned' : 'purchased'} this listing
+            </span>
+          )}
+        </h2>
         <p style={{ fontSize: '14px', color: 'var(--text-muted)', lineHeight: 1.7, marginBottom: '1rem' }}>{listing.offer_description}</p>
 
         {(canSeePrivate) && (
