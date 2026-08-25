@@ -177,6 +177,12 @@ export function DealPanel({ threadId, listingId, otherUserId, otherUserName }) {
       .select().single()
     setDeal(data)
 
+    const otherPartyId = isProposer ? deal.receiver_id : deal.proposer_id
+
+    if (!(newProposerConfirmed && newReceiverConfirmed)) {
+      await postDealUpdate(threadId, user.id, otherPartyId, '✓ Confirmed completion on their side. Waiting for you to confirm too.')
+    }
+
     if (newProposerConfirmed && newReceiverConfirmed) {
       const { error: transferError } = await supabase.rpc('complete_deal_and_transfer', { p_deal_id: deal.id })
       if (transferError) {
