@@ -21,6 +21,7 @@ export default function ListingDetail() {
   const [privateDetails, setPrivateDetails] = useState(null)
   const [accessStatus, setAccessStatus] = useState(null)
   const [pastOwnerRole, setPastOwnerRole] = useState(null)
+  const [isFavorite, setIsFavorite] = useState(false)
 
   useEffect(() => {
     if (!listing || !user || user.id === listing.user_id) return
