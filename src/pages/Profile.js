@@ -52,13 +52,14 @@ export default function Profile() {
           const isCurrent = !since || new Date(d.updated_at) > new Date(since)
           if (!isCurrent) return
           if (['declined', 'disputed', 'released'].includes(d.status)) failedDeal.add(d.listing_id)
+          if (['proposed', 'accepted', 'disputed'].includes(d.status)) dealBlocksEdit.add(d.listing_id)
           if (['proposed', 'accepted'].includes(d.status)) negotiating.add(d.listing_id)
         })
       }
 
       setListings((listingsData || []).map(l => ({
         ...l,
-        editLocked: l.status !== 'sold' && ndaSigned.has(l.id),
+        editLocked: l.status !== 'sold' && (ndaSigned.has(l.id) || dealBlocksEdit.has(l.id)),
         pauseLocked: l.status !== 'sold' && ndaSigned.has(l.id) && !failedDeal.has(l.id),
         canDelete: !ndaSigned.has(l.id) && l.status !== 'sold',
         underNegotiation: negotiating.has(l.id),
