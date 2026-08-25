@@ -126,6 +126,30 @@ async function handleDeleteAccount() {
   }
   const initials = form.full_name.split(' ').map(w => w[0]).join('').slice(0, 2).toUpperCase() || '?'
 
+  useEffect(() => {
+  if (!user) return
+  async function loadStats() {
+    const { count: ideasExchanged } = await supabase
+      .from('listing_ownership_history')
+      .select('id', { count: 'exact' })
+      .eq('seller_id', user.id)
+
+    const { count: originalIdeasExchanged } = await supabase
+      .from('listings')
+      .select('id', { count: 'exact' })
+      .eq('original_seller_id', user.id)
+      .neq('user_id', user.id)
+
+    setStats({
+      ideasExchanged: ideasExchanged || 0,
+      originalIdeasExchanged: originalIdeasExchanged || 0,
+    })
+  }
+  loadStats()
+  window.addEventListener('listings-updated', loadStats)
+  return () => window.removeEventListener('listings-updated', loadStats)
+}, [user])
+
   return (
     <div className="page-narrow">
       <h1 style={{ fontSize: '20px', fontWeight: 600, marginBottom: '1.5rem' }}>Your profile</h1>
