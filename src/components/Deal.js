@@ -13,6 +13,16 @@ const STATUS_LABELS = {
   released: { label: 'Released', color: '#6b6b6b', bg: '#f0efe8', icon: '🔓' },
 }
 
+async function postDealUpdate(threadId, senderId, receiverId, content) {
+  await supabase.from('messages').insert({
+    thread_id: threadId,
+    sender_id: senderId,
+    receiver_id: receiverId,
+    content,
+    read: false,
+  })
+}
+
 export function DealPanel({ threadId, listingId, otherUserId, otherUserName }) {
   const { user } = useAuth()
   const [deal, setDeal] = useState(null)
