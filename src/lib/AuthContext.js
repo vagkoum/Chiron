@@ -26,6 +26,14 @@ export function AuthProvider({ children }) {
 
   async function fetchProfile(userId) {
     const { data } = await supabase.from('profiles').select('*').eq('id', userId).single()
+    if (data?.banned) {
+      alert('Your account has been suspended. Contact support if you believe this is a mistake.')
+      await supabase.auth.signOut()
+      setUser(null)
+      setProfile(null)
+      setLoading(false)
+      return
+    }
     setProfile(data)
     setLoading(false)
   }
