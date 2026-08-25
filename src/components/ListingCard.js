@@ -13,8 +13,10 @@ export default function ListingCard({ listing }) {
         <div className="avatar">{initials}</div>
         <div style={{ flex: 1, minWidth: 0 }}>
           <div
-            style={{ fontWeight: 600, fontSize: '14px', cursor: 'pointer' }}
+            style={{ fontWeight: 600, fontSize: '14px', cursor: 'pointer', color: '#0F6E56' }}
             onClick={e => { e.stopPropagation(); navigate(`/profile/${listing.user_id}`) }}
+            onMouseEnter={e => e.currentTarget.style.textDecoration = 'underline'}
+            onMouseLeave={e => e.currentTarget.style.textDecoration = 'none'}
           >
             {name}
           </div>
