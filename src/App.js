@@ -15,6 +15,7 @@ import Register from './pages/Register'
 import Admin from './pages/Admin'
 import './styles.css'
 import PublicProfile from './pages/PublicProfile'
+import Favorites from './pages/Favorites'
 
 function PrivateRoute({ children }) {
   const { user, loading } = useAuth()
