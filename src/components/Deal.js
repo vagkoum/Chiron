@@ -231,6 +231,8 @@ export function DealPanel({ threadId, listingId, otherUserId, otherUserName }) {
         soldAt: listingData?.sold_at,
         category: listingData?.category,
       })
+
+      await postDealUpdate(threadId, user.id, otherPartyId, '🎉 The deal is complete! Ownership has been transferred.')
     }
     setSubmitting(false)
   }
