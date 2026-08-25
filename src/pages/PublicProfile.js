@@ -27,7 +27,7 @@ export default function PublicProfile() {
 
     supabase
       .from('listings')
-      .select('*, profiles!listings_user_id_fkey(full_name, company)')
+      .select('*, profiles!listings_user_id_fkey(full_name, company, avatar_url)')
       .eq('user_id', userId)
       .eq('active', true)
       .neq('status', 'sold')
