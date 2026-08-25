@@ -23,12 +23,7 @@ export default async function handler(req, res) {
     const profiles = await profileRes.json()
     const receiver = profiles[0]
     if (!receiver?.email) {
-      return res.status(200).json({
-        error: 'No email found',
-        debug_status: profileRes.status,
-        debug_body: profiles,
-        debug_url_used: `${process.env.SUPABASE_URL}/rest/v1/profiles?id=eq.${receiverId}&select=email,full_name`
-      })
+      return res.status(200).json({ error: 'No email found' })
     }
 
     // Send email via Resend
