@@ -33,8 +33,8 @@ export default function Messages() {
     const { data } = await supabase
       .from('message_threads')
       .select(`id, user1_id, user2_id, listing_id,
-        user1:profiles!message_threads_user1_id_fkey(full_name),
-        user2:profiles!message_threads_user2_id_fkey(full_name),
+        user1:profiles!message_threads_user1_id_fkey(full_name, avatar_url),
+        user2:profiles!message_threads_user2_id_fkey(full_name, avatar_url),
         listing:listings(offer_title, user_id),
         messages(content, created_at, read, receiver_id)`)
       .or(`user1_id.eq.${user.id},user2_id.eq.${user.id}`)
