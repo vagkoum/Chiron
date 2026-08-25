@@ -19,7 +19,11 @@ export default function PublicProfile() {
       .select('*')
       .eq('id', userId)
       .single()
-      .then(({ data }) => { setProfile(data); setLoading(false) })
+      .then(({ data }) => {
+        if (data?.banned) { setProfile(null); setLoading(false); return }
+        setProfile(data)
+        setLoading(false)
+      })
 
     supabase
       .from('listings')
