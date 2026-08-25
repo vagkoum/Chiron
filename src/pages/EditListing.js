@@ -22,6 +22,9 @@ export default function EditListing() {
     location: '',
     user_type: 'individual',
     trade_type: 'both',
+    language: TRADE_CONFIG.languages[0],
+    target_country: TRADE_CONFIG.countries[0],
+    target_audience: TRADE_CONFIG.audienceTypes[0],
   })
 
     useEffect(() => {
