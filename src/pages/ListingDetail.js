@@ -85,13 +85,15 @@ export default function ListingDetail() {
       .single()
       .then(({ data }) => setHasThread(!!data))
 
-    supabase
-      .from('deals')
-      .select('id, status')
-      .eq('listing_id', listing.id)
-      .in('status', ['proposed', 'accepted', 'disputed'])
-      .single()
-      .then(({ data }) => setActiveDeal(data || null))
+    supabase.rpc('expire_stale_proposals').then(() => {
+      supabase
+        .from('deals')
+        .select('id, status')
+        .eq('listing_id', listing.id)
+        .in('status', ['proposed', 'accepted', 'disputed'])
+        .single()
+        .then(({ data }) => setActiveDeal(data || null))
+    })
   }, [user, listing])
 
   async function openConversation() {
