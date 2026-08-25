@@ -40,10 +40,14 @@ export default function ListingCard({ listing }) {
     <div className="listing-card" style={{ position: 'relative' }} onClick={() => navigate(`/listing/${listing.id}`)}>
       <button
         onClick={toggleFavorite}
-        style={{ position: 'absolute', top: '10px', right: '10px', background: 'none', border: 'none', fontSize: '18px', cursor: 'pointer', zIndex: 2 }}
+        style={{ position: 'absolute', top: '10px', right: '10px', background: 'none', border: 'none', cursor: 'pointer', zIndex: 2, display: 'flex', padding: 0 }}
         title={isFavorite ? 'Remove from favorites' : 'Save to favorites'}
       >
-        {isFavorite ? '❤️' : '🤍'}
+        <img
+          src="/heart-icon.png"
+          alt="Favorite"
+          style={{ width: '22px', height: '22px', objectFit: 'contain', filter: isFavorite ? 'none' : 'grayscale(100%)' }}
+        />
       </button>
       <div style={{ display: 'flex', gap: '10px', alignItems: 'flex-start' }}>
         <div className="avatar">{initials}</div>
