@@ -1,8 +1,37 @@
+import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { TrustBadge } from './TrustBadge'
-
+import { useAuth } from '../lib/AuthContext'
+import { supabase } from '../lib/supabase'
 export default function ListingCard({ listing }) {
   const navigate = useNavigate()
+  const { user } = useAuth()
+  const [isFavorite, setIsFavorite] = useState(false)
+
+  useEffect(() => {
+    if (!user) return
+    supabase
+      .from('favorites')
+      .select('user_id')
+      .eq('user_id', user.id)
+      .eq('listing_id', listing.id)
+      .maybeSingle()
+      .then(({ data }) => setIsFavorite(!!data))
+  }, [user, listing.id])
+
+  async function toggleFavorite(e) {
+    e.stopPropagation()
+    if (!user) { navigate('/login'); return }
+    if (isFavorite) {
+      await supabase.from('favorites').delete().eq('user_id', user.id).eq('listing_id', listing.id)
+      setIsFavorite(false)
+    } else {
+      await supabase.from('favorites').insert({ user_id: user.id, listing_id: listing.id })
+      setIsFavorite(true)
+    }
+    window.dispatchEvent(new Event('favorites-updated'))
+  }
+
   const name = listing.profiles?.full_name || 'Anonymous'
   const initials = name.split(' ').map(w => w[0]).join('').slice(0, 2).toUpperCase()
   const skills = listing.skills ? listing.skills.split(',').map(s => s.trim()).filter(Boolean) : []
