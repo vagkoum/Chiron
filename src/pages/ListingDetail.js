@@ -212,8 +212,10 @@ export default function ListingDetail() {
           <div className="avatar avatar-lg">{initials}</div>
           <div>
             <div
-              style={{ fontWeight: 600, fontSize: '16px', cursor: 'pointer' }}
+              style={{ fontWeight: 600, fontSize: '16px', cursor: 'pointer', color: '#0F6E56' }}
               onClick={() => navigate(`/profile/${listing.user_id}`)}
+              onMouseEnter={e => e.currentTarget.style.textDecoration = 'underline'}
+              onMouseLeave={e => e.currentTarget.style.textDecoration = 'none'}
             >
               {name}
             </div>
