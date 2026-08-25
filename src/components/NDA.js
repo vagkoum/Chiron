@@ -16,7 +16,7 @@ export function NDAModal({ listing, onAgreed, onCancel }) {
     if (!user) return
     supabase
       .from('nda_agreements')
-      .select('id, agreed_at')
+      .select('id, agreed_at, access_status')
       .eq('user_id', user.id)
       .eq('listing_id', listing.id)
       .order('agreed_at', { ascending: false })
@@ -25,7 +25,8 @@ export function NDAModal({ listing, onAgreed, onCancel }) {
       .then(({ data }) => {
         if (!data) return
         setIsReturning(true)
-        if (listing.owner_since && new Date(data.agreed_at) > new Date(listing.owner_since)) {
+        const isCurrentCycle = listing.owner_since && new Date(data.agreed_at) > new Date(listing.owner_since)
+        if (isCurrentCycle && data.access_status !== 'revoked') {
           setAlreadySigned(true)
           onAgreed()
         }
