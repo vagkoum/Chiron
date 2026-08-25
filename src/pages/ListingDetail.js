@@ -162,7 +162,12 @@ async function toggleFavorite() {
     const soldDate = listing.sold_at ? new Date(listing.sold_at).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' }) : '—'
     return (
       <div className="page-narrow">
-        <button className="btn btn-outline btn-sm" onClick={() => navigate(-1)} style={{ marginBottom: '1rem' }}>← Back</button>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
+        <button className="btn btn-outline btn-sm" onClick={() => navigate(-1)}>← Back</button>
+        <button className="btn btn-outline btn-sm" onClick={toggleFavorite}>
+          {isFavorite ? '❤️ Saved' : '🤍 Save'}
+        </button>
+      </div>
         <div className="card" style={{ textAlign: 'center', padding: '2rem' }}>
           <div style={{ fontSize: '48px', marginBottom: '1rem' }}>🔒</div>
           <div style={{ display: 'inline-block', background: '#E1F5EE', color: '#0F6E56', fontWeight: 700, fontSize: '13px', padding: '4px 14px', borderRadius: '20px', marginBottom: '1rem', letterSpacing: '1px' }}>EXCHANGED</div>
