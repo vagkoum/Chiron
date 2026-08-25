@@ -164,8 +164,13 @@ async function toggleFavorite() {
       <div className="page-narrow">
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
         <button className="btn btn-outline btn-sm" onClick={() => navigate(-1)}>← Back</button>
-        <button className="btn btn-outline btn-sm" onClick={toggleFavorite}>
-          {isFavorite ? '❤️ Saved' : '🤍 Save'}
+        <button className="btn btn-outline btn-sm" onClick={toggleFavorite} style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+          <img
+            src="/heart-icon.png"
+            alt="Favorite"
+            style={{ width: '18px', height: '18px', objectFit: 'contain', filter: isFavorite ? 'none' : 'grayscale(100%)' }}
+          />
+          {isFavorite ? 'Saved' : 'Save'}
         </button>
       </div>
         <div className="card" style={{ textAlign: 'center', padding: '2rem' }}>
