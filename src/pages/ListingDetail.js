@@ -149,7 +149,7 @@ export default function ListingDetail() {
           )}
         </h2>
           <p style={{ fontSize: '13px', color: 'var(--text-muted)', marginBottom: '1.5rem' }}>
-            This submission has been sold and its content is no longer publicly available.
+            This submission has been exchanged and its content is no longer publicly available.
           </p>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '10px', marginBottom: '1.5rem', fontSize: '13px' }}>
             <div style={{ background: 'var(--bg)', borderRadius: '8px', padding: '10px' }}>
