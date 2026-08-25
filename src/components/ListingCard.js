@@ -37,7 +37,14 @@ export default function ListingCard({ listing }) {
   const skills = listing.skills ? listing.skills.split(',').map(s => s.trim()).filter(Boolean) : []
 
   return (
-    <div className="listing-card" onClick={() => navigate(`/listing/${listing.id}`)}>
+    <div className="listing-card" style={{ position: 'relative' }} onClick={() => navigate(`/listing/${listing.id}`)}>
+      <button
+        onClick={toggleFavorite}
+        style={{ position: 'absolute', top: '10px', right: '10px', background: 'none', border: 'none', fontSize: '18px', cursor: 'pointer', zIndex: 2 }}
+        title={isFavorite ? 'Remove from favorites' : 'Save to favorites'}
+      >
+        {isFavorite ? '❤️' : '🤍'}
+      </button>
       <div style={{ display: 'flex', gap: '10px', alignItems: 'flex-start' }}>
         <div className="avatar">{initials}</div>
         <div style={{ flex: 1, minWidth: 0 }}>
