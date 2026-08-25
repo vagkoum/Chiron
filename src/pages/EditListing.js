@@ -213,17 +213,11 @@ export default function EditListing() {
               </select>
             </div>
           </div>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '12px' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
             <div className="form-group">
               <label className="form-label">Language</label>
               <select className="form-select" value={form.language} onChange={e => update('language', e.target.value)}>
                 {TRADE_CONFIG.languages.map(l => <option key={l}>{l}</option>)}
-              </select>
-            </div>
-            <div className="form-group">
-              <label className="form-label">Target country</label>
-              <select className="form-select" value={form.target_country} onChange={e => update('target_country', e.target.value)}>
-                {TRADE_CONFIG.countries.map(c => <option key={c}>{c}</option>)}
               </select>
             </div>
             <div className="form-group">
@@ -233,7 +227,12 @@ export default function EditListing() {
               </select>
             </div>
           </div>
-
+          <div className="form-group">
+            <label className="form-label">Target country</label>
+            <select className="form-select" value={form.target_country} onChange={e => update('target_country', e.target.value)}>
+              {TRADE_CONFIG.countries.map(c => <option key={c}>{c}</option>)}
+            </select>
+          </div>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
             <div className="form-group">
               <label className="form-label">Country / Location</label>
