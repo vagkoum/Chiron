@@ -168,7 +168,7 @@ async function toggleFavorite() {
           <img
             src="/heart-icon.png"
             alt="Favorite"
-            style={{ width: '18px', height: '18px', objectFit: 'contain', filter: isFavorite ? 'none' : 'grayscale(100%)' }}
+            style={{ width: '22px', height: '22px', objectFit: 'contain', filter: isFavorite ? 'none' : 'grayscale(100%)' }}
           />
           {isFavorite ? 'Saved' : 'Save'}
         </button>
