@@ -251,6 +251,8 @@ export function DealPanel({ threadId, listingId, otherUserId, otherUserName }) {
       .select().single()
     setDeal(data)
     await updateTrustScore(user.id, 'DISPUTE_INITIATED')
+    const otherPartyId = user.id === deal.proposer_id ? deal.receiver_id : deal.proposer_id
+    await postDealUpdate(threadId, user.id, otherPartyId, '⚠️ The deal has been disputed.')
     setSubmitting(false)
   }
 
