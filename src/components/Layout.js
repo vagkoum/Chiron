@@ -104,7 +104,8 @@ export default function Layout() {
                 {pendingDeals > 0 && <span className="nav-badge">{pendingDeals}</span>}
              </NavLink>
              <NavLink to="/favorites" className={({ isActive }) => 'nav-link' + (isActive ? ' active' : '')}>
-               <span>❤️ Favorites</span>
+               <img src="/heart-icon.png" alt="" style={{ width: '16px', height: '16px', objectFit: 'contain', marginRight: '4px', verticalAlign: '-3px' }} />
+               <span>Favorites</span>
              </NavLink>
             </>
           )}
