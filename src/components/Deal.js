@@ -310,6 +310,16 @@ export function DealPanel({ threadId, listingId, otherUserId, otherUserName }) {
             </div>
           )}
 
+          {deal.status === 'proposed' && (() => {
+            const deadline = new Date(new Date(deal.created_at).getTime() + 48 * 60 * 60 * 1000)
+            const hoursLeft = Math.max(0, Math.ceil((deadline - new Date()) / (1000 * 60 * 60)))
+            return (
+              <div style={{ fontSize: '11px', color: '#92400e', marginBottom: '6px' }}>
+                ⏱ Expires in {hoursLeft} hour{hoursLeft !== 1 ? 's' : ''} if there's no response
+              </div>
+            )
+          })()}
+
           {deal.status === 'proposed' && isProposer && (
             <div style={{ fontSize: '12px', color: 'var(--text-muted)' }}>Waiting for {otherUserName} to respond…</div>
           )}
