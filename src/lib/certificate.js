@@ -60,8 +60,13 @@ export function generateCertificate({
     .corner-tr { top: 12px; right: 12px; border-width: 3px 3px 0 0; }
     .corner-bl { bottom: 12px; left: 12px; border-width: 0 0 3px 3px; }
     .corner-br { bottom: 12px; right: 12px; border-width: 0 3px 3px 0; }
-    .header { text-align: center; margin-bottom: 1.5rem; }
-    .logo-img { height: 72px; width: auto; object-fit: contain; margin-bottom: 8px; }
+    .header {
+      text-align: center;
+      margin: 0 -3rem 1.5rem;
+      padding: 1.75rem 3rem 1rem;
+      background: #f0e4cc;
+    }
+    .logo-img { height: 76px; width: auto; object-fit: contain; }
     .subtitle { font-size: 11px; color: #6b6b6b; letter-spacing: 3px; text-transform: uppercase; margin-top: 4px; }
     .divider { border: none; border-top: 1px solid #0F6E56; margin: 1.5rem 0; opacity: 0.2; }
     .cert-title { text-align: center; font-size: 22px; color: #143d33; margin-bottom: 0.5rem; font-style: italic; }
