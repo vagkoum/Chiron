@@ -66,18 +66,20 @@ export default function Admin() {
     setLoadingData(false)
   }
 
-  async function deleteListing(id) {
-    if (!window.confirm('Delete this listing?')) return
-    await supabase.from('listings').delete().eq('id', id)
-    setListings(ls => ls.filter(l => l.id !== id))
+  async function toggleBanUser(id, banned) {
+    const verb = banned ? 'unban' : 'ban'
+    if (!window.confirm(`Are you sure you want to ${verb} this user? Their deals, NDAs, and exchange history are preserved either way.`)) return
+    await supabase.from('profiles').update({ banned: !banned }).eq('id', id)
+    setUsers(us => us.map(u => u.id === id ? { ...u, banned: !banned } : u))
   }
 
-  async function deleteUser(id) {
-    if (!window.confirm('Delete this user and all their data?')) return
-    await supabase.from('profiles').delete().eq('id', id)
-    setUsers(us => us.filter(u => u.id !== id))
+  async function toggleRemoveListing(id, removed) {
+    const verb = removed ? 'restore' : 'remove'
+    if (!window.confirm(`Are you sure you want to ${verb} this listing? Deals and history are preserved either way.`)) return
+    await supabase.from('listings').update({ removed: !removed }).eq('id', id)
+    setListings(ls => ls.map(l => l.id === id ? { ...l, removed: !removed } : l))
   }
-
+  
   async function resolveReport(id, status) {
     await supabase.from('reports').update({ status }).eq('id', id)
     setReports(rs => rs.map(r => r.id === id ? { ...r, status } : r))
