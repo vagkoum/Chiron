@@ -27,6 +27,8 @@ export function DealPanel({ threadId, listingId, otherUserId, otherUserName }) {
   }, [threadId])
 
   async function loadDeal() {
+    await supabase.rpc('expire_stale_proposals')
+
     const { data: activeData } = await supabase
       .from('deals')
       .select('*, proposer:profiles!deals_proposer_id_fkey(full_name), receiver:profiles!deals_receiver_id_fkey(full_name)')
