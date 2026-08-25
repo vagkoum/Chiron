@@ -245,7 +245,11 @@ async function toggleFavorite() {
 
       <div className="card" style={{ marginBottom: '14px' }}>
         <div style={{ display: 'flex', gap: '14px', alignItems: 'center', marginBottom: '1rem' }}>
-          <div className="avatar avatar-lg">{initials}</div>
+          {listing.profiles?.avatar_url ? (
+            <img src={listing.profiles.avatar_url} alt="" className="avatar avatar-lg" style={{ objectFit: 'cover' }} />
+          ) : (
+            <div className="avatar avatar-lg">{initials}</div>
+          )}
           <div>
             <div
               style={{ fontWeight: 600, fontSize: '16px', cursor: 'pointer', color: '#0F6E56' }}
