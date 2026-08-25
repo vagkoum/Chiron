@@ -65,7 +65,11 @@ export default function PublicProfile() {
 
       <div className="card" style={{ marginBottom: '14px' }}>
         <div style={{ display: 'flex', gap: '14px', alignItems: 'center', marginBottom: '1rem' }}>
-          <div className="avatar avatar-lg">{initials}</div>
+          {profile.avatar_url ? (
+            <img src={profile.avatar_url} alt="" className="avatar avatar-lg" style={{ objectFit: 'cover' }} />
+          ) : (
+            <div className="avatar avatar-lg">{initials}</div>
+          )}
           <div>
             <div style={{ fontWeight: 600, fontSize: '16px' }}>{profile.full_name || 'Anonymous'}</div>
             {profile.company && (
