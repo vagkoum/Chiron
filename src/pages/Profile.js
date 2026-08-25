@@ -128,6 +128,28 @@ useEffect(() => {
     setTimeout(() => setSaved(false), 2000)
   }
 
+  async function handleAvatarUpload(e) {
+  const file = e.target.files[0]
+  if (!file) return
+  if (!file.type.startsWith('image/')) { alert('Please choose an image file.'); return }
+  if (file.size > 2 * 1024 * 1024) { alert('Image must be under 2MB.'); return }
+
+  const ext = file.name.split('.').pop()
+  const path = `${user.id}/avatar.${ext}`
+
+  const { error: uploadError } = await supabase.storage
+    .from('avatars')
+    .upload(path, file, { upsert: true })
+
+  if (uploadError) { alert('Upload failed: ' + uploadError.message); return }
+
+  const { data: urlData } = supabase.storage.from('avatars').getPublicUrl(path)
+  const avatarUrl = `${urlData.publicUrl}?t=${Date.now()}` // cache-bust so the new image shows immediately
+
+  await supabase.from('profiles').update({ avatar_url: avatarUrl }).eq('id', user.id)
+  updateProfile({ avatar_url: avatarUrl })
+}
+
   async function repostListing(id) {
     if (!window.confirm('Repost this listing to Browse? It will become publicly visible and available for new offers.')) return
     const now = new Date().toISOString()
