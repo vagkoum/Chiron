@@ -117,7 +117,11 @@ export default function Layout() {
               </button>
               <NavLink to="/profile">
                 {profile?.avatar_url ? (
-                  <img src={profile.avatar_url} alt="" className="nav-avatar" style={{ objectFit: 'cover' }} />
+                  <img
+                    src={profile.avatar_url}
+                    alt=""
+                    style={{ width: '38px', height: '38px', borderRadius: '50%', objectFit: 'cover', display: 'block' }}
+                  />
                 ) : (
                   <button className="nav-avatar">{initials}</button>
                 )}
