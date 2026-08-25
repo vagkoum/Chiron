@@ -24,6 +24,17 @@ export default function ListingDetail() {
   const [isFavorite, setIsFavorite] = useState(false)
 
   useEffect(() => {
+  if (!user || !listing) return
+  supabase
+    .from('favorites')
+    .select('user_id')
+    .eq('user_id', user.id)
+    .eq('listing_id', listing.id)
+    .maybeSingle()
+    .then(({ data }) => setIsFavorite(!!data))
+}, [user, listing])
+
+  useEffect(() => {
     if (!listing || !user || user.id === listing.user_id) return
     supabase
       .from('listing_ownership_history')
