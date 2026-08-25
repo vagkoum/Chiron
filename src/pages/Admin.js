@@ -232,7 +232,12 @@ export default function Admin() {
                     <button className="btn btn-outline btn-sm" onClick={() => toggleListing(l.id, l.active)}>
                       {l.active ? 'Pause' : 'Activate'}
                     </button>
-                    <button className="btn btn-danger btn-sm" onClick={() => deleteListing(l.id)}>Delete</button>
+                    <button
+                      className={l.removed ? 'btn btn-outline btn-sm' : 'btn btn-danger btn-sm'}
+                      onClick={() => toggleRemoveListing(l.id, l.removed)}
+                    >
+                      {l.removed ? 'Restore' : 'Remove'}
+                    </button>
                   </td>
                 </tr>
               ))}
