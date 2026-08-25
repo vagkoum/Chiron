@@ -147,7 +147,7 @@ export function NDAModal({ listing, onAgreed, onCancel }) {
               disabled={!agreed || loading}
               style={{ flex: 1, justifyContent: 'center' }}
             >
-              {loading ? 'Recording agreement…' : '✓ I agree — Continue to contact'}
+              {loading ? 'Recording agreement…' : isReturning ? '✓ I agree — Sign new agreement' : '✓ I agree — Continue to contact'}
             </button>
             <button className="btn btn-outline" onClick={onCancel}>
               Cancel
