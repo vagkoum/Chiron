@@ -271,7 +271,7 @@ export default function Admin() {
                 <div style={{ display: 'flex', gap: '6px' }}>
                   <button className="btn btn-outline btn-sm" onClick={() => resolveReport(r.id, 'resolved')}>Mark resolved</button>
                   <button className="btn btn-outline btn-sm" onClick={() => resolveReport(r.id, 'dismissed')}>Dismiss</button>
-                  <button className="btn btn-danger btn-sm" onClick={() => deleteUser(r.reported_user_id)}>Ban reported user</button>
+                  <button className="btn btn-danger btn-sm" onClick={() => toggleBanUser(r.reported_user_id, false)}>Ban reported user</button>
                 </div>
               )}
             </div>
