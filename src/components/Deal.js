@@ -137,7 +137,7 @@ export function DealPanel({ threadId, listingId, otherUserId, otherUserName }) {
     setShowPropose(false)
     setTerms('')
     await updateTrustScore(user.id, 'DEAL_STARTED')
-    await postDealUpdate(threadId, user.id, otherUserId, '📋 A new deal was proposed.')
+    await postDealUpdate(threadId, user.id, otherUserId, '📋 A new deal was proposed. It will automatically expire in 48 hours if there is no response.')
     window.dispatchEvent(new Event('deals-updated'))
     setSubmitting(false)
   }
