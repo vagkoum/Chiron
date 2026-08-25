@@ -118,7 +118,8 @@ export default function ListingDetail() {
 
   function handleContactClick() {
     if (!user) { navigate('/login'); return }
-    if (hasThread) {
+    const hasCurrentAccess = accessStatus === 'granted' || accessStatus === 'pending' || accessStatus === 'denied'
+    if (hasThread && hasCurrentAccess) {
       openConversation()
     } else {
       setShowNDA(true)
