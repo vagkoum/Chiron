@@ -118,6 +118,9 @@ export default function EditListing() {
         ⚠️ <strong>Important:</strong> Do not reveal critical details in your public description. Keep key details in the private section.
       </div>
       <div style={{ background: '#e6f1fb', border: '1px solid #85B7EB', borderRadius: '8px', padding: '12px 14px', fontSize: '13px', color: '#0c447c', marginBottom: '1.5rem' }}>
+        💡 <strong>Tip:</strong> if your idea isn't protected yet, it's worth looking into copyright, a patent, or keeping key parts as a trade secret before sharing more widely — whichever fits what you're offering.
+      </div>
+      <div style={{ background: '#e6f1fb', border: '1px solid #85B7EB', borderRadius: '8px', padding: '12px 14px', fontSize: '13px', color: '#0c447c', marginBottom: '1.5rem' }}>
         💡 <strong>Reminder:</strong> if you haven't already, consider protecting your idea — through copyright, a patent application, or as a trade secret — before disclosing further details.
       </div>
 
