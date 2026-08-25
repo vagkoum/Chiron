@@ -11,6 +11,7 @@ export default function Profile() {
   const [saving, setSaving] = useState(false)
   const [saved, setSaved] = useState(false)
   const [stats, setStats] = useState({ ideasExchanged: 0, originalIdeasExchanged: 0 })
+  const [exchangeHistory, setExchangeHistory] = useState([])
 
 useEffect(() => {
   if (!user) return
