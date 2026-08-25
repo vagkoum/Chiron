@@ -155,11 +155,22 @@ async function handleDeleteAccount() {
       <h1 style={{ fontSize: '20px', fontWeight: 600, marginBottom: '1.5rem' }}>Your profile</h1>
 
       <div className="card" style={{ marginBottom: '14px' }}>
-        <div style={{ display: 'flex', gap: '14px', alignItems: 'center', marginBottom: '1.5rem' }}>
+        <div style={{ display: 'flex', gap: '14px', alignItems: 'center', marginBottom: '1rem' }}>
           <div className="avatar avatar-lg">{initials}</div>
           <div>
             <div style={{ fontWeight: 600 }}>{form.full_name || 'Your name'}</div>
             <div style={{ fontSize: '13px', color: 'var(--text-muted)' }}>{user.email}</div>
+          </div>
+        </div>
+
+        <div style={{ display: 'flex', gap: '10px', marginBottom: '1.5rem' }}>
+          <div style={{ flex: 1, textAlign: 'center', background: 'var(--bg)', borderRadius: '8px', padding: '10px' }}>
+            <div style={{ fontSize: '20px', fontWeight: 700, color: '#0F6E56' }}>{stats.ideasExchanged}</div>
+            <div style={{ fontSize: '11px', color: 'var(--text-muted)' }}>Ideas exchanged</div>
+          </div>
+          <div style={{ flex: 1, textAlign: 'center', background: 'var(--bg)', borderRadius: '8px', padding: '10px' }}>
+            <div style={{ fontSize: '20px', fontWeight: 700, color: '#0F6E56' }}>{stats.originalIdeasExchanged}</div>
+            <div style={{ fontSize: '11px', color: 'var(--text-muted)' }}>Original ideas exchanged</div>
           </div>
         </div>
 
