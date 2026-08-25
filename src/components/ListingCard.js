@@ -46,7 +46,7 @@ export default function ListingCard({ listing }) {
         <img
           src="/heart-icon.png"
           alt="Favorite"
-          style={{ width: '22px', height: '22px', objectFit: 'contain', filter: isFavorite ? 'none' : 'grayscale(100%)' }}
+          style={{ width: '26px', height: '26px', objectFit: 'contain', filter: isFavorite ? 'none' : 'grayscale(100%)' }}
         />
       </button>
       <div style={{ display: 'flex', gap: '10px', alignItems: 'flex-start' }}>
