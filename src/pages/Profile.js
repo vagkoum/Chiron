@@ -28,6 +28,7 @@ export default function Profile() {
       const ndaSigned = new Set()
       const failedDeal = new Set()
       const negotiating = new Set()
+      const dealBlocksEdit = new Set()
 
       if (ids.length > 0) {
         const { data: ndaData } = await supabase
