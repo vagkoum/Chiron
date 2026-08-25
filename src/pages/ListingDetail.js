@@ -81,7 +81,7 @@ export default function ListingDetail() {
   useEffect(() => {
     supabase
       .from('listings')
-      .select('*, profiles!listings_user_id_fkey(full_name, company, bio, location)')
+      .select('*, profiles!listings_user_id_fkey(full_name, company, bio, location, avatar_url)')
       .eq('id', id)
       .single()
       .then(({ data }) => { setListing(data); setLoading(false) })
