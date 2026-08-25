@@ -90,6 +90,20 @@ export function DealPanel({ threadId, listingId, otherUserId, otherUserName }) {
       setSubmitting(false)
       return
     }
+
+    const { data: existingActive } = await supabase
+      .from('deals')
+      .select('id')
+      .eq('listing_id', listingId)
+      .in('status', ['proposed', 'accepted', 'disputed'])
+      .maybeSingle()
+
+    if (existingActive) {
+      alert('This listing already has an active negotiation with another party. Please try again once it is resolved.')
+      setSubmitting(false)
+      return
+    }
+
     const { data, error } = await supabase.from('deals').insert({
       listing_id: listingId,
       proposer_id: user.id,
@@ -98,13 +112,20 @@ export function DealPanel({ threadId, listingId, otherUserId, otherUserName }) {
       terms: terms.trim(),
       status: 'proposed',
     }).select().single()
-    if (!error) {
-      setDeal(data)
-      setShowPropose(false)
-      setTerms('')
-      await updateTrustScore(user.id, 'DEAL_STARTED')
-      window.dispatchEvent(new Event('deals-updated'))
+
+    if (error) {
+      if (error.code === '23505') {
+        alert('Someone else just proposed a deal on this listing a moment ago. Please try again later.')
+      }
+      setSubmitting(false)
+      return
     }
+
+    setDeal(data)
+    setShowPropose(false)
+    setTerms('')
+    await updateTrustScore(user.id, 'DEAL_STARTED')
+    window.dispatchEvent(new Event('deals-updated'))
     setSubmitting(false)
   }
 
