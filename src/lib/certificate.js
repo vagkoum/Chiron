@@ -142,7 +142,7 @@ export function generateCertificate({
       </div>
       <div class="detail">
         <div class="detail-label">Exchange completed</div>
-        <div class="detail-value">${formatDate(soldAt)}</div>
+        <div class="detail-value">${formatDateTime(soldAt)}</div>
       </div>
     </div>
 
