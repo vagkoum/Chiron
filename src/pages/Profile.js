@@ -11,8 +11,32 @@ export default function Profile() {
   const [saving, setSaving] = useState(false)
   const [saved, setSaved] = useState(false)
   const [stats, setStats] = useState({ ideasExchanged: 0, originalIdeasExchanged: 0 })
+
+useEffect(() => {
+  if (!user) return
+  async function loadStats() {
+    const { count: ideasExchanged } = await supabase
+      .from('listing_ownership_history')
+      .select('id', { count: 'exact' })
+      .eq('seller_id', user.id)
+
+    const { count: originalIdeasExchanged } = await supabase
+      .from('listings')
+      .select('id', { count: 'exact' })
+      .eq('original_seller_id', user.id)
+      .neq('user_id', user.id)
+
+    setStats({
+      ideasExchanged: ideasExchanged || 0,
+      originalIdeasExchanged: originalIdeasExchanged || 0,
+    })
+  }
+  loadStats()
+  window.addEventListener('listings-updated', loadStats)
+  return () => window.removeEventListener('listings-updated', loadStats)
+}, [user])
   
-  useEffect(() => {
+useEffect(() => {
   if (profile) setForm({ full_name: profile.full_name || '', company: profile.company || '', bio: profile.bio || '', location: profile.location || '' })
 
     async function loadListings() {
