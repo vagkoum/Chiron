@@ -185,10 +185,10 @@ export default function NewListing() {
 
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
             <div className="form-group">
-              <label className="form-label">Country / Location</label>
+              <label className="form-label">Your location</label>
               <input
                 className="form-input"
-                placeholder="e.g. Greece, Remote"
+                placeholder="e.g. Athens, Greece or Remote"
                 value={form.location}
                 onChange={e => update('location', e.target.value)}
               />
