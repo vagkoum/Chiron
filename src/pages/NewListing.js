@@ -66,6 +66,9 @@ export default function NewListing() {
         ⚠️ <strong>Important:</strong> Do not reveal critical details in your public description. Share enough to attract interest — keep the key details for the private section below, which is only shown after a deal is agreed.
       </div>
       <div style={{ background: '#e6f1fb', border: '1px solid #85B7EB', borderRadius: '8px', padding: '12px 14px', fontSize: '13px', color: '#0c447c', marginBottom: '1.5rem' }}>
+        💡 <strong>Tip:</strong> if your idea isn't protected yet, it's worth looking into copyright, a patent, or keeping key parts as a trade secret before sharing more widely — whichever fits what you're offering.
+      </div>
+      <div style={{ background: '#e6f1fb', border: '1px solid #85B7EB', borderRadius: '8px', padding: '12px 14px', fontSize: '13px', color: '#0c447c', marginBottom: '1.5rem' }}>
         💡 <strong>Before you post:</strong> consider protecting your idea first — through copyright, a patent application, or simply keeping key details as a trade secret — depending on what you're sharing. Chiron does not verify or track any protection status, so this is entirely up to you to arrange independently.
       </div>
 
