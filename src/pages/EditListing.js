@@ -102,6 +102,8 @@ export default function EditListing() {
     .upsert({ listing_id: id, private_details: private_details || null }, { onConflict: 'listing_id' })
   if (pdErr) { setError(pdErr.message); setSaving(false); return }
 
+  await supabase.from('listing_edit_log').insert({ listing_id: id, editor_id: user.id })
+
   navigate('/profile')
 }
 
