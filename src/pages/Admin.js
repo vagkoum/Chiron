@@ -171,16 +171,16 @@ export default function Admin() {
                     <TrustBadge userId={u.id} />
                   </td>
                   <td style={{ padding: '10px 14px' }}>
-                    {u.id !== ADMIN_ID && (
-                      <button className="btn btn-danger btn-sm" onClick={() => deleteUser(u.id)}>Delete</button>
+                    {u.id !== ADMIN_ID ? (
+                      <button
+                        className={u.banned ? 'btn btn-outline btn-sm' : 'btn btn-danger btn-sm'}
+                        onClick={() => toggleBanUser(u.id, u.banned)}
+                      >
+                        {u.banned ? 'Unban' : 'Ban'}
+                      </button>
+                    ) : (
+                      <span style={{ color: 'var(--text-faint)', fontSize: '11px' }}>You</span>
                     )}
-                    {u.id === ADMIN_ID && <span style={{ color: 'var(--text-faint)', fontSize: '11px' }}>You</span>}
-                  </td>
-                  <td style={{ padding: '10px 14px' }}>
-                    {u.id !== ADMIN_ID && (
-                      <button className="btn btn-danger btn-sm" onClick={() => deleteUser(u.id)}>Delete</button>
-                    )}
-                    {u.id === ADMIN_ID && <span style={{ color: 'var(--text-faint)', fontSize: '11px' }}>You</span>}
                   </td>
                 </tr>
               ))}
