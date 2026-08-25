@@ -259,6 +259,11 @@ export default function ListingDetail() {
                 <div style={{ fontSize: '13px', color: '#991b1b' }}>🔒 The seller has not approved access to private details.</div>
               </div>
             )}
+            {!isOwn && accessStatus === 'revoked' && (
+              <div style={{ background: '#fee2e2', border: '1px dashed #dc2626', borderRadius: '8px', padding: '12px 14px', textAlign: 'center' }}>
+                <div style={{ fontSize: '13px', color: '#991b1b' }}>🔒 Your access was revoked after the deal ended. Sign a new NDA to request access again.</div>
+              </div>
+            )}
           </div>
         )}
         {listing.seek_description && (
