@@ -229,7 +229,7 @@ export default function ListingDetail() {
           {listing.offer_title}
           {pastOwnerRole && (
             <span style={{ marginLeft: '8px', fontSize: '11px', fontWeight: 600, padding: '3px 10px', borderRadius: '20px', background: '#e6f1fb', color: '#0c447c' }}>
-              🕓 You previously {pastOwnerRole === 'seller' ? 'owned' : 'purchased'} this listing
+              🕓 You previously {pastOwnerRole === 'seller' ? 'owned' : 'acquired'} this listing
             </span>
           )}
         </h2>
