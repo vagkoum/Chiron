@@ -78,7 +78,9 @@ export function NDAModal({ listing, onAgreed, onCancel }) {
             <h2 style={{ fontSize: '16px', fontWeight: 600 }}>Non-Disclosure Agreement</h2>
           </div>
           <p style={{ fontSize: '13px', color: 'var(--text-muted)' }}>
-            You must agree to the following terms before contacting this user.
+            {isReturning
+              ? 'This listing has changed ownership or been updated since you last agreed to its terms. A new agreement is required to view current private details and reach out again.'
+              : 'You must agree to the following terms before contacting this user.'}
           </p>
         </div>
 
