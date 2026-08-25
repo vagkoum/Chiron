@@ -276,6 +276,34 @@ async function handleDeleteAccount() {
         </div>
       )}
 
+      {exchangeHistory.length > 0 && (
+        <>
+          <div className="section-header">
+            <h2 className="section-title">Exchange history</h2>
+          </div>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', marginBottom: '2rem' }}>
+            {exchangeHistory.map(h => (
+              <div key={h.id} className="card" style={{ padding: '12px 14px', cursor: 'default' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: '10px' }}>
+                  <div style={{ fontWeight: 500, fontSize: '14px' }}>{h.listing?.offer_title || '—'}</div>
+                  <div style={{ fontSize: '11px', color: 'var(--text-faint)', whiteSpace: 'nowrap' }}>
+                    {new Date(h.transferred_at).toLocaleString('en-GB', { day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' })}
+                  </div>
+                </div>
+                <div style={{ fontSize: '12px', color: 'var(--text-muted)', marginTop: '4px' }}>
+                  Exchanged with <strong>{h.buyer?.full_name || 'Unknown'}</strong>
+                </div>
+                {h.deal?.terms && (
+                  <div style={{ fontSize: '12px', color: 'var(--text-muted)', marginTop: '6px', fontStyle: 'italic' }}>
+                    "{h.deal.terms}"
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+        </>
+      )}
+
       <hr className="divider" />
       <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
         <button className="btn btn-outline btn-sm" onClick={handleSignOut} style={{ color: 'var(--text-muted)' }}>
