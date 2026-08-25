@@ -137,6 +137,7 @@ export function DealPanel({ threadId, listingId, otherUserId, otherUserName }) {
     setShowPropose(false)
     setTerms('')
     await updateTrustScore(user.id, 'DEAL_STARTED')
+    await postDealUpdate(threadId, user.id, otherUserId, '📋 A new deal was proposed.')
     window.dispatchEvent(new Event('deals-updated'))
     setSubmitting(false)
   }
