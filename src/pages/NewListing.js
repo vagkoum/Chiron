@@ -65,6 +65,9 @@ export default function NewListing() {
       <div style={{ background: '#fef3c7', border: '1px solid #f59e0b', borderRadius: '8px', padding: '12px 14px', fontSize: '13px', color: '#92400e', marginBottom: '1.5rem' }}>
         ⚠️ <strong>Important:</strong> Do not reveal critical details in your public description. Share enough to attract interest — keep the key details for the private section below, which is only shown after a deal is agreed.
       </div>
+      <div style={{ background: '#e6f1fb', border: '1px solid #85B7EB', borderRadius: '8px', padding: '12px 14px', fontSize: '13px', color: '#0c447c', marginBottom: '1.5rem' }}>
+        💡 <strong>Before you post:</strong> consider protecting your idea first — through copyright, a patent application, or simply keeping key details as a trade secret — depending on what you're sharing. Chiron does not verify or track any protection status, so this is entirely up to you to arrange independently.
+      </div>
 
       <form onSubmit={handleSubmit}>
         <div className="card" style={{ display: 'flex', flexDirection: 'column', gap: 0 }}>
