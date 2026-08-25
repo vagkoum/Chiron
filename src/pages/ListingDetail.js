@@ -130,6 +130,18 @@ export default function ListingDetail() {
     }
   }
 
+async function toggleFavorite() {
+  if (!user) { navigate('/login'); return }
+  if (isFavorite) {
+    await supabase.from('favorites').delete().eq('user_id', user.id).eq('listing_id', listing.id)
+    setIsFavorite(false)
+  } else {
+    await supabase.from('favorites').insert({ user_id: user.id, listing_id: listing.id })
+    setIsFavorite(true)
+  }
+  window.dispatchEvent(new Event('favorites-updated'))
+}
+
   function handleContactClick() {
     if (!user) { navigate('/login'); return }
     const hasCurrentAccess = accessStatus === 'granted' || accessStatus === 'pending' || accessStatus === 'denied'
