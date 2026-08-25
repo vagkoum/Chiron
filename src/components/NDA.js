@@ -190,19 +190,50 @@ export function AccessRequestPanel({ listingId, listingOwnerId, otherUserId, isO
   if (loading || !ndaRecord) return null
 
   if (isOwner) {
-    if (ndaRecord.access_status !== 'pending') return null
-    return (
-      <div style={{ borderTop: '1px solid var(--border)', padding: '12px 14px', background: '#fef9f0' }}>
-        <div style={{ fontSize: '13px', fontWeight: 600, marginBottom: '6px' }}>🔒 Access request</div>
-        <div style={{ fontSize: '12px', color: 'var(--text-muted)', marginBottom: '8px' }}>
-          This user signed the NDA and is requesting access to your private details.
+    if (ndaRecord.access_status === 'pending') {
+      return (
+        <div style={{ borderTop: '1px solid var(--border)', padding: '12px 14px', background: '#fef9f0' }}>
+          <div style={{ fontSize: '13px', fontWeight: 600, marginBottom: '6px' }}>🔒 Access request</div>
+          <div style={{ fontSize: '12px', color: 'var(--text-muted)', marginBottom: '8px' }}>
+            This user signed the NDA and is requesting access to your private details.
+          </div>
+          <div style={{ display: 'flex', gap: '8px' }}>
+            <button className="btn btn-primary btn-sm" onClick={() => respond(true)} disabled={submitting}>✓ Grant access</button>
+            <button className="btn btn-outline btn-sm" onClick={() => respond(false)} disabled={submitting}>✗ Deny</button>
+          </div>
         </div>
-        <div style={{ display: 'flex', gap: '8px' }}>
-          <button className="btn btn-primary btn-sm" onClick={() => respond(true)} disabled={submitting}>✓ Grant access</button>
-          <button className="btn btn-outline btn-sm" onClick={() => respond(false)} disabled={submitting}>✗ Deny</button>
+      )
+    }
+    if (ndaRecord.access_status === 'denied') {
+      return (
+        <div style={{ borderTop: '1px solid var(--border)', padding: '12px 14px', background: '#fee2e2' }}>
+          <div style={{ fontSize: '12px', color: '#991b1b', marginBottom: '8px' }}>
+            🔒 You denied this user access to your private details.
+          </div>
+          <button
+            className="btn btn-outline btn-sm"
+            onClick={() => {
+              if (window.confirm('Grant this user access to your private details? This cannot be undone once granted.')) {
+                respond(true)
+              }
+            }}
+            disabled={submitting}
+          >
+            ✓ Grant access instead
+          </button>
         </div>
-      </div>
-    )
+      )
+    }
+    if (ndaRecord.access_status === 'granted') {
+      return (
+        <div style={{ borderTop: '1px solid var(--border)', padding: '12px 14px', background: '#f0fdf4' }}>
+          <div style={{ fontSize: '12px', color: '#166534' }}>
+            🔒 You granted this user access to your private details. This cannot be undone.
+          </div>
+        </div>
+      )
+    }
+    return null
   }
 
   if (ndaRecord.access_status === 'pending') {
