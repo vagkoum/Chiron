@@ -264,6 +264,8 @@ export function DealPanel({ threadId, listingId, otherUserId, otherUserName }) {
       .eq('id', deal.id)
       .select().single()
     setDeal(null)
+    const otherPartyId = user.id === deal.proposer_id ? deal.receiver_id : deal.proposer_id
+    await postDealUpdate(threadId, user.id, otherPartyId, '🔓 The disputed listing has been released and is available again.')
     setSubmitting(false)
   }
 
