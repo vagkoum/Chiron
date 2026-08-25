@@ -64,7 +64,7 @@ export function generateCertificate({
       text-align: center;
       margin: 0 -3rem 1.5rem;
       padding: 1.75rem 3rem 1rem;
-      background: #f0e4cc;
+      background: #EFDFC6;
     }
     .logo-img { height: 76px; width: auto; object-fit: contain; }
     .subtitle { font-size: 11px; color: #6b6b6b; letter-spacing: 3px; text-transform: uppercase; margin-top: 4px; }
