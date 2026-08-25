@@ -118,6 +118,8 @@ export function DealPanel({ threadId, listingId, otherUserId, otherUserName }) {
     setDeal(accept ? data : null)
     if (!accept) {
       await updateTrustScore(deal.proposer_id, 'DEAL_ENDED')
+      await supabase.rpc('revoke_access_on_decline', { p_deal_id: deal.id })
+      window.dispatchEvent(new Event('access-requests-updated'))
     }
     window.dispatchEvent(new Event('deals-updated'))
     setSubmitting(false)
