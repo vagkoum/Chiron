@@ -223,7 +223,7 @@ export function AccessRequestPanel({ listingId, listingOwnerId, otherUserId, isO
           <button
             className="btn btn-outline btn-sm"
             onClick={() => {
-              if (window.confirm('Grant this user access to your private details? This cannot be undone once granted.')) {
+              if (window.confirm('Grant this user access to your private details? This cannot be undone, and you will no longer be able to edit this listing once access is granted.')) {
                 respond(true)
               }
             }}
