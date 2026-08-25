@@ -7,6 +7,7 @@ export function NDAModal({ listing, onAgreed, onCancel }) {
   const [agreed, setAgreed] = useState(false)
   const [loading, setLoading] = useState(false)
   const [alreadySigned, setAlreadySigned] = useState(false)
+  const [isReturning, setIsReturning] = useState(false)
 
   const listingOwnerName = listing.profiles?.full_name || 'the listing owner'
   const today = new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })
