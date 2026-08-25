@@ -337,6 +337,12 @@ export function DealPanel({ threadId, listingId, otherUserId, otherUserName }) {
               <button className="btn btn-outline btn-sm" onClick={() => { setDeal(null); setShowPropose(true) }}>Propose new deal</button>
             </div>
           )}
+          {deal.status === 'completed' && (
+            <div style={{ marginTop: '10px', paddingTop: '10px', borderTop: '1px solid var(--border)', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+              <span style={{ fontSize: '12px', color: 'var(--text-muted)' }}>Want to negotiate again on this listing?</span>
+              <button className="btn btn-outline btn-sm" onClick={() => { setDeal(null); setShowPropose(true) }}>Propose new deal</button>
+            </div>
+          )}
         </div>
       )}
     </div>
