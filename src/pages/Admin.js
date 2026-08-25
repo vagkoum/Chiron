@@ -5,7 +5,6 @@ import { supabase } from '../lib/supabase'
 import { useAuth } from '../lib/AuthContext'
 
 const ADMIN_ID = '60c0540e-5c06-4204-b0ec-f216905d0754'
-
 export default function Admin() {
   const { user, loading } = useAuth()
   const navigate = useNavigate()
