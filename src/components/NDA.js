@@ -23,7 +23,9 @@ export function NDAModal({ listing, onAgreed, onCancel }) {
       .limit(1)
       .maybeSingle()
       .then(({ data }) => {
-        if (data && listing.owner_since && new Date(data.agreed_at) > new Date(listing.owner_since)) {
+        if (!data) return
+        setIsReturning(true)
+        if (listing.owner_since && new Date(data.agreed_at) > new Date(listing.owner_since)) {
           setAlreadySigned(true)
           onAgreed()
         }
