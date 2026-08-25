@@ -166,8 +166,10 @@ export function ReviewList({ reviewedId }) {
             <div key={r.id} className="card" style={{ padding: '12px 14px' }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '6px' }}>
                 <div
-                  style={{ fontWeight: 500, fontSize: '13px', cursor: 'pointer' }}
+                  style={{ fontWeight: 500, fontSize: '13px', cursor: 'pointer', color: '#0F6E56' }}
                   onClick={() => navigate(`/profile/${r.reviewer_id}`)}
+                  onMouseEnter={e => e.currentTarget.style.textDecoration = 'underline'}
+                  onMouseLeave={e => e.currentTarget.style.textDecoration = 'none'}
                 >
                   {r.profiles?.full_name || 'Anonymous'}
                 </div>
