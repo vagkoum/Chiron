@@ -16,6 +16,7 @@ const STATUS_LABELS = {
 export function DealPanel({ threadId, listingId, otherUserId, otherUserName }) {
   const { user } = useAuth()
   const [deal, setDeal] = useState(null)
+  const [completedDeals, setCompletedDeals] = useState([])
   const [loading, setLoading] = useState(true)
   const [showPropose, setShowPropose] = useState(false)
   const [terms, setTerms] = useState('')
@@ -26,15 +27,58 @@ export function DealPanel({ threadId, listingId, otherUserId, otherUserName }) {
   }, [threadId])
 
   async function loadDeal() {
-    const { data } = await supabase
+    const { data: activeData } = await supabase
       .from('deals')
       .select('*, proposer:profiles!deals_proposer_id_fkey(full_name), receiver:profiles!deals_receiver_id_fkey(full_name)')
       .eq('thread_id', threadId)
+      .in('status', ['proposed', 'accepted', 'disputed'])
       .order('created_at', { ascending: false })
       .limit(1)
-      .single()
-    setDeal(data || null)
+      .maybeSingle()
+    setDeal(activeData || null)
+
+    const { data: completedData } = await supabase
+      .from('deals')
+      .select('*, proposer:profiles!deals_proposer_id_fkey(full_name), receiver:profiles!deals_receiver_id_fkey(full_name)')
+      .eq('thread_id', threadId)
+      .eq('status', 'completed')
+      .order('updated_at', { ascending: false })
+    setCompletedDeals(completedData || [])
+
     setLoading(false)
+  }
+
+  async function viewCertificateFor(completedDeal) {
+    const { data: listingData } = await supabase
+      .from('listings')
+      .select('*')
+      .eq('id', completedDeal.listing_id)
+      .single()
+    const { data: historyRow } = await supabase
+      .from('listing_ownership_history')
+      .select('seller_id, buyer_id')
+      .eq('deal_id', completedDeal.id)
+      .single()
+    const { data: sellerProfile } = await supabase
+      .from('profiles')
+      .select('full_name')
+      .eq('id', historyRow?.seller_id)
+      .single()
+    const { data: buyerProfile } = await supabase
+      .from('profiles')
+      .select('full_name')
+      .eq('id', historyRow?.buyer_id)
+      .single()
+    openCertificate({
+      certId: completedDeal.sold_certificate_id || listingData?.sold_certificate_id || '—',
+      listingTitle: listingData?.offer_title || '—',
+      sellerName: sellerProfile?.full_name || '—',
+      buyerName: buyerProfile?.full_name || '—',
+      buyerAnonymous: false,
+      submittedAt: listingData?.submitted_at,
+      soldAt: completedDeal.updated_at,
+      category: listingData?.category,
+    })
   }
 
   async function proposeDeal() {
@@ -71,7 +115,7 @@ export function DealPanel({ threadId, listingId, otherUserId, otherUserName }) {
       .update({ status: accept ? 'accepted' : 'declined', updated_at: new Date().toISOString() })
       .eq('id', deal.id)
       .select().single()
-    setDeal(data)
+    setDeal(accept ? data : null)
     if (!accept) {
       await updateTrustScore(deal.proposer_id, 'DEAL_ENDED')
     }
@@ -105,6 +149,8 @@ export function DealPanel({ threadId, listingId, otherUserId, otherUserName }) {
 
       await updateTrustScore(deal.proposer_id, 'DEAL_COMPLETED')
       await updateTrustScore(deal.receiver_id, 'DEAL_COMPLETED')
+
+      await loadDeal()
 
       const { data: listingData } = await supabase
         .from('listings')
@@ -143,7 +189,6 @@ export function DealPanel({ threadId, listingId, otherUserId, otherUserName }) {
     }
     setSubmitting(false)
   }
-      
 
   async function disputeDeal() {
     if (!window.confirm('Are you sure you want to dispute this deal? The listing will be locked for 48 hours before being freed. This action cannot be undone.')) return
@@ -169,7 +214,7 @@ export function DealPanel({ threadId, listingId, otherUserId, otherUserName }) {
       .update({ status: 'released', updated_at: new Date().toISOString() })
       .eq('id', deal.id)
       .select().single()
-    setDeal(data)
+    setDeal(null)
     setSubmitting(false)
   }
 
@@ -267,51 +312,6 @@ export function DealPanel({ threadId, listingId, otherUserId, otherUserName }) {
             </div>
           )}
 
-          {deal.status === 'completed' && (
-            <div>
-              <div style={{ fontSize: '12px', color: '#0F6E56', fontWeight: 500, marginBottom: '8px' }}>
-                🎉 Deal completed! You can now leave a review for {otherUserName}.
-              </div>
-              <button
-                className="btn btn-outline btn-sm"
-                                onClick={async () => {
-                  const { data: listingData } = await supabase
-                    .from('listings')
-                    .select('*')
-                    .eq('id', deal.listing_id)
-                    .single()
-                  const { data: historyRow } = await supabase
-                    .from('listing_ownership_history')
-                    .select('seller_id, buyer_id')
-                    .eq('deal_id', deal.id)
-                    .single()
-                  const { data: sellerProfile } = await supabase
-                    .from('profiles')
-                    .select('full_name')
-                    .eq('id', historyRow?.seller_id)
-                    .single()
-                  const { data: buyerProfile } = await supabase
-                    .from('profiles')
-                    .select('full_name')
-                    .eq('id', historyRow?.buyer_id)
-                    .single()
-                  openCertificate({
-                    certId: listingData?.sold_certificate_id || '—',
-                    listingTitle: listingData?.offer_title || '—',
-                    sellerName: sellerProfile?.full_name || '—',
-                    buyerName: buyerProfile?.full_name || '—',
-                    buyerAnonymous: false,
-                    submittedAt: listingData?.submitted_at,
-                    soldAt: listingData?.sold_at,
-                    category: listingData?.category,
-                  })
-                }}
-              >
-                📄 View Certificate
-              </button>
-            </div>
-          )}
-
           {deal.status === 'disputed' && (() => {
             const disputedAt = deal.disputed_at ? new Date(deal.disputed_at) : new Date(deal.updated_at)
             const releaseTime = new Date(disputedAt.getTime() + 48 * 60 * 60 * 1000)
@@ -341,19 +341,26 @@ export function DealPanel({ threadId, listingId, otherUserId, otherUserName }) {
               </div>
             )
           })()}
+        </div>
+      )}
 
-          {deal.status === 'declined' && (
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-              <span style={{ fontSize: '12px', color: 'var(--text-muted)' }}>Deal was declined.</span>
-              <button className="btn btn-outline btn-sm" onClick={() => { setDeal(null); setShowPropose(true) }}>Propose new deal</button>
-            </div>
-          )}
-          {deal.status === 'completed' && (
-            <div style={{ marginTop: '10px', paddingTop: '10px', borderTop: '1px solid var(--border)', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-              <span style={{ fontSize: '12px', color: 'var(--text-muted)' }}>Want to negotiate again on this listing?</span>
-              <button className="btn btn-outline btn-sm" onClick={() => { setDeal(null); setShowPropose(true) }}>Propose new deal</button>
-            </div>
-          )}
+      {completedDeals.length > 0 && (
+        <div style={{ marginTop: deal ? '14px' : '0', paddingTop: deal ? '14px' : '0', borderTop: deal ? '1px solid var(--border)' : 'none' }}>
+          <div style={{ fontSize: '12px', fontWeight: 600, color: 'var(--text-muted)', marginBottom: '8px' }}>
+            📜 Past completed deals on this listing
+          </div>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
+            {completedDeals.map(cd => (
+              <div key={cd.id} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', fontSize: '12px', background: 'var(--bg-card)', border: '1px solid var(--border)', borderRadius: '8px', padding: '8px 10px' }}>
+                <span style={{ color: 'var(--text-muted)' }}>
+                  ✅ Completed {new Date(cd.updated_at).toLocaleDateString()}
+                </span>
+                <button className="btn btn-outline btn-sm" onClick={() => viewCertificateFor(cd)}>
+                  📄 View Certificate
+                </button>
+              </div>
+            ))}
+          </div>
         </div>
       )}
     </div>
