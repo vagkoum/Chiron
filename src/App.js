@@ -14,6 +14,7 @@ import Login from './pages/Login'
 import Register from './pages/Register'
 import Admin from './pages/Admin'
 import './styles.css'
+import PublicProfile from './pages/PublicProfile'
 
 function PrivateRoute({ children }) {
   const { user, loading } = useAuth()
@@ -30,6 +31,7 @@ export default function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/" element={<Layout />}>
+            <Route path="profile/:userId" element={<PublicProfile />} />
             <Route index element={<Home />} />
             <Route path="access-requests" element={<PrivateRoute><AccessRequests /></PrivateRoute>} />
             <Route path="browse" element={<Browse />} />
