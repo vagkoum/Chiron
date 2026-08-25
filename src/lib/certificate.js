@@ -44,9 +44,10 @@ export function generateCertificate({
       border-radius: 8px;
       max-width: 700px;
       width: 100%;
-      padding: 3rem;
+      padding: 0 3rem 3rem;
       position: relative;
       box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+      overflow: hidden;
     }
     .corner {
       position: absolute;
