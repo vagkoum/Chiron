@@ -116,7 +116,11 @@ export default function Layout() {
                 + Post listing
               </button>
               <NavLink to="/profile">
-                <button className="nav-avatar">{initials}</button>
+                {profile?.avatar_url ? (
+                  <img src={profile.avatar_url} alt="" className="nav-avatar" style={{ objectFit: 'cover' }} />
+                ) : (
+                  <button className="nav-avatar">{initials}</button>
+                )}
               </NavLink>
             </>
           ) : (
