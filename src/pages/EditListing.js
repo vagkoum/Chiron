@@ -42,6 +42,14 @@ export default function EditListing() {
             .eq('access_status', 'granted')
           const hasCurrentGrant = (ndaRows || []).some(n => new Date(n.agreed_at) > new Date(data.owner_since))
           if (hasCurrentGrant) { navigate('/profile'); return }
+
+          const { data: dealRows } = await supabase
+            .from('deals')
+            .select('updated_at, status')
+            .eq('listing_id', id)
+            .in('status', ['proposed', 'accepted', 'disputed'])
+          const hasBlockingDeal = (dealRows || []).some(d => new Date(d.updated_at) > new Date(data.owner_since))
+          if (hasBlockingDeal) { navigate('/profile'); return }
         }
 
         setForm(f => ({
