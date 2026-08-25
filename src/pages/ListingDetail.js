@@ -211,7 +211,12 @@ export default function ListingDetail() {
         <div style={{ display: 'flex', gap: '14px', alignItems: 'center', marginBottom: '1rem' }}>
           <div className="avatar avatar-lg">{initials}</div>
           <div>
-            <div style={{ fontWeight: 600, fontSize: '16px' }}>{name}</div>
+            <div
+              style={{ fontWeight: 600, fontSize: '16px', cursor: 'pointer' }}
+              onClick={() => navigate(`/profile/${listing.user_id}`)}
+            >
+              {name}
+            </div>
             {listing.profiles?.company && (
               <div style={{ fontSize: '13px', color: 'var(--text-muted)' }}>{listing.profiles.company}</div>
             )}
