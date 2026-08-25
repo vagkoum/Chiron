@@ -120,6 +120,7 @@ export function ReviewForm({ reviewedId, listingId, onSubmitted }) {
 }
 
 export function ReviewList({ reviewedId }) {
+  const navigate = useNavigate()
   const [reviews, setReviews] = useState([])
   const [loading, setLoading] = useState(true)
   const [avg, setAvg] = useState(0)
