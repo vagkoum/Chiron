@@ -12,7 +12,12 @@ export default function ListingCard({ listing }) {
       <div style={{ display: 'flex', gap: '10px', alignItems: 'flex-start' }}>
         <div className="avatar">{initials}</div>
         <div style={{ flex: 1, minWidth: 0 }}>
-          <div style={{ fontWeight: 600, fontSize: '14px' }}>{name}</div>
+          <div
+            style={{ fontWeight: 600, fontSize: '14px', cursor: 'pointer' }}
+            onClick={e => { e.stopPropagation(); navigate(`/profile/${listing.user_id}`) }}
+          >
+            {name}
+          </div>
           <div style={{ fontSize: '12px', color: 'var(--text-muted)' }}>
             {listing.profiles?.company && `${listing.profiles.company} · `}
             {listing.location || 'Location not set'}
