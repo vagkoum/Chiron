@@ -159,6 +159,26 @@ export default function NewListing() {
               </select>
             </div>
           </div>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '12px' }}>
+            <div className="form-group">
+              <label className="form-label">Language</label>
+              <select className="form-select" value={form.language} onChange={e => update('language', e.target.value)}>
+                {TRADE_CONFIG.languages.map(l => <option key={l}>{l}</option>)}
+              </select>
+            </div>
+            <div className="form-group">
+              <label className="form-label">Target country</label>
+              <select className="form-select" value={form.target_country} onChange={e => update('target_country', e.target.value)}>
+                {TRADE_CONFIG.countries.map(c => <option key={c}>{c}</option>)}
+              </select>
+            </div>
+            <div className="form-group">
+              <label className="form-label">Target audience</label>
+              <select className="form-select" value={form.target_audience} onChange={e => update('target_audience', e.target.value)}>
+                {TRADE_CONFIG.audienceTypes.map(a => <option key={a}>{a}</option>)}
+              </select>
+            </div>
+          </div>
 
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
             <div className="form-group">
