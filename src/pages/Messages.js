@@ -107,6 +107,12 @@ export default function Messages() {
     if (!thread) return ''
     return thread.user1_id === user.id ? thread.user2_id : thread.user1_id
   }
+    function getOtherAvatar(thread) {
+    if (!thread) return null
+    return thread.user1_id === user.id
+      ? thread.user2?.avatar_url
+      : thread.user1?.avatar_url
+  }
 
   function getInitials(name) {
     return (name || '').split(' ').map(w => w[0]).join('').slice(0, 2).toUpperCase()
