@@ -32,8 +32,9 @@ export default function Profile() {
       if (ids.length > 0) {
         const { data: ndaData } = await supabase
           .from('nda_agreements')
-          .select('listing_id, agreed_at')
+          .select('listing_id, agreed_at, access_status')
           .in('listing_id', ids)
+          .eq('access_status', 'granted')
         ndaData?.forEach(n => {
           const since = ownerSinceMap[n.listing_id]
           if (!since || new Date(n.agreed_at) > new Date(since)) {
