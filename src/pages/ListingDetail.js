@@ -153,15 +153,15 @@ export default function ListingDetail() {
           </p>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '10px', marginBottom: '1.5rem', fontSize: '13px' }}>
             <div style={{ background: 'var(--bg)', borderRadius: '8px', padding: '10px' }}>
-              <div style={{ color: 'var(--text-muted)', fontSize: '11px', marginBottom: '3px' }}>Seller</div>
+              <div style={{ color: 'var(--text-muted)', fontSize: '11px', marginBottom: '3px' }}>Owner</div>
               <div style={{ fontWeight: 500 }}>{listing.profiles?.full_name || '—'}</div>
             </div>
             <div style={{ background: 'var(--bg)', borderRadius: '8px', padding: '10px' }}>
-              <div style={{ color: 'var(--text-muted)', fontSize: '11px', marginBottom: '3px' }}>Buyer</div>
+              <div style={{ color: 'var(--text-muted)', fontSize: '11px', marginBottom: '3px' }}>Acquirer</div>
               <div style={{ fontWeight: 500 }}>{listing.buyer_anonymous ? 'Anonymous' : '—'}</div>
             </div>
             <div style={{ background: 'var(--bg)', borderRadius: '8px', padding: '10px' }}>
-              <div style={{ color: 'var(--text-muted)', fontSize: '11px', marginBottom: '3px' }}>Sold on</div>
+              <div style={{ color: 'var(--text-muted)', fontSize: '11px', marginBottom: '3px' }}>Exchanged on</div>
               <div style={{ fontWeight: 500 }}>{soldDate}</div>
             </div>
           </div>
