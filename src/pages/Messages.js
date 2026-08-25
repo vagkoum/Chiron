@@ -151,7 +151,11 @@ export default function Messages() {
                 onClick={() => openThread(t)}
               >
                 <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
-                  <div className="avatar" style={{ width: '34px', height: '34px', fontSize: '11px' }}>{initials}</div>
+                  {getOtherAvatar(t) ? (
+                    <img src={getOtherAvatar(t)} alt="" style={{ width: '34px', height: '34px', borderRadius: '50%', objectFit: 'cover' }} />
+                  ) : (
+                    <div className="avatar" style={{ width: '34px', height: '34px', fontSize: '11px' }}>{initials}</div>
+                  )}
                   <div style={{ flex: 1, minWidth: 0 }}>
                     <div style={{ fontSize: '13px', fontWeight: unread ? 600 : 400 }}>{name}</div>
                     {t.listing?.offer_title && (
