@@ -139,7 +139,7 @@ export default function ListingDetail() {
         <button className="btn btn-outline btn-sm" onClick={() => navigate(-1)} style={{ marginBottom: '1rem' }}>← Back</button>
         <div className="card" style={{ textAlign: 'center', padding: '2rem' }}>
           <div style={{ fontSize: '48px', marginBottom: '1rem' }}>🔒</div>
-          <div style={{ display: 'inline-block', background: '#E1F5EE', color: '#0F6E56', fontWeight: 700, fontSize: '13px', padding: '4px 14px', borderRadius: '20px', marginBottom: '1rem', letterSpacing: '1px' }}>SOLD</div>
+          <div style={{ display: 'inline-block', background: '#E1F5EE', color: '#0F6E56', fontWeight: 700, fontSize: '13px', padding: '4px 14px', borderRadius: '20px', marginBottom: '1rem', letterSpacing: '1px' }}>EXCHANGED</div>
           <h2 style={{ fontSize: '18px', fontWeight: 600, marginBottom: '8px' }}>
           {listing.offer_title}
           {activeDeal && (activeDeal.status === 'proposed' || activeDeal.status === 'accepted') && (
