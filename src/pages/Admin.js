@@ -166,6 +166,7 @@ export default function Admin() {
                   <td style={{ padding: '10px 14px', color: 'var(--text-muted)' }}>{u.location || '—'}</td>
                   <td style={{ padding: '10px 14px', color: 'var(--text-muted)' }}>
                     {new Date(u.created_at).toLocaleDateString()}
+                    {u.banned && <span className="pill" style={{ background: '#fee2e2', color: '#991b1b', marginLeft: '6px' }}>Banned</span>}
                   </td>
                   <td style={{ padding: '10px 14px' }}>
                     <TrustBadge userId={u.id} />
