@@ -84,14 +84,11 @@ export default function Messages() {
     if (!error && data) {
       setMessages(m => [...m, data])
       setNewMsg('')
-      fetch(`https://fnqkylgekrnpvczbivzh.supabase.co/functions/v1/notify-message`, {
+      fetch(`/api/notify`, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer sb_publishable_zX1qS0QmH5RIkvOexSAYqQ_RqrzgYof`,
-        },
-        body: JSON.stringify({ record: data })
-      })
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ receiverId })
+      }).catch(err => console.error('Notification email failed:', err))
     }
     setSending(false)
   }
