@@ -66,6 +66,9 @@ export default function EditListing() {
           location: data.location || '',
           user_type: data.user_type || 'individual',
           trade_type: data.trade_type || 'both',
+          language: data.language || TRADE_CONFIG.languages[0],
+          target_country: data.target_country || TRADE_CONFIG.countries[0],
+          target_audience: data.target_audience || TRADE_CONFIG.audienceTypes[0],
         }))
       supabase
         .from('listing_private_details')
