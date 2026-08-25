@@ -11,7 +11,7 @@ export default function Home() {
   useEffect(() => {
     supabase
       .from('listings')
-      .select('*, profiles!listings_user_id_fkey(full_name, company)')
+      .select('*, profiles!listings_user_id_fkey(full_name, company, avatar_url)')
       .eq('active', true)
       .eq('removed', false)
       .neq('status', 'sold')
