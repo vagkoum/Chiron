@@ -112,16 +112,22 @@ export function DealPanel({ threadId, listingId, otherUserId, otherUserName }) {
         .eq('id', deal.listing_id)
         .single()
 
+      const { data: historyRow } = await supabase
+        .from('listing_ownership_history')
+        .select('seller_id, buyer_id')
+        .eq('deal_id', deal.id)
+        .single()
+
       const { data: sellerProfile } = await supabase
         .from('profiles')
         .select('full_name')
-        .eq('id', listingData?.original_seller_id)
+        .eq('id', historyRow?.seller_id)
         .single()
 
       const { data: buyerProfile } = await supabase
         .from('profiles')
         .select('full_name')
-        .eq('id', listingData?.user_id)
+        .eq('id', historyRow?.buyer_id)
         .single()
 
       openCertificate({
