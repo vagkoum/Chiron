@@ -32,6 +32,7 @@ export default function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/" element={<Layout />}>
+            <Route path="favorites" element={<PrivateRoute><Favorites /></PrivateRoute>} />
             <Route path="profile/:userId" element={<PublicProfile />} />
             <Route index element={<Home />} />
             <Route path="access-requests" element={<PrivateRoute><AccessRequests /></PrivateRoute>} />
