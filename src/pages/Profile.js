@@ -10,7 +10,8 @@ export default function Profile() {
   const [listings, setListings] = useState([])
   const [saving, setSaving] = useState(false)
   const [saved, setSaved] = useState(false)
-
+  const [stats, setStats] = useState({ ideasExchanged: 0, originalIdeasExchanged: 0 })
+  
   useEffect(() => {
   if (profile) setForm({ full_name: profile.full_name || '', company: profile.company || '', bio: profile.bio || '', location: profile.location || '' })
 
