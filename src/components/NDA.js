@@ -198,7 +198,17 @@ export function AccessRequestPanel({ listingId, listingOwnerId, otherUserId, isO
             This user signed the NDA and is requesting access to your private details.
           </div>
           <div style={{ display: 'flex', gap: '8px' }}>
-            <button className="btn btn-primary btn-sm" onClick={() => respond(true)} disabled={submitting}>✓ Grant access</button>
+            <button
+              className="btn btn-primary btn-sm"
+              onClick={() => {
+                if (window.confirm('Grant this user access to your private details? This cannot be undone once granted.')) {
+                  respond(true)
+                }
+              }}
+              disabled={submitting}
+            >
+              ✓ Grant access
+            </button>
             <button className="btn btn-outline btn-sm" onClick={() => respond(false)} disabled={submitting}>✗ Deny</button>
           </div>
         </div>
