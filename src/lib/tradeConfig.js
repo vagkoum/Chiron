@@ -373,5 +373,6 @@ export const TRADE_CONFIG = {
     'Individuals',
     'Companies',
     'Institutes / Universities',
+    'Laboratories',
   ],
 }
