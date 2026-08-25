@@ -165,7 +165,12 @@ export function ReviewList({ reviewedId }) {
           {reviews.map(r => (
             <div key={r.id} className="card" style={{ padding: '12px 14px' }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '6px' }}>
-                <div style={{ fontWeight: 500, fontSize: '13px' }}>{r.profiles?.full_name || 'Anonymous'}</div>
+                <div
+                  style={{ fontWeight: 500, fontSize: '13px', cursor: 'pointer' }}
+                  onClick={() => navigate(`/profile/${r.reviewer_id}`)}
+                >
+                  {r.profiles?.full_name || 'Anonymous'}
+                </div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
                   <div style={{ display: 'flex', gap: '2px' }}>
                     {[1,2,3,4,5].map(s => (
