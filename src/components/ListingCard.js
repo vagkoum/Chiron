@@ -50,7 +50,11 @@ export default function ListingCard({ listing }) {
         />
       </button>
       <div style={{ display: 'flex', gap: '10px', alignItems: 'flex-start' }}>
-        <div className="avatar">{initials}</div>
+        {listing.profiles?.avatar_url ? (
+          <img src={listing.profiles.avatar_url} alt="" className="avatar" style={{ objectFit: 'cover' }} />
+        ) : (
+          <div className="avatar">{initials}</div>
+        )}
         <div style={{ flex: 1, minWidth: 0 }}>
           <div
             style={{ fontWeight: 600, fontSize: '14px', cursor: 'pointer', color: '#0F6E56' }}
