@@ -201,7 +201,17 @@ async function handleDeleteAccount() {
 
       <div className="card" style={{ marginBottom: '14px' }}>
         <div style={{ display: 'flex', gap: '14px', alignItems: 'center', marginBottom: '1rem' }}>
-          <div className="avatar avatar-lg">{initials}</div>
+          <label style={{ position: 'relative', cursor: 'pointer' }}>
+            {profile?.avatar_url ? (
+              <img src={profile.avatar_url} alt="" className="avatar avatar-lg" style={{ objectFit: 'cover' }} />
+            ) : (
+              <div className="avatar avatar-lg">{initials}</div>
+            )}
+            <div style={{ position: 'absolute', bottom: 0, right: 0, background: '#0F6E56', color: 'white', borderRadius: '50%', width: '22px', height: '22px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '12px' }}>
+              📷
+            </div>
+            <input type="file" accept="image/*" onChange={handleAvatarUpload} style={{ display: 'none' }} />
+          </label>
           <div>
             <div style={{ fontWeight: 600 }}>{form.full_name || 'Your name'}</div>
             <div style={{ fontSize: '13px', color: 'var(--text-muted)' }}>{user.email}</div>
