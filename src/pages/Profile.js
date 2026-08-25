@@ -13,6 +13,26 @@ export default function Profile() {
   const [stats, setStats] = useState({ ideasExchanged: 0, originalIdeasExchanged: 0 })
   const [exchangeHistory, setExchangeHistory] = useState([])
 
+  useEffect(() => {
+  if (!user) return
+  async function loadExchangeHistory() {
+    const { data } = await supabase
+      .from('listing_ownership_history')
+      .select(`
+        id, transferred_at,
+        listing:listings(offer_title),
+        deal:deals(terms),
+        buyer:profiles!listing_ownership_history_buyer_id_fkey(full_name)
+      `)
+      .eq('seller_id', user.id)
+      .order('transferred_at', { ascending: false })
+    setExchangeHistory(data || [])
+  }
+  loadExchangeHistory()
+  window.addEventListener('listings-updated', loadExchangeHistory)
+  return () => window.removeEventListener('listings-updated', loadExchangeHistory)
+}, [user])
+
 useEffect(() => {
   if (!user) return
   async function loadStats() {
