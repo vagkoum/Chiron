@@ -3,6 +3,7 @@ import { supabase } from '../lib/supabase'
 import { TRADE_CONFIG } from '../lib/tradeConfig'
 import ListingCard from '../components/ListingCard'
 import SearchableSelect from '../components/SearchableSelect'
+import { Search } from 'lucide-react'
 
 export default function Browse() {
   const [listings, setListings] = useState([])
