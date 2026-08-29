@@ -47,9 +47,9 @@ export function TrustBadge({ userId, showDetails = false }) {
         fontSize: '11px', padding: '2px 8px', borderRadius: '20px',
         background: trustScore.level === 'verified' ? '#E1F5EE' : trustScore.level === 'trusted' ? '#e6f1fb' : '#f0efe8',
         color: trustScore.level === 'verified' ? '#0F6E56' : trustScore.level === 'trusted' ? '#0c447c' : '#6b6b6b',
-        fontWeight: 500, whiteSpace: 'nowrap'
+        fontWeight: 500, whiteSpace: 'nowrap', display: 'inline-flex', alignItems: 'center', gap: '4px'
       }}>
-        {levelInfo.icon} {levelInfo.label}
+        <MedalIcon level={trustScore.level} size={12} /> {levelInfo.label}
       </span>
     )
   }
