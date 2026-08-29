@@ -81,10 +81,11 @@ export function TrustBadge({ userId, showDetails = false }) {
       </div>
       {trustScore.level !== 'verified' && (
         <div style={{ fontSize: '11px', color: 'var(--text-muted)', marginTop: '8px', textAlign: 'center' }}>
-          {trustScore.level === 'new'
-            ? `${10 - (trustScore.score || 0)} more points to reach 🥈 Trusted (5 active deals)`
-            : `${30 - (trustScore.score || 0)} more points to reach 🥇 Verified (10 active deals)`
-          }
+          {trustScore.level === 'new' ? (
+            <span style={{ display: 'inline-flex', alignItems: 'center', gap: '4px' }}>{10 - (trustScore.score || 0)} more points to reach <MedalIcon level="trusted" size={12} /> Trusted (5 active deals)</span>
+          ) : (
+            <span style={{ display: 'inline-flex', alignItems: 'center', gap: '4px' }}>{30 - (trustScore.score || 0)} more points to reach <MedalIcon level="verified" size={12} /> Verified (10 active deals)</span>
+          )}
         </div>
       )}
     </div>
