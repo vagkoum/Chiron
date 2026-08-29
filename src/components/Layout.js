@@ -5,6 +5,26 @@ import { useState, useEffect } from 'react'
 import { supabase } from '../lib/supabase'
 import { Search, MessageCircle, Bell, Plus } from 'lucide-react'
 
+function MatchesIcon({ size = 16 }) {
+  return (
+    <svg width={size} height={size} viewBox="-25 -25 50 50" style={{ marginRight: '4px', verticalAlign: '-3px' }}>
+      <circle cx="-6" cy="0" r="10" fill="none" stroke="#0F6E56" strokeWidth="2.2" />
+      <circle cx="6" cy="0" r="10" fill="none" stroke="#0F6E56" strokeWidth="2.2" />
+    </svg>
+  )
+}
+
+function DealsIcon({ size = 16 }) {
+  return (
+    <svg width={size} height={size} viewBox="-30 -30 60 60" style={{ marginRight: '4px', verticalAlign: '-3px' }}>
+      <line x1="-26" y1="-10" x2="18" y2="-10" stroke="#0F6E56" strokeWidth="3" strokeLinecap="round" />
+      <path d="M8 -20 l10 10 l-10 10" fill="none" stroke="#0F6E56" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
+      <line x1="26" y1="10" x2="-18" y2="10" stroke="#0F6E56" strokeWidth="3" strokeLinecap="round" />
+      <path d="M-8 20 l-10 -10 l10 -10" fill="none" stroke="#0F6E56" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  )
+}
+
 export default function Layout() {
   const { user, profile, signOut } = useAuth()
   const navigate = useNavigate()
