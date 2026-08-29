@@ -70,10 +70,10 @@ export default function AccessRequests() {
               <div
                 style={{ fontSize: '13px', color: 'var(--green-dark)', marginBottom: '10px', cursor: 'pointer' }}
                 onClick={() => navigate(`/listing/${r.listing_id}`)}
+                title="View this listing"
               >
                 re: {r.listing?.offer_title}
               </div>
-
               <div style={{ display: 'flex', gap: '8px' }}>
                 <button className="btn btn-primary btn-sm" onClick={() => respond(r.id, true)} disabled={submitting === r.id} style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
                   <Check size={13} color="#ffffff" /> Grant access
