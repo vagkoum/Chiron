@@ -275,7 +275,7 @@ export function AccessRequestPanel({ listingId, listingOwnerId, otherUserId, isO
   if (ndaRecord.access_status === 'denied') {
     return (
       <div style={{ borderTop: '1px solid var(--border)', padding: '12px 14px', background: '#fee2e2' }}>
-        <div style={{ fontSize: '12px', color: '#991b1b' }}>🔒 The seller has not approved access to private details.</div>
+        <div style={{ fontSize: '12px', color: '#991b1b', display: 'flex', alignItems: 'center', gap: '5px' }}><LockIcon size={13} color="#991b1b" /> The seller has not approved access to private details.</div>
       </div>
     )
   }
