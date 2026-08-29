@@ -6,7 +6,7 @@ import { useAuth } from '../lib/AuthContext'
 import { ReviewForm, ReviewList } from '../components/Reviews'
 import { ReportButton } from '../components/Report'
 import { NDAModal } from '../components/NDA'
-
+import { Lock, MapPin, ClipboardList, Calendar, Handshake, MessageCircle, Pause } from 'lucide-react'
 
 export default function ListingDetail() {
   const { id } = useParams()
