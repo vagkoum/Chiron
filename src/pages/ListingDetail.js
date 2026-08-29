@@ -190,7 +190,7 @@ async function toggleFavorite() {
     return (
       <div className="page-narrow">
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
-        <button className="btn btn-outline btn-sm" onClick={() => navigate(-1)}>← Back</button>
+        <button className="btn btn-outline btn-sm" onClick={() => navigate(-1)} title="Go back to the previous page">← Back</button>
         <button className="btn btn-outline btn-sm" onClick={toggleFavorite} style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
           <svg width="18" height="18" viewBox="-40 -40 80 80">
             <path
