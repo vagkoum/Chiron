@@ -101,26 +101,31 @@ export default function Browse() {
         </span>
       </div>
 
-      <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-        <div className="search-wrap" style={{ flex: 1, margin: 0 }}>
+      <div style={{ display: 'flex', alignItems: 'stretch', gap: '8px', marginBottom: activeFilterCount > 0 ? '10px' : '1.5rem' }}>
+        <button
+          className="btn btn-outline btn-sm"
+          onClick={() => setFiltersOpen(o => !o)}
+          style={{ whiteSpace: 'nowrap', height: '42px', padding: '0 16px' }}
+        >
+          ⚙️ Filters {activeFilterCount > 0 && <span className="nav-badge" style={{ marginLeft: '6px' }}>{activeFilterCount}</span>}
+        </button>
+        <div className="search-wrap" style={{ flex: 1, margin: 0, height: '42px' }}>
           <span className="search-icon">🔍</span>
           <input
             type="text"
             placeholder="Search by title, skill, location, language, country…"
             value={search}
             onChange={e => setSearch(e.target.value)}
+            style={{ height: '100%' }}
           />
           {search && (
             <button onClick={() => setSearch('')} style={{ background: 'none', border: 'none', color: 'var(--text-muted)', fontSize: '18px' }}>×</button>
           )}
         </div>
-        <button className="btn btn-outline btn-sm" onClick={() => setFiltersOpen(o => !o)} style={{ whiteSpace: 'nowrap' }}>
-          ⚙️ Filters {activeFilterCount > 0 && <span className="nav-badge" style={{ marginLeft: '6px' }}>{activeFilterCount}</span>}
-        </button>
       </div>
 
       {activeFilterCount > 0 && (
-        <div style={{ margin: '10px 0' }}>
+        <div style={{ marginBottom: '1.5rem' }}>
           <button className="btn btn-outline btn-sm" onClick={clearAllFilters} style={{ color: 'var(--text-muted)' }}>
             Clear all filters
           </button>
