@@ -169,7 +169,7 @@ async function toggleFavorite() {
             <path
               d="M0 35 C-18 20, -32 5, -32 -10 C-32 -22, -22 -30, -12 -27 C-6 -25, -1 -19, 0 -14 C1 -19, 6 -25, 12 -27 C22 -30, 32 -22, 32 -10 C32 5, 18 20, 0 35 Z"
               fill={isFavorite ? '#dc2626' : 'none'}
-              stroke="#000000"
+              stroke={isFavorite ? '#dc2626' : '#000000'}
               strokeWidth="4"
               strokeLinejoin="round"
             />
