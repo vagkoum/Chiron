@@ -104,7 +104,15 @@ export default function Layout() {
                 {pendingDeals > 0 && <span className="nav-badge">{pendingDeals}</span>}
              </NavLink>
              <NavLink to="/favorites" className={({ isActive }) => 'nav-link' + (isActive ? ' active' : '')}>
-               <img src="/heart-icon.png" alt="" style={{ width: '19px', height: '19px', objectFit: 'contain', marginRight: '4px', verticalAlign: '-4px' }} />
+               <svg width="17" height="17" viewBox="-40 -40 80 80" style={{ marginRight: '4px', verticalAlign: '-3px' }}>
+                 <path
+                   d="M0 35 C-18 20, -32 5, -32 -10 C-32 -22, -22 -30, -12 -27 C-6 -25, -1 -19, 0 -14 C1 -19, 6 -25, 12 -27 C22 -30, 32 -22, 32 -10 C32 5, 18 20, 0 35 Z"
+                   fill="#dc2626"
+                   stroke="#000000"
+                   strokeWidth="4"
+                   strokeLinejoin="round"
+                 />
+               </svg>
                <span>Favorites</span>
              </NavLink>
             </>
