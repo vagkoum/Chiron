@@ -90,10 +90,10 @@ export default function ListingCard({ listing }) {
               {listing.user_type === 'business' ? 'Company / Lab' : 'Individual / Researcher'}
             </span>
             {!listing.has_private_details && (
-              <span className="pill" style={{ background: '#fef3c7', color: '#92400e' }}>⚠️ No private details</span>
+              <span className="pill" style={{ background: '#fef3c7', color: '#92400e', display: 'inline-flex', alignItems: 'center', gap: '4px' }}><AlertTriangle size={11} color="#92400e" /> No private details</span>
             )}
             {listing.underNegotiation && (
-              <span className="pill" style={{ background: '#fef3c7', color: '#92400e' }}>🤝 Under negotiation</span>
+              <span className="pill" style={{ background: '#fef3c7', color: '#92400e', display: 'inline-flex', alignItems: 'center', gap: '4px' }}><Handshake size={11} color="#92400e" /> Under negotiation</span>
             )}
             <TrustBadge userId={listing.user_id} />
           </div>
