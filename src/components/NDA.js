@@ -160,7 +160,11 @@ export function NDAModal({ listing, onAgreed, onCancel }) {
               disabled={!agreed || loading}
               style={{ flex: 1, justifyContent: 'center' }}
             >
-              {loading ? 'Recording agreement…' : isReturning ? '✓ I agree — Sign new agreement' : '✓ I agree — Continue to contact'}
+              {loading ? 'Recording agreement…' : (
+                <span style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px' }}>
+                  <Check size={14} color="#ffffff" /> I agree — {isReturning ? 'Sign new agreement' : 'Continue to contact'}
+                </span>
+              )}
             </button>
             <button className="btn btn-outline" onClick={onCancel}>
               Cancel
