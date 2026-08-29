@@ -347,8 +347,8 @@ async function handleDeleteAccount() {
         </button>
         <hr className="divider" />
         <div style={{ fontSize: '13px', color: 'var(--text-muted)', marginBottom: '4px' }}>Danger zone</div>
-        <button className="btn btn-danger btn-sm" onClick={handleDeleteAccount}>
-          🗑 Delete my account permanently
+        <button className="btn btn-danger btn-sm" onClick={handleDeleteAccount} style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+          <Trash2 size={15} color="#ffffff" /> Delete my account permanently
         </button>
         <div style={{ fontSize: '11px', color: 'var(--text-faint)' }}>
           This will permanently delete your account, listings, messages and reviews. This cannot be undone.
