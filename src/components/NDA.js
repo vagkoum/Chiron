@@ -167,7 +167,7 @@ export function NDAModal({ listing, onAgreed, onCancel }) {
                 </span>
               )}
             </button>
-            <button className="btn btn-outline" onClick={onCancel}>
+            <button className="btn btn-outline" onClick={onCancel} title="Close without agreeing">
               Cancel
             </button>
           </div>
