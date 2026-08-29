@@ -391,7 +391,7 @@ export function DealPanel({ threadId, listingId, otherUserId, otherUserName }) {
                 </div>
                 {!canRelease ? (
                   <div style={{ fontSize: '12px', color: 'var(--text-muted)', background: '#fef3c7', borderRadius: '6px', padding: '8px 10px' }}>
-                    🕐 The listing will be freed in approximately <strong>{hoursLeft} hour{hoursLeft !== 1 ? 's' : ''}</strong>.
+                    <Clock size={13} color="#92400e" style={{ verticalAlign: '-2px', marginRight: '4px' }} /> The listing will be freed in approximately <strong>{hoursLeft} hour{hoursLeft !== 1 ? 's' : ''}</strong>.
                     This cooling period gives both parties time to resolve the situation.
                   </div>
                 ) : (
