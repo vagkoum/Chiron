@@ -32,6 +32,11 @@ export default function Layout() {
   const [pendingRequests, setPendingRequests] = useState(0)
   const [pendingDeals, setPendingDeals] = useState(0)
   const [showOnboarding, setShowOnboarding] = useState(false)
+
+    useEffect(() => {
+    if (!profile) return
+    if (profile.has_seen_onboarding === false) setShowOnboarding(true)
+  }, [profile])
  
     useEffect(() => {
     if (!user) return
