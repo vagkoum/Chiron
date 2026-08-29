@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { supabase } from '../lib/supabase'
 import { useAuth } from '../lib/AuthContext'
+import { Check, X } from 'lucide-react'
 
 export default function AccessRequests() {
   const { user } = useAuth()
