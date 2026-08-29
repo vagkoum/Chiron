@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { supabase } from '../lib/supabase'
 import { useAuth } from '../lib/AuthContext'
+import { Check, X } from 'lucide-react'
 
 export function NDAModal({ listing, onAgreed, onCancel }) {
   const { user } = useAuth()
