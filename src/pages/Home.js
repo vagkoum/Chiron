@@ -9,7 +9,6 @@ import { Handshake, Search, MessageCircle, Repeat } from 'lucide-react'
 export default function Home() {
   const navigate = useNavigate()
   const [listings, setListings] = useState([])
-
   useEffect(() => {
     supabase
       .from('listings')
@@ -21,7 +20,6 @@ export default function Home() {
       .limit(6)
       .then(({ data }) => setListings(data || []))
   }, [])
-
   return (
     <>
       <div className="hero" style={{background: '#faf5ee'}}>
@@ -36,37 +34,42 @@ export default function Home() {
           </button>
         </div>
       </div>
-
       <div className="page">
-        <div className="section-header">
-          <h2 className="section-title">Recent {TRADE_CONFIG.listingNamePlural}</h2>
-          <button className="btn btn-outline btn-sm" onClick={() => navigate('/browse')}>See all →</button>
-        </div>
-
-        {listings.length === 0 ? (
-          <div className="empty-state">
-            <h3>No listings yet</h3>
-            <p>Be the first to post one!</p>
-          </div>
-        ) : (
-          <div className="grid-listings">
-            {listings.map(l => <ListingCard key={l.id} listing={l} />)}
-          </div>
-        )}
-
-        <div style={{ marginTop: '3rem', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px,1fr))', gap: '12px' }}>
-          {[
-            { icon: '🤝', title: 'Post what you offer', text: 'Describe who or what you can trade.' },
-            { icon: '🔍', title: 'Find a match', text: 'Our system surfaces the best mutual fits.' },
-            { icon: '💬', title: 'Connect & agree', text: 'Chat directly and finalise the terms.' },
-            { icon: '🔄', title: 'Complete the trade', text: 'Barter or paid — you decide together.' },
-          ].map(s => (
-            <div key={s.title} className="card" style={{ textAlign: 'center' }}>
-              <div style={{ fontSize: '1.8rem', marginBottom: '8px' }}>{s.icon}</div>
-              <div style={{ fontWeight: 600, marginBottom: 4 }}>{s.title}</div>
-              <div style={{ fontSize: '13px', color: 'var(--text-muted)' }}>{s.text}</div>
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 260px', gap: '24px', alignItems: 'start' }}>
+          <div>
+            <div className="section-header">
+              <h2 className="section-title">Recent {TRADE_CONFIG.listingNamePlural}</h2>
+              <button className="btn btn-outline btn-sm" onClick={() => navigate('/browse')}>See all →</button>
             </div>
-          ))}
+            {listings.length === 0 ? (
+              <div className="empty-state">
+                <h3>No listings yet</h3>
+                <p>Be the first to post one!</p>
+              </div>
+            ) : (
+              <div className="grid-listings">
+                {listings.map(l => <ListingCard key={l.id} listing={l} />)}
+              </div>
+            )}
+            <div style={{ marginTop: '3rem', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px,1fr))', gap: '12px' }}>
+              {[
+                { Icon: Handshake, title: 'Post what you offer', text: 'Describe who or what you can trade.' },
+                { Icon: Search, title: 'Find a match', text: 'Our system surfaces the best mutual fits.' },
+                { Icon: MessageCircle, title: 'Connect & agree', text: 'Chat directly and finalise the terms.' },
+                { Icon: Repeat, title: 'Complete the trade', text: 'Barter or paid — you decide together.' },
+              ].map(s => (
+                <div key={s.title} className="card" style={{ textAlign: 'center' }}>
+                  <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '8px' }}><s.Icon size={28} color="#0F6E56" /></div>
+                  <div style={{ fontWeight: 600, marginBottom: 4 }}>{s.title}</div>
+                  <div style={{ fontSize: '13px', color: 'var(--text-muted)' }}>{s.text}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div style={{ position: 'sticky', top: '20px' }}>
+            <TrustLegend />
+          </div>
         </div>
       </div>
     </>
