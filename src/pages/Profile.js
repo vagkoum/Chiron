@@ -233,7 +233,9 @@ async function handleDeleteAccount() {
           <div className="form-group">
             <label className="form-label">Full name</label>
             <input className="form-input" value={form.full_name} onChange={e => setForm(f => ({ ...f, full_name: e.target.value }))} />
-            <span className="form-hint">We strongly recommend using your real name. It builds trust with the person you're negotiating with, helps protect your idea by making disputes easier to resolve, and makes scams harder to attempt anonymously.</span>
+          </div>
+          <div style={{ background: '#e6f1fb', border: '1px solid #85B7EB', borderRadius: '8px', padding: '12px 14px', fontSize: '13px', color: '#0c447c', marginBottom: '1.5rem' }}>
+            💡 <strong>We strongly recommend using your real name.</strong> It builds trust with the person you're negotiating with, makes disputes far easier to resolve fairly, and makes it much harder for someone to scam another user while hiding behind an anonymous name.
           </div>
           <div className="form-group">
             <label className="form-label">Company (optional)</label>
