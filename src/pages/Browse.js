@@ -114,7 +114,7 @@ export default function Browse() {
           Filters {activeFilterCount > 0 && <span className="nav-badge" style={{ marginLeft: '6px' }}>{activeFilterCount}</span>}
         </button>
         <div className="search-wrap" style={{ flex: 1, margin: 0, height: '42px' }}>
-          <span className="search-icon">🔍</span>
+          <span className="search-icon" style={{ display: 'flex' }}><Search size={16} color="#0F6E56" /></span>
           <input
             type="text"
             placeholder="Search by title, skill, location, language, country…"
