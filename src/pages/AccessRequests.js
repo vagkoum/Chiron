@@ -75,7 +75,7 @@ export default function AccessRequests() {
                 re: {r.listing?.offer_title}
               </div>
               <div style={{ display: 'flex', gap: '8px' }}>
-                <button className="btn btn-primary btn-sm" onClick={() => respond(r.id, true)} disabled={submitting === r.id} style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+                <button className="btn btn-primary btn-sm" onClick={() => respond(r.id, true)} disabled={submitting === r.id} style={{ display: 'flex', alignItems: 'center', gap: '4px' }} title="Approve this user's access to your private details">
                   <Check size={13} color="#ffffff" /> Grant access
                 </button>
                 <button className="btn btn-outline btn-sm" onClick={() => respond(r.id, false)} disabled={submitting === r.id} style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
