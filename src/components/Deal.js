@@ -3,6 +3,7 @@ import { canStartDeal, updateTrustScore } from '../lib/trustScore'
 import { useState, useEffect } from 'react'
 import { supabase } from '../lib/supabase'
 import { useAuth } from '../lib/AuthContext'
+import { ClipboardList, Handshake, CheckCircle2, AlertTriangle, Unlock, FileText, Clock, PartyPopper } from 'lucide-react'
 
 const STATUS_LABELS = {
   proposed: { label: 'Proposed', color: '#92400e', bg: '#fef3c7', icon: '📋' },
