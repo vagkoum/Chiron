@@ -413,7 +413,7 @@ export function DealPanel({ threadId, listingId, otherUserId, otherUserName }) {
       {completedDeals.length > 0 && (
         <div style={{ marginTop: deal ? '14px' : '0', paddingTop: deal ? '14px' : '0', borderTop: deal ? '1px solid var(--border)' : 'none' }}>
           <div style={{ fontSize: '12px', fontWeight: 600, color: 'var(--text-muted)', marginBottom: '8px' }}>
-            📜 Past completed deals on this listing
+            <ClipboardList size={13} color="var(--text-muted)" style={{ verticalAlign: '-2px', marginRight: '4px' }} /> Past completed deals on this listing
           </div>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
             {completedDeals.map(cd => (
