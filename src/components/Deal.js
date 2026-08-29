@@ -399,7 +399,7 @@ export function DealPanel({ threadId, listingId, otherUserId, otherUserName }) {
                     <div style={{ fontSize: '12px', color: 'var(--text-muted)', marginBottom: '8px' }}>
                       The 48-hour cooling period has ended. The listing can now be freed.
                     </div>
-                    <button className="btn btn-outline btn-sm" onClick={releaseListing} disabled={submitting}>
+                    <button className="btn btn-outline btn-sm" onClick={releaseListing} disabled={submitting} title="Free this listing so others can negotiate">
                       Release listing
                     </button>
                   </div>
