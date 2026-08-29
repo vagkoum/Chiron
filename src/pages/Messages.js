@@ -236,7 +236,8 @@ export default function Messages() {
                   className="btn btn-primary btn-sm"
                   type="button"
                   onClick={e => { e.preventDefault(); sendMessage() }}
-                  disabled={sending || !newMsg.trim()}>
+                  disabled={sending || !newMsg.trim()}
+                  title="Send this message">
                   Send
                 </button>
               </div>
