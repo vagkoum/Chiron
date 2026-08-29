@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../lib/AuthContext'
 import { supabase } from '../lib/supabase'
+import { Trash2 } from 'lucide-react'
 
 export default function Profile() {
   const { user, profile, updateProfile, signOut } = useAuth()
