@@ -120,7 +120,7 @@ export default function Layout() {
                 {unread > 0 && <span className="nav-badge">{unread}</span>}
               </NavLink>
               <NavLink to="/access-requests" className={({ isActive }) => 'nav-link' + (isActive ? ' active' : '')}>
-                <Bell size={16} style={{ marginRight: '4px', verticalAlign: '-3px' }} />
+                <Bell size={19} color="#0F6E56" style={{ marginRight: '4px', verticalAlign: '-4px' }} />
                 <span>Requests</span>
                 {pendingRequests > 0 && <span className="nav-badge">{pendingRequests}</span>}
               </NavLink>
