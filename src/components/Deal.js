@@ -336,8 +336,8 @@ export function DealPanel({ threadId, listingId, otherUserId, otherUserName }) {
 
           {deal.status === 'proposed' && isReceiver && (
             <div style={{ display: 'flex', gap: '8px' }}>
-              <button className="btn btn-primary btn-sm" onClick={() => respondToDeal(true)} disabled={submitting}>✓ Accept deal</button>
-              <button className="btn btn-danger btn-sm" onClick={() => respondToDeal(false)} disabled={submitting}>✗ Decline</button>
+              <button className="btn btn-primary btn-sm" onClick={() => respondToDeal(true)} disabled={submitting} title="Accept these deal terms">✓ Accept deal</button>
+              <button className="btn btn-danger btn-sm" onClick={() => respondToDeal(false)} disabled={submitting} title="Reject this proposal">✗ Decline</button>
             </div>
           )}
 
