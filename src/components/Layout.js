@@ -104,7 +104,7 @@ export default function Layout() {
           </NavLink>
 
           <NavLink to="/browse" className={({ isActive }) => 'nav-link' + (isActive ? ' active' : '')}>
-            <Search size={16} style={{ marginRight: '4px', verticalAlign: '-3px' }} />
+            <Search size={19} color="#0F6E56" style={{ marginRight: '4px', verticalAlign: '-4px' }} />
             <span>Browse</span>
           </NavLink>
 
