@@ -86,7 +86,7 @@ export default function NewListing() {
                   className={`chip ${form.user_type === t ? 'active' : ''}`}
                   onClick={() => update('user_type', t)}
                 >
-                  {t === 'individual' ? '👤 Individual / Researcher' : '🏢 Company / Lab'}
+                  {t === 'individual' ? (<><User size={13} style={{ verticalAlign: '-2px', marginRight: '3px' }} /> Individual / Researcher</>) : (<><Building2 size={13} style={{ verticalAlign: '-2px', marginRight: '3px' }} /> Company / Lab</>)}
                 </button>
               ))}
             </div>
