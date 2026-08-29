@@ -13,6 +13,17 @@ export function NDAModal({ listing, onAgreed, onCancel }) {
   const listingOwnerName = listing.profiles?.full_name || 'the listing owner'
   const today = new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })
 
+  function LockIcon({ size = 16, color = '#0F6E56' }) {
+  return (
+    <svg width={size} height={size} viewBox="-18 -20 36 42" style={{ verticalAlign: '-2px' }}>
+      <rect x="-14" y="-2" width="28" height="22" rx="3" fill="none" stroke={color} strokeWidth="3" />
+      <path d="M-8 -2 v-9 a8 8 0 0 1 16 0 v9" fill="none" stroke={color} strokeWidth="3" />
+      <circle cx="0" cy="7" r="1.8" fill={color} />
+      <line x1="0" y1="9" x2="0" y2="12" stroke={color} strokeWidth="2.2" strokeLinecap="round" />
+    </svg>
+  )
+}
+
   useEffect(() => {
     if (!user) return
     supabase
