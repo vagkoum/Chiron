@@ -124,7 +124,7 @@ export default function Layout() {
                 <span>Requests</span>
                 {pendingRequests > 0 && <span className="nav-badge">{pendingRequests}</span>}
               </NavLink>
-              <NavLink to="/messages" className={({ isActive }) => 'nav-link' + (isActive ? ' active' : '')}>
+              <NavLink to="/messages" className={({ isActive }) => 'nav-link' + (isActive ? ' active' : '')} title="Deals awaiting your action">
                 <DealsIcon />
                 <span>Deals</span>
                 {pendingDeals > 0 && <span className="nav-badge">{pendingDeals}</span>}
