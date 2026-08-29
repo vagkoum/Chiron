@@ -149,7 +149,7 @@ export default function Layout() {
               <button className="nav-post" onClick={() => navigate('/new-listing')}>
                 + Post listing
               </button>
-              <NavLink to="/profile">
+              <NavLink to="/profile" title="Your profile">
                 {profile?.avatar_url ? (
                   <img
                     src={profile.avatar_url}
