@@ -347,7 +347,7 @@ async function handleDeleteAccount() {
         </button>
         <hr className="divider" />
         <div style={{ fontSize: '13px', color: 'var(--text-muted)', marginBottom: '4px' }}>Danger zone</div>
-        <button className="btn btn-danger btn-sm" onClick={handleDeleteAccount} style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+        <button className="btn btn-danger btn-sm" onClick={handleDeleteAccount} style={{ display: 'flex', alignItems: 'center', gap: '6px' }} title="Permanently delete your account and all associated data">
           <Trash2 size={15} color="currentColor" /> Delete my account permanently
         </button>
         <div style={{ fontSize: '11px', color: 'var(--text-faint)' }}>
