@@ -101,29 +101,31 @@ export default function Browse() {
         </span>
       </div>
 
-      <div className="search-wrap">
-        <span className="search-icon">🔍</span>
-        <input
-          type="text"
-          placeholder="Search by title, skill, location, language, country…"
-          value={search}
-          onChange={e => setSearch(e.target.value)}
-        />
-        {search && (
-          <button onClick={() => setSearch('')} style={{ background: 'none', border: 'none', color: 'var(--text-muted)', fontSize: '18px' }}>×</button>
-        )}
-      </div>
-
-      <div style={{ display: 'flex', alignItems: 'center', gap: '8px', margin: '10px 0' }}>
-        <button className="btn btn-outline btn-sm" onClick={() => setFiltersOpen(o => !o)}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+        <div className="search-wrap" style={{ flex: 1, margin: 0 }}>
+          <span className="search-icon">🔍</span>
+          <input
+            type="text"
+            placeholder="Search by title, skill, location, language, country…"
+            value={search}
+            onChange={e => setSearch(e.target.value)}
+          />
+          {search && (
+            <button onClick={() => setSearch('')} style={{ background: 'none', border: 'none', color: 'var(--text-muted)', fontSize: '18px' }}>×</button>
+          )}
+        </div>
+        <button className="btn btn-outline btn-sm" onClick={() => setFiltersOpen(o => !o)} style={{ whiteSpace: 'nowrap' }}>
           ⚙️ Filters {activeFilterCount > 0 && <span className="nav-badge" style={{ marginLeft: '6px' }}>{activeFilterCount}</span>}
         </button>
-        {activeFilterCount > 0 && (
+      </div>
+
+      {activeFilterCount > 0 && (
+        <div style={{ margin: '10px 0' }}>
           <button className="btn btn-outline btn-sm" onClick={clearAllFilters} style={{ color: 'var(--text-muted)' }}>
             Clear all filters
           </button>
-        )}
-      </div>
+        </div>
+      )}
 
       {filtersOpen && (
         <div className="card" style={{ marginBottom: '1rem', display: 'flex', flexDirection: 'column', gap: '14px' }}>
