@@ -418,8 +418,8 @@ export function DealPanel({ threadId, listingId, otherUserId, otherUserName }) {
           <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
             {completedDeals.map(cd => (
               <div key={cd.id} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', fontSize: '12px', background: 'var(--bg-card)', border: '1px solid var(--border)', borderRadius: '8px', padding: '8px 10px' }}>
-                <span style={{ color: 'var(--text-muted)' }}>
-                  ✅ Completed {new Date(cd.updated_at).toLocaleDateString()}
+                <span style={{ color: 'var(--text-muted)', display: 'flex', alignItems: 'center', gap: '4px' }}>
+                  <CheckCircle2 size={13} color="#0F6E56" /> Completed {new Date(cd.updated_at).toLocaleDateString()}
                 </span>
                 <button className="btn btn-outline btn-sm" onClick={() => viewCertificateFor(cd)}>
                   <FileText size={14} color="#0F6E56" style={{ verticalAlign: '-2px', marginRight: '4px' }} /> View Certificate
