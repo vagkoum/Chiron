@@ -4,6 +4,7 @@ import { supabase } from '../lib/supabase'
 import { TRADE_CONFIG } from '../lib/tradeConfig'
 import ListingCard from '../components/ListingCard'
 import TrustLegend from '../components/TrustLegend'
+import { Handshake, Search, MessageCircle, Repeat } from 'lucide-react'
 
 export default function Home() {
   const navigate = useNavigate()
