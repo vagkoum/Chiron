@@ -124,8 +124,8 @@ export default function EditListing() {
       <div style={{ background: '#fef3c7', border: '1px solid #f59e0b', borderRadius: '8px', padding: '12px 14px', fontSize: '13px', color: '#92400e', marginBottom: '1.5rem', display: 'flex', alignItems: 'flex-start', gap: '8px' }}>
         <AlertTriangle size={16} color="#92400e" style={{ flexShrink: 0, marginTop: '1px' }} /> <span><strong>Important:</strong> Do not reveal critical details in your public description. Keep key details in the private section.</span>
       </div>
-      <div style={{ background: '#e6f1fb', border: '1px solid #85B7EB', borderRadius: '8px', padding: '12px 14px', fontSize: '13px', color: '#0c447c', marginBottom: '1.5rem' }}>
-        💡 <strong>Tip:</strong> if your idea isn't protected yet, it's worth looking into copyright, a patent, or keeping key parts as a trade secret before sharing more widely — whichever fits what you're offering.
+      <div style={{ background: '#e6f1fb', border: '1px solid #85B7EB', borderRadius: '8px', padding: '12px 14px', fontSize: '13px', color: '#0c447c', marginBottom: '1.5rem', display: 'flex', alignItems: 'flex-start', gap: '8px' }}>
+        <Lightbulb size={16} color="#0c447c" style={{ flexShrink: 0, marginTop: '1px' }} /> <span><strong>Tip:</strong> if your idea isn't protected yet, it's worth looking into copyright, a patent, or keeping key parts as a trade secret before sharing more widely — whichever fits what you're offering.</span>
       </div>
       
 
