@@ -103,7 +103,7 @@ export default function Layout() {
            <img src="/logo.png" alt="Chiron" style={{height: '52px', width: 'auto', objectFit: 'contain'}} />
           </NavLink>
 
-          <NavLink to="/browse" className={({ isActive }) => 'nav-link' + (isActive ? ' active' : '')}>
+          <NavLink to="/browse" className={({ isActive }) => 'nav-link' + (isActive ? ' active' : '')} title="Browse all active submissions">
             <Search size={19} color="#0F6E56" style={{ marginRight: '4px', verticalAlign: '-4px' }} />
             <span>Browse</span>
           </NavLink>
