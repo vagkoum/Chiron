@@ -233,6 +233,7 @@ async function handleDeleteAccount() {
           <div className="form-group">
             <label className="form-label">Full name</label>
             <input className="form-input" value={form.full_name} onChange={e => setForm(f => ({ ...f, full_name: e.target.value }))} />
+            <span className="form-hint">We strongly recommend using your real name. It builds trust with the person you're negotiating with, helps protect your idea by making disputes easier to resolve, and makes scams harder to attempt anonymously.</span>
           </div>
           <div className="form-group">
             <label className="form-label">Company (optional)</label>
