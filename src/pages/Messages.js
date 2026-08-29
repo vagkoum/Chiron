@@ -147,6 +147,7 @@ export default function Messages() {
                 key={t.id}
                 className={`msg-thread-item ${unread ? 'unread' : ''} ${activeThread?.id === t.id ? 'active' : ''}`}
                 onClick={() => openThread(t)}
+                title={`Open conversation with ${getOtherName(t)}`}
               >
                 <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
                   {getOtherAvatar(t) ? (
