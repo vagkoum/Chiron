@@ -14,13 +14,13 @@ function MatchesIcon({ size = 19 }) {
   )
 }
 
-function DealsIcon({ size = 16 }) {
+function DealsIcon({ size = 19 }) {
   return (
-    <svg width={size} height={size} viewBox="-30 -30 60 60" style={{ marginRight: '4px', verticalAlign: '-3px' }}>
-      <line x1="-26" y1="-10" x2="18" y2="-10" stroke="#0F6E56" strokeWidth="3" strokeLinecap="round" />
-      <path d="M8 -20 l10 10 l-10 10" fill="none" stroke="#0F6E56" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
-      <line x1="26" y1="10" x2="-18" y2="10" stroke="#0F6E56" strokeWidth="3" strokeLinecap="round" />
-      <path d="M-8 20 l-10 -10 l10 -10" fill="none" stroke="#0F6E56" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
+    <svg width={size} height={size} viewBox="-24 -24 48 48" style={{ marginRight: '4px', verticalAlign: '-4px' }}>
+      <line x1="-26" y1="-10" x2="18" y2="-10" stroke="#0F6E56" strokeWidth="3.2" strokeLinecap="round" />
+      <path d="M8 -20 l10 10 l-10 10" fill="none" stroke="#0F6E56" strokeWidth="3.2" strokeLinecap="round" strokeLinejoin="round" />
+      <line x1="26" y1="10" x2="-18" y2="10" stroke="#0F6E56" strokeWidth="3.2" strokeLinecap="round" />
+      <path d="M-8 20 l-10 -10 l10 -10" fill="none" stroke="#0F6E56" strokeWidth="3.2" strokeLinecap="round" strokeLinejoin="round" />
     </svg>
   )
 }
