@@ -125,9 +125,9 @@ export default function ListingCard({ listing }) {
 
       <hr className="divider" />
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: '12px', color: 'var(--text-muted)' }}>
-        <span>⏱ {listing.availability}</span>
-        <span style={{ color: 'var(--green)', fontWeight: 500 }}>
-          {listing.trade_type === 'barter' ? '🔄 Non-monetary' : listing.trade_type === 'paid' ? '💶 Monetary' : '🔄💶 Open to all'}
+        <span style={{ display: 'inline-flex', alignItems: 'center', gap: '4px' }}><Clock size={12} color="var(--text-muted)" /> {listing.availability}</span>
+        <span style={{ color: 'var(--green)', fontWeight: 500, display: 'inline-flex', alignItems: 'center', gap: '4px' }}>
+          {listing.trade_type === 'barter' ? (<><Repeat size={12} color="var(--green)" /> Non-monetary</>) : listing.trade_type === 'paid' ? (<><Coins size={12} color="var(--green)" /> Monetary</>) : (<><Repeat size={12} color="var(--green)" /><Coins size={12} color="var(--green)" /> Open to all</>)}
         </span>
       </div>
       {listing.seek_description && (
