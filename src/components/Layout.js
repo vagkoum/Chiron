@@ -110,7 +110,7 @@ export default function Layout() {
 
           {user && (
             <>
-              <NavLink to="/matches" className={({ isActive }) => 'nav-link' + (isActive ? ' active' : '')}>
+              <NavLink to="/matches" className={({ isActive }) => 'nav-link' + (isActive ? ' active' : '')} title="See suggested matches for your submissions">
                 <MatchesIcon />
                 <span>Matches</span>
               </NavLink>
