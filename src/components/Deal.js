@@ -284,8 +284,8 @@ export function DealPanel({ threadId, listingId, otherUserId, otherUserName }) {
       {!deal && !showPropose && (
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
           <span style={{ fontSize: '12px', color: 'var(--text-muted)' }}>No active deal for this listing</span>
-          <button className="btn btn-outline btn-sm" onClick={() => setShowPropose(true)}>
-            🤝 Propose a deal
+          <button className="btn btn-outline btn-sm" onClick={() => setShowPropose(true)} style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
+            <Handshake size={14} color="#0F6E56" /> Propose a deal
           </button>
         </div>
       )}
