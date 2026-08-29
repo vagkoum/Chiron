@@ -114,7 +114,7 @@ export default function Layout() {
                 <MatchesIcon />
                 <span>Matches</span>
               </NavLink>
-              <NavLink to="/messages" className={({ isActive }) => 'nav-link' + (isActive ? ' active' : '')}>
+              <NavLink to="/messages" className={({ isActive }) => 'nav-link' + (isActive ? ' active' : '')} title="Your conversations">
                 <MessageCircle size={19} color="#0F6E56" style={{ marginRight: '4px', verticalAlign: '-4px' }} />
                 <span>Messages</span>
                 {unread > 0 && <span className="nav-badge">{unread}</span>}
