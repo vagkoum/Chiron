@@ -368,8 +368,8 @@ export function DealPanel({ threadId, listingId, otherUserId, otherUserName }) {
               </div>
               {!myConfirmed && (
                 <div style={{ display: 'flex', gap: '8px' }}>
-                  <button className="btn btn-primary btn-sm" onClick={confirmCompletion} disabled={submitting}>✓ Confirm deal completed</button>
-                  <button className="btn btn-danger btn-sm" onClick={disputeDeal} disabled={submitting} style={{ display: 'flex', alignItems: 'center', gap: '4px' }}><AlertTriangle size={14} color="#ffffff" /> Dispute</button>
+                  <button className="btn btn-primary btn-sm" onClick={confirmCompletion} disabled={submitting} title="Confirm this deal is complete">✓ Confirm deal completed</button>
+                  <button className="btn btn-danger btn-sm" onClick={disputeDeal} disabled={submitting} style={{ display: 'flex', alignItems: 'center', gap: '4px' }} title="Flag a problem with this deal">
                 </div>
               )}
               {myConfirmed && !otherConfirmed && (
