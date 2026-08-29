@@ -3,17 +3,7 @@ import { supabase } from '../lib/supabase'
 import { useAuth } from '../lib/AuthContext'
 import { Check, X } from 'lucide-react'
 
-export function NDAModal({ listing, onAgreed, onCancel }) {
-  const { user } = useAuth()
-  const [agreed, setAgreed] = useState(false)
-  const [loading, setLoading] = useState(false)
-  const [alreadySigned, setAlreadySigned] = useState(false)
-  const [isReturning, setIsReturning] = useState(false)
-
-  const listingOwnerName = listing.profiles?.full_name || 'the listing owner'
-  const today = new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })
-
-  function LockIcon({ size = 16, color = '#0F6E56' }) {
+function LockIcon({ size = 16, color = '#0F6E56' }) {
   return (
     <svg width={size} height={size} viewBox="-18 -20 36 42" style={{ verticalAlign: '-2px' }}>
       <rect x="-14" y="-2" width="28" height="22" rx="3" fill="none" stroke={color} strokeWidth="3" />
@@ -23,6 +13,16 @@ export function NDAModal({ listing, onAgreed, onCancel }) {
     </svg>
   )
 }
+
+export function NDAModal({ listing, onAgreed, onCancel }) {
+  const { user } = useAuth()
+  const [agreed, setAgreed] = useState(false)
+  const [loading, setLoading] = useState(false)
+  const [alreadySigned, setAlreadySigned] = useState(false)
+  const [isReturning, setIsReturning] = useState(false)
+
+  const listingOwnerName = listing.profiles?.full_name || 'the listing owner'
+  const today = new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })
 
   useEffect(() => {
     if (!user) return
