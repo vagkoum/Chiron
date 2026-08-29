@@ -246,8 +246,9 @@ export function AccessRequestPanel({ listingId, listingOwnerId, otherUserId, isO
               }
             }}
             disabled={submitting}
+            style={{ display: 'flex', alignItems: 'center', gap: '4px' }}
           >
-            ✓ Grant access instead
+            <Check size={13} color="currentColor" /> Grant access instead
           </button>
         </div>
       )
