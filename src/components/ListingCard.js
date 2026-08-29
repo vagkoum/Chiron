@@ -43,11 +43,15 @@ export default function ListingCard({ listing }) {
         style={{ position: 'absolute', top: '10px', right: '10px', background: 'none', border: 'none', cursor: 'pointer', zIndex: 2, display: 'flex', padding: 0 }}
         title={isFavorite ? 'Remove from favorites' : 'Save to favorites'}
       >
-        <img
-          src="/heart-icon.png"
-          alt="Favorite"
-          style={{ width: '26px', height: '26px', objectFit: 'contain', filter: isFavorite ? 'none' : 'grayscale(100%)' }}
-        />
+        <svg width="24" height="24" viewBox="-40 -40 80 80">
+          <path
+            d="M0 35 C-18 20, -32 5, -32 -10 C-32 -22, -22 -30, -12 -27 C-6 -25, -1 -19, 0 -14 C1 -19, 6 -25, 12 -27 C22 -30, 32 -22, 32 -10 C32 5, 18 20, 0 35 Z"
+            fill={isFavorite ? '#dc2626' : 'none'}
+            stroke="#000000"
+            strokeWidth="4"
+            strokeLinejoin="round"
+          />
+        </svg>
       </button>
       <div style={{ display: 'flex', gap: '10px', alignItems: 'flex-start' }}>
         {listing.profiles?.avatar_url ? (
