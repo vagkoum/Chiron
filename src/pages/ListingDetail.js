@@ -8,6 +8,24 @@ import { ReportButton } from '../components/Report'
 import { NDAModal } from '../components/NDA'
 import { Lock, MapPin, ClipboardList, Calendar, Handshake, MessageCircle, Pause } from 'lucide-react'
 
+function BanknoteIcon({ size = 13 }) {
+  return (
+    <svg width={size} height={size} viewBox="-22 -14 44 28" style={{ verticalAlign: '-2px' }}>
+      <rect x="-20" y="-12" width="40" height="24" rx="4" fill="none" stroke="#0F6E56" strokeWidth="2.2" />
+      <circle cx="0" cy="0" r="7" fill="none" stroke="#0F6E56" strokeWidth="1.8" />
+    </svg>
+  )
+}
+
+function ClockIcon({ size = 12 }) {
+  return (
+    <svg width={size} height={size} viewBox="-20 -20 40 40" style={{ verticalAlign: '-2px' }}>
+      <circle cx="0" cy="0" r="18" fill="none" stroke="#0c447c" strokeWidth="2.4" />
+      <path d="M0 -9 v9 l6 5" fill="none" stroke="#0c447c" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  )
+}
+
 export default function ListingDetail() {
   const { id } = useParams()
   const { user } = useAuth()
@@ -50,7 +68,6 @@ export default function ListingDetail() {
   useEffect(() => {
   if (!listing || !user) return
   if (user.id === listing.user_id) {
-    // owner always has full access
     supabase
       .from('listing_private_details')
       .select('private_details')
@@ -157,7 +174,6 @@ async function toggleFavorite() {
 
   const isOwn = user?.id === listing.user_id
 
-  // SOLD listing — show minimal info to non-participants
   if (listing.status === 'sold' && !isOwn && !hasThread) {
     const soldDate = listing.sold_at ? new Date(listing.sold_at).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' }) : '—'
     return (
@@ -178,13 +194,13 @@ async function toggleFavorite() {
         </button>
       </div>
         <div className="card" style={{ textAlign: 'center', padding: '2rem' }}>
-          <div style={{ fontSize: '48px', marginBottom: '1rem' }}>🔒</div>
+          <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '1rem' }}><Lock size={44} color="#0F6E56" /></div>
           <div style={{ display: 'inline-block', background: '#E1F5EE', color: '#0F6E56', fontWeight: 700, fontSize: '13px', padding: '4px 14px', borderRadius: '20px', marginBottom: '1rem', letterSpacing: '1px' }}>EXCHANGED</div>
           <h2 style={{ fontSize: '18px', fontWeight: 600, marginBottom: '8px' }}>
           {listing.offer_title}
           {activeDeal && (activeDeal.status === 'proposed' || activeDeal.status === 'accepted') && (
             <span style={{ marginLeft: '8px', fontSize: '11px', fontWeight: 600, padding: '3px 10px', borderRadius: '20px', background: '#fef3c7', color: '#92400e', verticalAlign: 'middle' }}>
-              🤝 Under negotiation
+              <Handshake size={12} style={{ marginRight: '3px', verticalAlign: '-2px' }} /> Under negotiation
             </span>
           )}
         </h2>
@@ -215,13 +231,12 @@ async function toggleFavorite() {
     )
   }
 
-  
   if (!isOwn && listing.active === false && listing.status !== 'sold') {
     return (
       <div className="page-narrow">
         <button className="btn btn-outline btn-sm" onClick={() => navigate(-1)} style={{ marginBottom: '1rem' }}>← Back</button>
         <div className="card" style={{ textAlign: 'center', padding: '2rem' }}>
-          <div style={{ fontSize: '48px', marginBottom: '1rem' }}>⏸️</div>
+          <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '1rem' }}><Pause size={44} color="#92400e" /></div>
           <h2 style={{ fontSize: '18px', fontWeight: 600, marginBottom: '8px' }}>This listing is currently paused</h2>
           <p style={{ fontSize: '13px', color: 'var(--text-muted)' }}>
             The owner has paused this submission. Check back later or browse other listings.
@@ -280,7 +295,7 @@ async function toggleFavorite() {
           {listing.offer_title}
           {pastOwnerRole && (
             <span style={{ marginLeft: '8px', fontSize: '11px', fontWeight: 600, padding: '3px 10px', borderRadius: '20px', background: '#e6f1fb', color: '#0c447c' }}>
-              🕓 You previously {pastOwnerRole === 'seller' ? 'owned' : 'acquired'} this listing
+              <ClockIcon /> You previously {pastOwnerRole === 'seller' ? 'owned' : 'acquired'} this listing
             </span>
           )}
         </h2>
@@ -290,29 +305,29 @@ async function toggleFavorite() {
           <div style={{ marginBottom: '1rem' }}>
             {isOwn && privateDetails && (
               <div style={{ background: '#f0fdf4', border: '1px solid #86efac', borderRadius: '8px', padding: '12px 14px' }}>
-                <div style={{ fontSize: '12px', fontWeight: 600, color: '#166534', marginBottom: '6px' }}>🔒 Private details</div>
+                <div style={{ fontSize: '12px', fontWeight: 600, color: '#166534', marginBottom: '6px' }}><Lock size={13} style={{ verticalAlign: '-2px', marginRight: '4px' }} /> Private details</div>
                 <div style={{ fontSize: '14px', color: '#166534', lineHeight: 1.7 }}>{privateDetails}</div>
               </div>
             )}
             {!isOwn && accessStatus === 'granted' && privateDetails && (
               <div style={{ background: '#f0fdf4', border: '1px solid #86efac', borderRadius: '8px', padding: '12px 14px' }}>
-                <div style={{ fontSize: '12px', fontWeight: 600, color: '#166534', marginBottom: '6px' }}>🔒 Private details — access granted</div>
+                <div style={{ fontSize: '12px', fontWeight: 600, color: '#166534', marginBottom: '6px' }}><Lock size={13} style={{ verticalAlign: '-2px', marginRight: '4px' }} /> Private details — access granted</div>
                 <div style={{ fontSize: '14px', color: '#166534', lineHeight: 1.7 }}>{privateDetails}</div>
               </div>
             )}
             {!isOwn && accessStatus === 'pending' && (
               <div style={{ background: '#fef9f0', border: '1px dashed #f59e0b', borderRadius: '8px', padding: '12px 14px', textAlign: 'center' }}>
-                <div style={{ fontSize: '13px', color: '#92400e' }}>🔒 Waiting for seller approval to view private details.</div>
+                <div style={{ fontSize: '13px', color: '#92400e' }}><Lock size={13} style={{ verticalAlign: '-2px', marginRight: '4px' }} /> Waiting for seller approval to view private details.</div>
               </div>
             )}
             {!isOwn && accessStatus === 'denied' && (
               <div style={{ background: '#fee2e2', border: '1px dashed #dc2626', borderRadius: '8px', padding: '12px 14px', textAlign: 'center' }}>
-                <div style={{ fontSize: '13px', color: '#991b1b' }}>🔒 The seller has not approved access to private details.</div>
+                <div style={{ fontSize: '13px', color: '#991b1b' }}><Lock size={13} style={{ verticalAlign: '-2px', marginRight: '4px' }} /> The seller has not approved access to private details.</div>
               </div>
             )}
             {!isOwn && accessStatus === 'revoked' && (
               <div style={{ background: '#fee2e2', border: '1px dashed #dc2626', borderRadius: '8px', padding: '12px 14px', textAlign: 'center' }}>
-                <div style={{ fontSize: '13px', color: '#991b1b' }}>🔒 Your access was revoked after the deal ended. Sign a new NDA to request access again.</div>
+                <div style={{ fontSize: '13px', color: '#991b1b' }}><Lock size={13} style={{ verticalAlign: '-2px', marginRight: '4px' }} /> Your access was revoked after the deal ended. Sign a new NDA to request access again.</div>
               </div>
             )}
           </div>
@@ -332,14 +347,14 @@ async function toggleFavorite() {
 
         <hr className="divider" />
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '8px', fontSize: '13px', color: 'var(--text-muted)', marginBottom: '1rem' }}>
-          <div><strong>📍 Location</strong><br />{listing.location || '—'}</div>
-          <div><strong>📋 Status</strong><br />{listing.availability}</div>
-          <div><strong>💶 Deal type</strong><br />{listing.trade_type === 'barter' ? 'Non-monetary' : listing.trade_type === 'paid' ? 'Monetary' : 'Open to all'}</div>
+          <div><strong><MapPin size={13} style={{ verticalAlign: '-2px' }} /> Location</strong><br />{listing.location || '—'}</div>
+          <div><strong><ClipboardList size={13} style={{ verticalAlign: '-2px' }} /> Status</strong><br />{listing.availability}</div>
+          <div><strong><BanknoteIcon /> Deal type</strong><br />{listing.trade_type === 'barter' ? 'Non-monetary' : listing.trade_type === 'paid' ? 'Monetary' : 'Open to all'}</div>
         </div>
 
         {listing.submitted_at && (
           <div style={{ fontSize: '11px', color: 'var(--text-faint)', marginBottom: '1rem' }}>
-            📅 Submitted: {new Date(listing.submitted_at).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })}
+            <Calendar size={12} style={{ verticalAlign: '-2px' }} /> Submitted: {new Date(listing.submitted_at).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })}
           </div>
         )}
 
@@ -352,7 +367,7 @@ async function toggleFavorite() {
             {activeDeal && !hasThread ? (
               <div style={{ background: '#fef3c7', border: '1px solid #f59e0b', borderRadius: '8px', padding: '12px 14px', textAlign: 'center' }}>
                 <div style={{ fontSize: '13px', fontWeight: 600, color: '#92400e', marginBottom: '4px' }}>
-                  🤝 Deal in progress
+                  <Handshake size={14} style={{ verticalAlign: '-2px', marginRight: '4px' }} /> Deal in progress
                 </div>
                 <div style={{ fontSize: '12px', color: '#92400e' }}>
                   This submission is currently under negotiation with another party.
@@ -366,7 +381,7 @@ async function toggleFavorite() {
                   style={{ width: '100%', justifyContent: 'center' }}
                   onClick={handleContactClick}
                 >
-                  {hasThread ? `💬 Continue conversation with ${name.split(' ')[0]}` : `🔒 Sign NDA & contact ${name.split(' ')[0]}`}
+                  {hasThread ? (<><MessageCircle size={15} style={{ verticalAlign: '-2px', marginRight: '4px' }} /> Continue conversation with {name.split(' ')[0]}</>) : (<><Lock size={15} style={{ verticalAlign: '-2px', marginRight: '4px' }} /> Sign NDA & contact {name.split(' ')[0]}</>)}
                 </button>
                 <div style={{ textAlign: 'center', marginTop: '8px', fontSize: '12px', color: 'var(--text-muted)' }}>
                   {!hasThread && 'A Non-Disclosure Agreement is required before contacting'}
