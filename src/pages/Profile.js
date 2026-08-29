@@ -288,7 +288,7 @@ async function handleDeleteAccount() {
               </button>
             )}
             {l.status === 'sold' ? (
-              <button className="btn btn-outline btn-sm" onClick={() => repostListing(l.id)}>
+              <button className="btn btn-outline btn-sm" onClick={() => repostListing(l.id)} title="Relist this exchanged item as a new active listing">
                 🔄 Repost to Browse
               </button>
             ) : l.pauseLocked ? (
