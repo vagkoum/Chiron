@@ -284,6 +284,7 @@ async function toggleFavorite() {
             <div
               style={{ fontWeight: 600, fontSize: '16px', cursor: 'pointer', color: '#0F6E56' }}
               onClick={() => navigate(`/profile/${listing.user_id}`)}
+              title="View this user's public profile"
               onMouseEnter={e => e.currentTarget.style.textDecoration = 'underline'}
               onMouseLeave={e => e.currentTarget.style.textDecoration = 'none'}
             >
