@@ -202,7 +202,7 @@ async function handleDeleteAccount() {
 
       <div className="card" style={{ marginBottom: '14px' }}>
         <div style={{ display: 'flex', gap: '14px', alignItems: 'center', marginBottom: '1rem' }}>
-          <label style={{ position: 'relative', cursor: 'pointer' }}>
+          <label style={{ position: 'relative', cursor: 'pointer' }} title="Click to change your profile photo">
             {profile?.avatar_url ? (
               <img src={profile.avatar_url} alt="" className="avatar avatar-lg" style={{ objectFit: 'cover' }} />
             ) : (
