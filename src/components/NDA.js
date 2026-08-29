@@ -228,7 +228,7 @@ export function AccessRequestPanel({ listingId, listingOwnerId, otherUserId, isO
             >
               <Check size={13} color="#ffffff" /> Grant access
             </button>
-            <button className="btn btn-outline btn-sm" onClick={() => respond(false)} disabled={submitting} style={{ display: 'flex', alignItems: 'center', gap: '4px' }}><X size={13} color="currentColor" /> Deny</button>
+            <button className="btn btn-outline btn-sm" onClick={() => respond(false)} disabled={submitting} style={{ display: 'flex', alignItems: 'center', gap: '4px' }} title="Deny this access request"><X size={13} color="currentColor" /> Deny</button>
           </div>
         </div>
       )
