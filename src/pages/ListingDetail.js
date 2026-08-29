@@ -191,7 +191,7 @@ async function toggleFavorite() {
       <div className="page-narrow">
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
         <button className="btn btn-outline btn-sm" onClick={() => navigate(-1)} title="Go back to the previous page">← Back</button>
-        <button className="btn btn-outline btn-sm" onClick={toggleFavorite} style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+        <button className="btn btn-outline btn-sm" onClick={toggleFavorite} style={{ display: 'flex', alignItems: 'center', gap: '6px' }} title={isFavorite ? 'Remove from favorites' : 'Save to favorites'}>
           <svg width="18" height="18" viewBox="-40 -40 80 80">
             <path
               d="M0 35 C-18 20, -32 5, -32 -10 C-32 -22, -22 -30, -12 -27 C-6 -25, -1 -19, 0 -14 C1 -19, 6 -25, 12 -27 C22 -30, 32 -22, 32 -10 C32 5, 18 20, 0 35 Z"
