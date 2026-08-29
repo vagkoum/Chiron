@@ -210,7 +210,7 @@ export function AccessRequestPanel({ listingId, listingOwnerId, otherUserId, isO
     if (ndaRecord.access_status === 'pending') {
       return (
         <div style={{ borderTop: '1px solid var(--border)', padding: '12px 14px', background: '#fef9f0' }}>
-          <div style={{ fontSize: '13px', fontWeight: 600, marginBottom: '6px' }}>🔒 Access request</div>
+          <div style={{ fontSize: '13px', fontWeight: 600, marginBottom: '6px', display: 'flex', alignItems: 'center', gap: '5px' }}><LockIcon size={14} /> Access request</div>
           <div style={{ fontSize: '12px', color: 'var(--text-muted)', marginBottom: '8px' }}>
             This user signed the NDA and is requesting access to your private details.
           </div>
