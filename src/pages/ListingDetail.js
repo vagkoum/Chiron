@@ -31,8 +31,8 @@ function BanknoteIcon({ size = 13 }) {
 function ClockIcon({ size = 12 }) {
   return (
     <svg width={size} height={size} viewBox="-20 -20 40 40" style={{ verticalAlign: '-2px' }}>
-      <circle cx="0" cy="0" r="18" fill="none" stroke="#0F6E56" strokeWidth="2.4" />
-      <path d="M0 -9 v9 l6 5" fill="none" stroke="#0F6E56" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" />
+      <circle cx="0" cy="0" r="18" fill="none" stroke="#0F6E56" strokeWidth="3.3" />
+      <path d="M0 -9 v9 l6 5" fill="none" stroke="#0F6E56" strokeWidth="3.3" strokeLinecap="round" strokeLinejoin="round" />
     </svg>
   )
 }
