@@ -290,8 +290,8 @@ export default function Admin() {
     )}
     {disputes.map(d => (
       <div key={d.id} className="card" style={{ borderLeft: '3px solid #dc2626' }}>
-        <div style={{ fontWeight: 600, fontSize: '14px', marginBottom: '4px' }}>
-          ⚠️ Disputed deal
+        <div style={{ fontWeight: 600, fontSize: '14px', marginBottom: '4px', display: 'flex', alignItems: 'center', gap: '5px' }}>
+          <AlertTriangle size={14} color="#991b1b" /> Disputed deal
         </div>
         <div style={{ fontSize: '13px', color: 'var(--text-muted)', marginBottom: '8px' }}>
           {d.proposer?.full_name} ↔ {d.receiver?.full_name}
