@@ -392,6 +392,7 @@ async function toggleFavorite() {
                   className="btn btn-primary"
                   style={{ width: '100%', justifyContent: 'center' }}
                   onClick={handleContactClick}
+                  title={hasThread ? 'Open your conversation with this user' : 'Sign the NDA to start a conversation'}
                 >
                   {hasThread ? (<><MessageCircle size={15} color="#ffffff" style={{ verticalAlign: '-2px', marginRight: '4px' }} /> Continue conversation with {name.split(' ')[0]}</>) : (<><LockIcon size={15} color="#ffffff" /> Sign NDA & contact {name.split(' ')[0]}</>)}
                 </button>
