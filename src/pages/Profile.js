@@ -283,7 +283,7 @@ async function handleDeleteAccount() {
                 🔒 Edit
               </button>
             ) : (
-              <button className="btn btn-outline btn-sm" onClick={() => navigate(`/edit-listing/${l.id}`)}>
+              <button className="btn btn-outline btn-sm" onClick={() => navigate(`/edit-listing/${l.id}`)} title="Edit this submission">
                 Edit
               </button>
             )}
