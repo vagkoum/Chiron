@@ -6,12 +6,12 @@ import { useAuth } from '../lib/AuthContext'
 import { ClipboardList, Handshake, CheckCircle2, AlertTriangle, Unlock, FileText, Clock, PartyPopper } from 'lucide-react'
 
 const STATUS_LABELS = {
-  proposed: { label: 'Proposed', color: '#92400e', bg: '#fef3c7', icon: '📋' },
-  accepted: { label: 'In Progress', color: '#0c447c', bg: '#e6f1fb', icon: '🤝' },
-  completed: { label: 'Completed', color: '#0F6E56', bg: '#E1F5EE', icon: '✅' },
-  disputed: { label: 'Disputed', color: '#991b1b', bg: '#fee2e2', icon: '⚠️' },
+  proposed: { label: 'Proposed', color: '#92400e', bg: '#fef3c7', icon: ClipboardList },
+  accepted: { label: 'In Progress', color: '#0c447c', bg: '#e6f1fb', icon: Handshake },
+  completed: { label: 'Completed', color: '#0F6E56', bg: '#E1F5EE', icon: CheckCircle2 },
+  disputed: { label: 'Disputed', color: '#991b1b', bg: '#fee2e2', icon: AlertTriangle },
   declined: { label: 'Declined', color: '#6b6b6b', bg: '#f0efe8', icon: '❌' },
-  released: { label: 'Released', color: '#6b6b6b', bg: '#f0efe8', icon: '🔓' },
+  released: { label: 'Released', color: '#6b6b6b', bg: '#f0efe8', icon: Unlock },
 }
 
 async function postDealUpdate(threadId, senderId, receiverId, content) {
