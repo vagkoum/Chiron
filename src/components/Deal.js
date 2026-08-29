@@ -386,8 +386,8 @@ export function DealPanel({ threadId, listingId, otherUserId, otherUserName }) {
             const canRelease = now >= releaseTime
             return (
               <div>
-                <div style={{ fontSize: '12px', color: '#991b1b', marginBottom: '8px', fontWeight: 500 }}>
-                  ⚠️ This deal has been disputed.
+                <div style={{ fontSize: '12px', color: '#991b1b', marginBottom: '8px', fontWeight: 500, display: 'flex', alignItems: 'center', gap: '5px' }}>
+                  <AlertTriangle size={14} color="#991b1b" /> This deal has been disputed.
                 </div>
                 {!canRelease ? (
                   <div style={{ fontSize: '12px', color: 'var(--text-muted)', background: '#fef3c7', borderRadius: '6px', padding: '8px 10px' }}>
