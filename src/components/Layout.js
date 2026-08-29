@@ -5,11 +5,11 @@ import { useState, useEffect } from 'react'
 import { supabase } from '../lib/supabase'
 import { Search, MessageCircle, Bell, Plus } from 'lucide-react'
 
-function MatchesIcon({ size = 16 }) {
+function MatchesIcon({ size = 19 }) {
   return (
-    <svg width={size} height={size} viewBox="-25 -25 50 50" style={{ marginRight: '4px', verticalAlign: '-3px' }}>
-      <circle cx="-6" cy="0" r="10" fill="none" stroke="#0F6E56" strokeWidth="2.2" />
-      <circle cx="6" cy="0" r="10" fill="none" stroke="#0F6E56" strokeWidth="2.2" />
+    <svg width={size} height={size} viewBox="-18 -18 36 36" style={{ marginRight: '4px', verticalAlign: '-4px' }}>
+      <circle cx="-6" cy="0" r="10" fill="none" stroke="#0F6E56" strokeWidth="2.4" />
+      <circle cx="6" cy="0" r="10" fill="none" stroke="#0F6E56" strokeWidth="2.4" />
     </svg>
   )
 }
