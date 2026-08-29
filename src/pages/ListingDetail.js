@@ -392,7 +392,7 @@ async function toggleFavorite() {
                   style={{ width: '100%', justifyContent: 'center' }}
                   onClick={handleContactClick}
                 >
-                  {hasThread ? (<><MessageCircle size={15} color="#0F6E56" style={{ verticalAlign: '-2px', marginRight: '4px' }} /> Continue conversation with {name.split(' ')[0]}</>) : (<><LockIcon size={15} /> Sign NDA & contact {name.split(' ')[0]}</>)}
+                  {hasThread ? (<><MessageCircle size={15} color="#ffffff" style={{ verticalAlign: '-2px', marginRight: '4px' }} /> Continue conversation with {name.split(' ')[0]}</>) : (<><LockIcon size={15} color="#ffffff" /> Sign NDA & contact {name.split(' ')[0]}</>)}
                 </button>
                 <div style={{ textAlign: 'center', marginTop: '8px', fontSize: '12px', color: 'var(--text-muted)' }}>
                   {!hasThread && 'A Non-Disclosure Agreement is required before contacting'}
