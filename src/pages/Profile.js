@@ -296,7 +296,7 @@ async function handleDeleteAccount() {
                 🔒 {l.active ? 'Pause' : 'Activate'}
               </button>
             ) : (
-              <button className="btn btn-outline btn-sm" onClick={() => toggleListing(l.id, l.active)}>
+              <button className="btn btn-outline btn-sm" onClick={() => toggleListing(l.id, l.active)} title={l.active ? 'Hide this listing from Browse' : 'Make this listing visible in Browse again'}>
                 {l.active ? 'Pause' : 'Activate'}
               </button>
             )}
