@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { TrustBadge } from './TrustBadge'
 import { useAuth } from '../lib/AuthContext'
 import { supabase } from '../lib/supabase'
-import { AlertTriangle, Handshake } from 'lucide-react'
+import { AlertTriangle, Handshake, Clock, Repeat, Coins } from 'lucide-react'
 
 function LockIcon({ size = 12, color = '#0F6E56' }) {
   return (
