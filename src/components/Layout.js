@@ -3,6 +3,7 @@ import { useAuth } from '../lib/AuthContext'
 import { TRADE_CONFIG } from '../lib/tradeConfig'
 import { useState, useEffect } from 'react'
 import { supabase } from '../lib/supabase'
+import { Search, MessageCircle, Bell, Plus } from 'lucide-react'
 
 export default function Layout() {
   const { user, profile, signOut } = useAuth()
