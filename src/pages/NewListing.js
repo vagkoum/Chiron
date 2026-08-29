@@ -117,7 +117,7 @@ export default function NewListing() {
           </div>
 
           <div className="form-group">
-            <label className="form-label">Private details <span style={{ color: '#dc2626', fontSize: '11px', fontWeight: 500 }}>🔒 ONLY REVEALED AFTER DEAL IS AGREED</span></label>
+            <label className="form-label">Private details <span style={{ color: '#dc2626', fontSize: '11px', fontWeight: 500, display: 'inline-flex', alignItems: 'center', gap: '3px' }}><Lock size={11} color="#dc2626" /> ONLY REVEALED AFTER DEAL IS AGREED</span></label>
             <textarea
               className="form-textarea"
               style={{ minHeight: '120px' }}
