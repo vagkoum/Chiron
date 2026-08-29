@@ -104,6 +104,7 @@ export default function Layout() {
 
   return (
     <div className="layout">
+    {showOnboarding && <OnboardingModal onDone={() => setShowOnboarding(false)} />}
       <nav className="navbar">
         <div className="navbar-inner">
           <NavLink to="/" className="nav-logo">
