@@ -146,7 +146,7 @@ export default function Layout() {
 
           {user ? (
             <>
-              <button className="nav-post" onClick={() => navigate('/new-listing')}>
+              <button className="nav-post" onClick={() => navigate('/new-listing')} title="Create a new submission">
                 + Post listing
               </button>
               <NavLink to="/profile" title="Your profile">
