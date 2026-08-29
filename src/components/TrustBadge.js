@@ -57,7 +57,7 @@ export function TrustBadge({ userId, showDetails = false }) {
   return (
     <div style={{ background: 'var(--bg)', borderRadius: '10px', padding: '12px 14px' }}>
       <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '10px' }}>
-        <span style={{ fontSize: '24px' }}>{levelInfo.icon}</span>
+        <MedalIcon level={trustScore.level} size={26} />
         <div>
           <div style={{ fontWeight: 600, fontSize: '14px' }}>{levelInfo.label} user</div>
           <div style={{ fontSize: '12px', color: 'var(--text-muted)' }}>Trust score: {trustScore.score || 0} points</div>
