@@ -22,8 +22,8 @@ function LockIcon({ size = 13, color = '#0F6E56' }) {
 function BanknoteIcon({ size = 13 }) {
   return (
     <svg width={size} height={size} viewBox="-22 -14 44 28" style={{ verticalAlign: '-2px' }}>
-      <rect x="-20" y="-12" width="40" height="24" rx="4" fill="none" stroke="#0F6E56" strokeWidth="2.2" />
-      <circle cx="0" cy="0" r="7" fill="none" stroke="#0F6E56" strokeWidth="1.8" />
+      <rect x="-20" y="-12" width="40" height="24" rx="4" fill="none" stroke="#0F6E56" strokeWidth="2.8" />
+      <circle cx="0" cy="0" r="7" fill="none" stroke="#0F6E56" strokeWidth="2.4" />
     </svg>
   )
 }
