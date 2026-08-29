@@ -236,7 +236,7 @@ export function AccessRequestPanel({ listingId, listingOwnerId, otherUserId, isO
       return (
         <div style={{ borderTop: '1px solid var(--border)', padding: '12px 14px', background: '#fee2e2' }}>
           <div style={{ fontSize: '12px', color: '#991b1b', marginBottom: '8px' }}>
-            🔒 You denied this user access to your private details.
+            <LockIcon size={13} color="#991b1b" /> You denied this user access to your private details.
           </div>
           <button
             className="btn btn-outline btn-sm"
