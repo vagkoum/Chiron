@@ -307,7 +307,7 @@ export function DealPanel({ threadId, listingId, otherUserId, otherUserName }) {
             <button className="btn btn-primary btn-sm" onClick={proposeDeal} disabled={submitting || !terms.trim()} title="Send this proposal">
               {submitting ? 'Sending…' : 'Send proposal'}
             </button>
-            <button className="btn btn-outline btn-sm" onClick={() => { setShowPropose(false); setTerms('') }}>Cancel</button>
+            <button className="btn btn-outline btn-sm" onClick={() => { setShowPropose(false); setTerms('') }} title="Discard this proposal">Cancel</button>
           </div>
         </div>
       )}
