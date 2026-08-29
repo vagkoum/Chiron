@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { supabase } from '../lib/supabase'
 import { useAuth } from '../lib/AuthContext'
+import { BarChart3, Users, ClipboardList, Flag, AlertTriangle } from 'lucide-react'
 
 const ADMIN_ID = '60c0540e-5c06-4204-b0ec-f216905d0754'
 
