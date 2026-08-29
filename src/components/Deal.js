@@ -292,7 +292,7 @@ export function DealPanel({ threadId, listingId, otherUserId, otherUserName }) {
 
       {showPropose && (
         <div>
-          <div style={{ fontWeight: 600, fontSize: '13px', marginBottom: '8px' }}>📋 Propose a deal</div>
+          <div style={{ fontWeight: 600, fontSize: '13px', marginBottom: '8px', display: 'flex', alignItems: 'center', gap: '5px' }}><ClipboardList size={14} color="#0F6E56" /> Propose a deal</div>
           <div style={{ fontSize: '12px', color: 'var(--text-muted)', marginBottom: '8px' }}>
             Describe the terms you are proposing — what each party offers, timeline, and any conditions.
           </div>
