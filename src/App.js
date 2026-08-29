@@ -36,6 +36,7 @@ export default function App() {
             <Route path="favorites" element={<PrivateRoute><Favorites /></PrivateRoute>} />
             <Route path="profile/:userId" element={<PublicProfile />} />
             <Route index element={<Home />} />
+            <Route path="how-it-works" element={<HowItWorks />} />
             <Route path="access-requests" element={<PrivateRoute><AccessRequests /></PrivateRoute>} />
             <Route path="browse" element={<Browse />} />
             <Route path="listing/:id" element={<ListingDetail />} />
