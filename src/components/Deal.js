@@ -422,7 +422,7 @@ export function DealPanel({ threadId, listingId, otherUserId, otherUserName }) {
                   ✅ Completed {new Date(cd.updated_at).toLocaleDateString()}
                 </span>
                 <button className="btn btn-outline btn-sm" onClick={() => viewCertificateFor(cd)}>
-                  📄 View Certificate
+                  <FileText size={14} color="#0F6E56" style={{ verticalAlign: '-2px', marginRight: '4px' }} /> View Certificate
                 </button>
               </div>
             ))}
