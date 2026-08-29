@@ -105,9 +105,12 @@ export default function Browse() {
         <button
           className="btn btn-outline btn-sm"
           onClick={() => setFiltersOpen(o => !o)}
-          style={{ whiteSpace: 'nowrap', height: '42px', padding: '0 16px', fontSize: '15px' }}
+          style={{ whiteSpace: 'nowrap', height: '42px', padding: '0 16px', fontSize: '15px', display: 'flex', alignItems: 'center', gap: '6px' }}
         >
-          <span style={{ fontSize: '17px', marginRight: '4px' }}>⚙️</span>Filters {activeFilterCount > 0 && <span className="nav-badge" style={{ marginLeft: '6px' }}>{activeFilterCount}</span>}
+          <svg width="17" height="17" viewBox="-40 -40 80 80" fill="none" stroke="#0F6E56" strokeWidth="7" strokeLinejoin="round" strokeLinecap="round">
+            <path d="M-30 -30 L30 -30 L8 -5 L8 30 L-8 20 L-8 -5 Z" />
+          </svg>
+          Filters {activeFilterCount > 0 && <span className="nav-badge" style={{ marginLeft: '6px' }}>{activeFilterCount}</span>}
         </button>
         <div className="search-wrap" style={{ flex: 1, margin: 0, height: '42px' }}>
           <span className="search-icon">🔍</span>
