@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { supabase } from '../lib/supabase'
 import { useAuth } from '../lib/AuthContext'
 import { TRADE_CONFIG } from '../lib/tradeConfig'
+import { AlertTriangle, Lightbulb, User, Building2 } from 'lucide-react'
 
 export default function NewListing() {
   const { user } = useAuth()
