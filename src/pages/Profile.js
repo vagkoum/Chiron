@@ -258,7 +258,7 @@ async function handleDeleteAccount() {
 
       <div className="section-header">
         <h2 className="section-title">Your listings</h2>
-        <button className="btn btn-outline btn-sm" onClick={() => navigate('/new-listing')}>+ New listing</button>
+        <button className="btn btn-outline btn-sm" onClick={() => navigate('/new-listing')} title="Create a new submission">+ New listing</button>
       </div>
 
       {listings.length === 0 ? (
