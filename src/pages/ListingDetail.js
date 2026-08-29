@@ -245,7 +245,7 @@ async function toggleFavorite() {
   if (!isOwn && listing.active === false && listing.status !== 'sold') {
     return (
       <div className="page-narrow">
-        <button className="btn btn-outline btn-sm" onClick={() => navigate(-1)} style={{ marginBottom: '1rem' }}>← Back</button>
+        <button className="btn btn-outline btn-sm" onClick={() => navigate(-1)} style={{ marginBottom: '1rem' }} title="Go back to the previous page">← Back</button>
         <div className="card" style={{ textAlign: 'center', padding: '2rem' }}>
           <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '1rem' }}><Pause size={44} color="#92400e" /></div>
           <h2 style={{ fontSize: '18px', fontWeight: 600, marginBottom: '8px' }}>This listing is currently paused</h2>
