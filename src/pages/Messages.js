@@ -4,6 +4,7 @@ import { supabase } from '../lib/supabase'
 import { useAuth } from '../lib/AuthContext'
 import { DealPanel } from '../components/Deal'
 import { AccessRequestPanel } from '../components/NDA'
+import { MessageCircle } from 'lucide-react'
 
 export default function Messages() {
   const { user } = useAuth()
