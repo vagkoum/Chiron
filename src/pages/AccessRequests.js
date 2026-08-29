@@ -75,11 +75,11 @@ export default function AccessRequests() {
               </div>
 
               <div style={{ display: 'flex', gap: '8px' }}>
-                <button className="btn btn-primary btn-sm" onClick={() => respond(r.id, true)} disabled={submitting === r.id}>
-                  ✓ Grant access
+                <button className="btn btn-primary btn-sm" onClick={() => respond(r.id, true)} disabled={submitting === r.id} style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+                  <Check size={13} color="#ffffff" /> Grant access
                 </button>
-                <button className="btn btn-outline btn-sm" onClick={() => respond(r.id, false)} disabled={submitting === r.id}>
-                  ✗ Deny
+                <button className="btn btn-outline btn-sm" onClick={() => respond(r.id, false)} disabled={submitting === r.id} style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+                  <X size={13} color="currentColor" /> Deny
                 </button>
               </div>
             </div>
