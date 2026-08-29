@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { supabase } from '../lib/supabase'
 import { TRADE_CONFIG } from '../lib/tradeConfig'
 import ListingCard from '../components/ListingCard'
+import SearchableSelect from '../components/SearchableSelect'
 
 export default function Browse() {
   const [listings, setListings] = useState([])
@@ -10,13 +11,17 @@ export default function Browse() {
   const [category, setCategory] = useState('all')
   const [userType, setUserType] = useState('all')
   const [tradeType, setTradeType] = useState('all')
+  const [language, setLanguage] = useState('all')
+  const [targetCountry, setTargetCountry] = useState('Any')
+  const [targetAudience, setTargetAudience] = useState('all')
+  const [filtersOpen, setFiltersOpen] = useState(false)
   const [error, setError] = useState(null)
 
   useEffect(() => {
     fetchListings()
-  }, [category, userType, tradeType])
+  }, [category, userType, tradeType, language, targetCountry, targetAudience])
 
-    async function fetchListings() {
+  async function fetchListings() {
     setLoading(true)
     setError(null)
     try {
@@ -24,13 +29,16 @@ export default function Browse() {
         .from('listings')
         .select('*, profiles!listings_user_id_fkey(full_name, company, avatar_url)')
         .eq('active', true)
-        .eq('removed', false)
         .neq('status', 'sold')
+        .eq('removed', false)
         .order('created_at', { ascending: false })
 
       if (category !== 'all') query = query.eq('category', category)
       if (userType !== 'all') query = query.eq('user_type', userType)
       if (tradeType !== 'all') query = query.eq('trade_type', tradeType)
+      if (language !== 'all') query = query.eq('language', language)
+      if (targetCountry !== 'Any') query = query.eq('target_country', targetCountry)
+      if (targetAudience !== 'all') query = query.eq('target_audience', targetAudience)
 
       const { data, error: queryError } = await query
 
@@ -65,9 +73,22 @@ export default function Browse() {
       l.offer_description?.toLowerCase().includes(q) ||
       l.skills?.toLowerCase().includes(q) ||
       l.location?.toLowerCase().includes(q) ||
-      l.profiles?.full_name?.toLowerCase().includes(q)
+      l.profiles?.full_name?.toLowerCase().includes(q) ||
+      l.language?.toLowerCase().includes(q) ||
+      l.target_country?.toLowerCase().includes(q) ||
+      l.target_audience?.toLowerCase().includes(q)
     )
   })
+
+  const activeFilterCount = [
+    category !== 'all', userType !== 'all', tradeType !== 'all',
+    language !== 'all', targetCountry !== 'Any', targetAudience !== 'all'
+  ].filter(Boolean).length
+
+  function clearAllFilters() {
+    setCategory('all'); setUserType('all'); setTradeType('all')
+    setLanguage('all'); setTargetCountry('Any'); setTargetAudience('all')
+  }
 
   return (
     <div className="page">
@@ -84,7 +105,7 @@ export default function Browse() {
         <span className="search-icon">🔍</span>
         <input
           type="text"
-          placeholder="Search by title, skill, location…"
+          placeholder="Search by title, skill, location, language, country…"
           value={search}
           onChange={e => setSearch(e.target.value)}
         />
@@ -93,26 +114,80 @@ export default function Browse() {
         )}
       </div>
 
-      <div className="filter-row">
-        <button className={`chip ${userType === 'all' ? 'active' : ''}`} onClick={() => setUserType('all')}>All</button>
-        <button className={`chip ${userType === 'business' ? 'active' : ''}`} onClick={() => setUserType('business')}>Companies</button>
-        <button className={`chip ${userType === 'individual' ? 'active' : ''}`} onClick={() => setUserType('individual')}>Individuals</button>
-        <span style={{ width: '1px', background: 'var(--border)', margin: '0 4px' }} />
-        <button className={`chip ${tradeType === 'barter' ? 'active' : ''}`} onClick={() => setTradeType(tradeType === 'barter' ? 'all' : 'barter')}>Barter only</button>
-        <button className={`chip ${tradeType === 'paid' ? 'active' : ''}`} onClick={() => setTradeType(tradeType === 'paid' ? 'all' : 'paid')}>Paid trades</button>
+      <div style={{ display: 'flex', alignItems: 'center', gap: '8px', margin: '10px 0' }}>
+        <button className="btn btn-outline btn-sm" onClick={() => setFiltersOpen(o => !o)}>
+          ⚙️ Filters {activeFilterCount > 0 && <span className="nav-badge" style={{ marginLeft: '6px' }}>{activeFilterCount}</span>}
+        </button>
+        {activeFilterCount > 0 && (
+          <button className="btn btn-outline btn-sm" onClick={clearAllFilters} style={{ color: 'var(--text-muted)' }}>
+            Clear all filters
+          </button>
+        )}
       </div>
 
-      <div className="filter-row">
-        {['all', ...TRADE_CONFIG.categories].map(cat => (
-          <button
-            key={cat}
-            className={`chip ${category === cat ? 'active' : ''}`}
-            onClick={() => setCategory(cat)}
-          >
-            {cat === 'all' ? 'All categories' : cat}
-          </button>
-        ))}
-      </div>
+      {filtersOpen && (
+        <div className="card" style={{ marginBottom: '1rem', display: 'flex', flexDirection: 'column', gap: '14px' }}>
+          <div>
+            <div style={{ fontSize: '12px', fontWeight: 600, marginBottom: '6px' }}>Posted by</div>
+            <div className="filter-row" style={{ margin: 0 }}>
+              <button className={`chip ${userType === 'all' ? 'active' : ''}`} onClick={() => setUserType('all')}>All</button>
+              <button className={`chip ${userType === 'business' ? 'active' : ''}`} onClick={() => setUserType('business')}>Companies</button>
+              <button className={`chip ${userType === 'individual' ? 'active' : ''}`} onClick={() => setUserType('individual')}>Individuals</button>
+            </div>
+          </div>
+
+          <div>
+            <div style={{ fontSize: '12px', fontWeight: 600, marginBottom: '6px' }}>Deal type</div>
+            <div className="filter-row" style={{ margin: 0 }}>
+              <button className={`chip ${tradeType === 'all' ? 'active' : ''}`} onClick={() => setTradeType('all')}>All</button>
+              <button className={`chip ${tradeType === 'barter' ? 'active' : ''}`} onClick={() => setTradeType('barter')}>Barter only</button>
+              <button className={`chip ${tradeType === 'paid' ? 'active' : ''}`} onClick={() => setTradeType('paid')}>Paid trades</button>
+            </div>
+          </div>
+
+          <div>
+            <div style={{ fontSize: '12px', fontWeight: 600, marginBottom: '6px' }}>Category</div>
+            <div className="filter-row" style={{ margin: 0 }}>
+              {['all', ...TRADE_CONFIG.categories].map(cat => (
+                <button
+                  key={cat}
+                  className={`chip ${category === cat ? 'active' : ''}`}
+                  onClick={() => setCategory(cat)}
+                >
+                  {cat === 'all' ? 'All categories' : cat}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
+            <div>
+              <div style={{ fontSize: '12px', fontWeight: 600, marginBottom: '6px' }}>Language</div>
+              <select className="form-select" value={language} onChange={e => setLanguage(e.target.value)}>
+                <option value="all">Any language</option>
+                {TRADE_CONFIG.languages.filter(l => l !== 'Not specified').map(l => <option key={l}>{l}</option>)}
+              </select>
+            </div>
+            <div>
+              <div style={{ fontSize: '12px', fontWeight: 600, marginBottom: '6px' }}>Target audience</div>
+              <select className="form-select" value={targetAudience} onChange={e => setTargetAudience(e.target.value)}>
+                <option value="all">Any audience</option>
+                {TRADE_CONFIG.audienceTypes.filter(a => a !== 'Any').map(a => <option key={a}>{a}</option>)}
+              </select>
+            </div>
+          </div>
+
+          <div>
+            <div style={{ fontSize: '12px', fontWeight: 600, marginBottom: '6px' }}>Target country</div>
+            <SearchableSelect
+              options={TRADE_CONFIG.countries}
+              value={targetCountry}
+              onChange={setTargetCountry}
+              placeholder="Search countries…"
+            />
+          </div>
+        </div>
+      )}
 
       {error && (
         <div style={{ background: '#fee2e2', borderRadius: '8px', padding: '12px', marginBottom: '1rem', fontSize: '13px', color: '#991b1b' }}>
