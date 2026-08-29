@@ -180,7 +180,7 @@ export default function Messages() {
             <>
               <div className="msg-header">
                 <div>
-                  <div>💬 {getOtherName(activeThread)}</div>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}><MessageCircle size={16} color="#0F6E56" /> {getOtherName(activeThread)}</div>
                   {activeThread.listing?.offer_title && (
                     <div style={{ fontSize: '11px', color: 'var(--green-dark)', marginTop: '1px' }}>
                       re: {activeThread.listing.offer_title}
