@@ -257,7 +257,7 @@ export function AccessRequestPanel({ listingId, listingOwnerId, otherUserId, isO
       return (
         <div style={{ borderTop: '1px solid var(--border)', padding: '12px 14px', background: '#f0fdf4' }}>
           <div style={{ fontSize: '12px', color: '#166534' }}>
-            🔒 You granted this user access to your private details. This cannot be undone.
+            <LockIcon size={13} color="#166534" /> You granted this user access to your private details. This cannot be undone.
           </div>
         </div>
       )
