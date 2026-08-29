@@ -10,11 +10,11 @@ import { MapPin, ClipboardList, Calendar, Handshake, MessageCircle, Pause } from
 
 function LockIcon({ size = 13, color = '#0F6E56' }) {
   return (
-    <svg width={size} height={size} viewBox="-18 -22 36 44" style={{ verticalAlign: '-2px' }}>
-      <rect x="-14" y="-2" width="28" height="24" rx="3" fill="none" stroke={color} strokeWidth="2.2" />
+    <svg width={size} height={size} viewBox="-18 -20 36 42" style={{ verticalAlign: '-2px' }}>
+      <rect x="-14" y="-2" width="28" height="22" rx="3" fill="none" stroke={color} strokeWidth="2.2" />
       <path d="M-8 -2 v-9 a8 8 0 0 1 16 0 v9" fill="none" stroke={color} strokeWidth="2.2" />
-      <circle cx="0" cy="8" r="1.8" fill={color} />
-      <line x1="0" y1="10" x2="0" y2="14" stroke={color} strokeWidth="1.6" strokeLinecap="round" />
+      <circle cx="0" cy="7" r="1.8" fill={color} />
+      <line x1="0" y1="9" x2="0" y2="12" stroke={color} strokeWidth="1.6" strokeLinecap="round" />
     </svg>
   )
 }
