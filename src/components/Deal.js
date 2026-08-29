@@ -315,7 +315,11 @@ export function DealPanel({ threadId, listingId, otherUserId, otherUserName }) {
       {deal && (
         <div>
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>
-            <span style={{ fontSize: '16px' }}>{statusInfo.icon}</span>
+            {typeof statusInfo.icon === 'string' ? (
+              <span style={{ fontSize: '16px' }}>{statusInfo.icon}</span>
+            ) : (
+              <statusInfo.icon size={16} color={statusInfo.color} />
+            )}
             <span style={{ fontSize: '13px', fontWeight: 600 }}>Deal status:</span>
             <span style={{
               fontSize: '11px', padding: '2px 8px', borderRadius: '20px',
