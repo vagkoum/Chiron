@@ -111,6 +111,7 @@ export default function Layout() {
           {user && (
             <>
               <NavLink to="/matches" className={({ isActive }) => 'nav-link' + (isActive ? ' active' : '')}>
+                <MatchesIcon />
                 <span>Matches</span>
               </NavLink>
               <NavLink to="/messages" className={({ isActive }) => 'nav-link' + (isActive ? ' active' : '')}>
