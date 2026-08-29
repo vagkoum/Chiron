@@ -107,8 +107,12 @@ export default function Admin() {
       {/* Tabs */}
       <div className="filter-row" style={{ marginBottom: '1.5rem' }}>
         {['stats', 'users', 'listings', 'reports', 'disputes'].map(t => (
-          <button key={t} className={`chip ${tab === t ? 'active' : ''}`} onClick={() => setTab(t)}>
-            {t === 'stats' ? '📊 Statistics' : t === 'users' ? '👥 Users' : t === 'listings' ? '📋 Listings' : t === 'reports' ? `🚩 Reports${stats.reports > 0 ? ` (${stats.reports})` : ''}` : `⚠️ Disputes${disputes.length > 0 ? ` (${disputes.length})` : ''}`}
+          <button key={t} className={`chip ${tab === t ? 'active' : ''}`} onClick={() => setTab(t)} style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
+            {t === 'stats' ? (<><BarChart3 size={14} /> Statistics</>)
+              : t === 'users' ? (<><Users size={14} /> Users</>)
+              : t === 'listings' ? (<><ClipboardList size={14} /> Listings</>)
+              : t === 'reports' ? (<><Flag size={14} /> Reports{stats.reports > 0 ? ` (${stats.reports})` : ''}</>)
+              : (<><AlertTriangle size={14} /> Disputes{disputes.length > 0 ? ` (${disputes.length})` : ''}</>)}
           </button>
         ))}
       </div>
