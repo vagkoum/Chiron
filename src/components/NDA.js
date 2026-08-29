@@ -159,6 +159,7 @@ export function NDAModal({ listing, onAgreed, onCancel }) {
               onClick={handleAgree}
               disabled={!agreed || loading}
               style={{ flex: 1, justifyContent: 'center' }}
+              title="Agree to the NDA and continue"
             >
               {loading ? 'Recording agreement…' : (
                 <span style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px' }}>
