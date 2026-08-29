@@ -2,6 +2,23 @@ import { useState, useEffect } from 'react'
 import { supabase } from '../lib/supabase'
 import { getLevelInfo } from '../lib/trustScore'
 
+const MEDAL_COLORS = {
+  new: '#a05a2c',
+  trusted: '#8a8a8a',
+  verified: '#c9971f',
+}
+
+function MedalIcon({ level, size = 16 }) {
+  const color = MEDAL_COLORS[level] || MEDAL_COLORS.new
+  return (
+    <svg width={size} height={size * (34 / 26)} viewBox="0 0 26 34" style={{ verticalAlign: '-4px' }}>
+      <path d="M10 2 L8 10 L13 13 L18 10 L16 2 Z" fill="none" stroke={color} strokeWidth="1.6" strokeLinejoin="round" />
+      <circle cx="13" cy="22" r="10" fill="none" stroke={color} strokeWidth="2.4" />
+      <circle cx="13" cy="22" r="5.5" fill={color} />
+    </svg>
+  )
+}
+
 export function TrustBadge({ userId, showDetails = false }) {
   const [trustScore, setTrustScore] = useState(null)
   const [loaded, setLoaded] = useState(false)
