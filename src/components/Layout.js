@@ -31,6 +31,7 @@ export default function Layout() {
   const [unread, setUnread] = useState(0)
   const [pendingRequests, setPendingRequests] = useState(0)
   const [pendingDeals, setPendingDeals] = useState(0)
+  const [showOnboarding, setShowOnboarding] = useState(false)
  
     useEffect(() => {
     if (!user) return
