@@ -225,6 +225,7 @@ export function AccessRequestPanel({ listingId, listingOwnerId, otherUserId, isO
               }}
               disabled={submitting}
               style={{ display: 'flex', alignItems: 'center', gap: '4px' }}
+              title="Approve this user's access to your private details"
             >
               <Check size={13} color="#ffffff" /> Grant access
             </button>
