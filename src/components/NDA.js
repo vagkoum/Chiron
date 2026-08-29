@@ -87,7 +87,7 @@ export function NDAModal({ listing, onAgreed, onCancel }) {
         {/* Header */}
         <div style={{ padding: '1.5rem 1.5rem 0', borderBottom: '1px solid var(--border)', paddingBottom: '1rem' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '4px' }}>
-            <span style={{ fontSize: '20px' }}>🔒</span>
+            <LockIcon size={20} />
             <h2 style={{ fontSize: '16px', fontWeight: 600 }}>Non-Disclosure Agreement</h2>
           </div>
           <p style={{ fontSize: '13px', color: 'var(--text-muted)' }}>
