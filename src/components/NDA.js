@@ -223,10 +223,11 @@ export function AccessRequestPanel({ listingId, listingOwnerId, otherUserId, isO
                 }
               }}
               disabled={submitting}
+              style={{ display: 'flex', alignItems: 'center', gap: '4px' }}
             >
-              ✓ Grant access
+              <Check size={13} color="#ffffff" /> Grant access
             </button>
-            <button className="btn btn-outline btn-sm" onClick={() => respond(false)} disabled={submitting}>✗ Deny</button>
+            <button className="btn btn-outline btn-sm" onClick={() => respond(false)} disabled={submitting} style={{ display: 'flex', alignItems: 'center', gap: '4px' }}><X size={13} color="currentColor" /> Deny</button>
           </div>
         </div>
       )
