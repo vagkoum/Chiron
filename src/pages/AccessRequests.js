@@ -78,7 +78,7 @@ export default function AccessRequests() {
                 <button className="btn btn-primary btn-sm" onClick={() => respond(r.id, true)} disabled={submitting === r.id} style={{ display: 'flex', alignItems: 'center', gap: '4px' }} title="Approve this user's access to your private details">
                   <Check size={13} color="#ffffff" /> Grant access
                 </button>
-                <button className="btn btn-outline btn-sm" onClick={() => respond(r.id, false)} disabled={submitting === r.id} style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+                <button className="btn btn-outline btn-sm" onClick={() => respond(r.id, false)} disabled={submitting === r.id} style={{ display: 'flex', alignItems: 'center', gap: '4px' }} title="Deny this access request">
                   <X size={13} color="currentColor" /> Deny
                 </button>
               </div>
