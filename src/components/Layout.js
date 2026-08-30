@@ -172,7 +172,7 @@ export default function Layout() {
                   <button className="nav-avatar">{initials}</button>
                 )}
               </NavLink>
-            </>
+            </div>
           ) : (
             <>
               <NavLink to="/login" className="nav-link"><span>Log in</span></NavLink>
