@@ -6,7 +6,7 @@ import { supabase } from '../lib/supabase'
 import { Search, MessageCircle, Bell, Plus, HelpCircle } from 'lucide-react'
 import OnboardingModal from './OnboardingModal'
 
-function MatchesIcon({ size = 19 }) {
+function MatchesIcon({ size = 18 }) {
   return (
     <svg width={size} height={size} viewBox="-18 -18 36 36" style={{ marginRight: '4px', verticalAlign: '-4px' }}>
       <circle cx="-6" cy="0" r="10" fill="none" stroke="#0F6E56" strokeWidth="2.4" />
@@ -15,7 +15,7 @@ function MatchesIcon({ size = 19 }) {
   )
 }
 
-function DealsIcon({ size = 19 }) {
+function DealsIcon({ size = 18 }) {
   return (
     <svg width={size} height={size} viewBox="-24 -24 48 48" style={{ marginRight: '4px', verticalAlign: '-4px' }}>
       <line x1="-26" y1="-10" x2="18" y2="-10" stroke="#0F6E56" strokeWidth="3.2" strokeLinecap="round" />
