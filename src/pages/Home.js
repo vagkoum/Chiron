@@ -54,21 +54,22 @@ export default function Home() {
                 {listings.map(l => <ListingCard key={l.id} listing={l} />)}
               </div>
             )}
-            <div style={{ marginTop: '3rem', display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '12px' }}>
-              {[
-                { Icon: Handshake, title: 'Post what you offer', text: 'Describe who or what you can trade.' },
-                { Icon: Search, title: 'Find a match', text: 'Our system surfaces the best mutual fits.' },
-                { Icon: MessageCircle, title: 'Connect & agree', text: 'Chat directly and finalise the terms.' },
-                { Icon: Repeat, title: 'Complete the trade', text: 'Barter or paid — you decide together.' },
-              ].map(s => (
-                <div key={s.title} className="card" style={{ textAlign: 'center' }}>
-                  <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '8px' }}><s.Icon size={28} color="#0F6E56" /></div>
-                  <div style={{ fontWeight: 600, marginBottom: 4 }}>{s.title}</div>
-                  <div style={{ fontSize: '13px', color: 'var(--text-muted)' }}>{s.text}</div>
-                </div>
-              ))}
-            </div>
           </div>
+        </div>
+
+        <div style={{ marginTop: '3rem', display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '12px' }}>
+          {[
+            { Icon: Handshake, title: 'Post what you offer', text: 'Describe who or what you can trade.' },
+            { Icon: Search, title: 'Find a match', text: 'Our system surfaces the best mutual fits.' },
+            { Icon: MessageCircle, title: 'Connect & agree', text: 'Chat directly and finalise the terms.' },
+            { Icon: Repeat, title: 'Complete the trade', text: 'Barter or paid — you decide together.' },
+          ].map(s => (
+            <div key={s.title} className="card" style={{ textAlign: 'center' }}>
+              <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '8px' }}><s.Icon size={28} color="#0F6E56" /></div>
+              <div style={{ fontWeight: 600, marginBottom: 4 }}>{s.title}</div>
+              <div style={{ fontSize: '13px', color: 'var(--text-muted)' }}>{s.text}</div>
+            </div>
+          ))}
         </div>
       </div>
     </>
