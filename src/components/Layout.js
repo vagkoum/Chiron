@@ -154,6 +154,10 @@ export default function Layout() {
 
           {user ? (
             <>
+              <NavLink to="/how-it-works" className={({ isActive }) => 'nav-link' + (isActive ? ' active' : '')} title="Learn how Chiron works">
+                <HelpCircle size={19} color="#0F6E56" style={{ marginRight: '4px', verticalAlign: '-4px' }} />
+                <span>How it works</span>
+              </NavLink>
               <button className="nav-post" onClick={() => navigate('/new-listing')} title="Create a new submission">
                 + Post listing
               </button>
