@@ -112,7 +112,7 @@ export default function Layout() {
           </NavLink>
 
           <NavLink to="/browse" className={({ isActive }) => 'nav-link' + (isActive ? ' active' : '')} title="Browse all active submissions">
-            <Search size={19} color="#0F6E56" style={{ marginRight: '4px', verticalAlign: '-4px' }} />
+            <Search size={18} color="#0F6E56" style={{ marginRight: '4px', verticalAlign: '-4px' }} />
             <span>Browse</span>
           </NavLink>
 
@@ -123,12 +123,12 @@ export default function Layout() {
                 <span>Matches</span>
               </NavLink>
               <NavLink to="/messages" className={({ isActive }) => 'nav-link' + (isActive ? ' active' : '')} title="Your conversations">
-                <MessageCircle size={19} color="#0F6E56" style={{ marginRight: '4px', verticalAlign: '-4px' }} />
+                <MessageCircle size={18} color="#0F6E56" style={{ marginRight: '4px', verticalAlign: '-4px' }} />
                 <span>Messages</span>
                 {unread > 0 && <span className="nav-badge">{unread}</span>}
               </NavLink>
               <NavLink to="/access-requests" className={({ isActive }) => 'nav-link' + (isActive ? ' active' : '')} title="Requests to view your private details">
-                <Bell size={19} color="#0F6E56" style={{ marginRight: '4px', verticalAlign: '-4px' }} />
+                <Bell size={18} color="#0F6E56" style={{ marginRight: '4px', verticalAlign: '-4px' }} />
                 <span>Requests</span>
                 {pendingRequests > 0 && <span className="nav-badge">{pendingRequests}</span>}
               </NavLink>
@@ -155,7 +155,7 @@ export default function Layout() {
           {user ? (
             <div style={{ display: 'flex', alignItems: 'center', gap: '14px', marginLeft: 'auto' }}>
               <NavLink to="/how-it-works" className={({ isActive }) => 'nav-link' + (isActive ? ' active' : '')} title="Learn how Chiron works">
-                <HelpCircle size={19} color="#0F6E56" style={{ marginRight: '4px', verticalAlign: '-4px' }} />
+                <HelpCircle size={18} color="#0F6E56" style={{ marginRight: '4px', verticalAlign: '-4px' }} />
                 <span>How it works</span>
               </NavLink>
               <button className="nav-post" onClick={() => navigate('/new-listing')} title="Create a new submission">
