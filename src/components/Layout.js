@@ -106,7 +106,7 @@ export default function Layout() {
     <div className="layout">
     {showOnboarding && <OnboardingModal onDone={() => setShowOnboarding(false)} />}
       <nav className="navbar">
-        <div className="navbar-inner" style={{ padding: '0 8px' }}>
+        <div className="navbar-inner" style={{ padding: '0 8px', whiteSpace: 'nowrap' }}>
           <NavLink to="/" className="nav-logo" style={{ marginRight: '4px' }}>
            <img src="/logo.png" alt="Chiron" style={{height: '52px', width: 'auto', objectFit: 'contain'}} />
           </NavLink>
