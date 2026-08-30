@@ -35,7 +35,10 @@ export default function Home() {
         </div>
       </div>
       <div className="page">
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 260px', gap: '24px', alignItems: 'start' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: '260px 1fr', gap: '24px', alignItems: 'start' }}>
+          <div style={{ position: 'sticky', top: '20px' }}>
+            <TrustLegend />
+          </div>
           <div>
             <div className="section-header">
               <h2 className="section-title">Recent {TRADE_CONFIG.listingNamePlural}</h2>
@@ -51,7 +54,7 @@ export default function Home() {
                 {listings.map(l => <ListingCard key={l.id} listing={l} />)}
               </div>
             )}
-            <div style={{ marginTop: '3rem', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px,1fr))', gap: '12px' }}>
+            <div style={{ marginTop: '3rem', display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '12px' }}>
               {[
                 { Icon: Handshake, title: 'Post what you offer', text: 'Describe who or what you can trade.' },
                 { Icon: Search, title: 'Find a match', text: 'Our system surfaces the best mutual fits.' },
@@ -65,10 +68,6 @@ export default function Home() {
                 </div>
               ))}
             </div>
-          </div>
-
-          <div style={{ position: 'sticky', top: '20px' }}>
-            <TrustLegend />
           </div>
         </div>
       </div>
