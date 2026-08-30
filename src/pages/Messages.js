@@ -20,11 +20,11 @@ export default function Messages() {
   useEffect(() => { loadThreads() }, [user])
 
   useEffect(() => {
-    if (threadId) {
-      const t = threads.find(t => t.id === threadId)
-      if (t) openThread(t)
-    }
-  }, [threadId, threads])
+    if (!threadId || threads.length === 0) return
+    if (activeThread?.id === threadId) return
+    const t = threads.find(t => t.id === threadId)
+    if (t) openThread(t)
+  }, [threadId, threads, activeThread])
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: 'smooth' })
