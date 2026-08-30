@@ -116,10 +116,6 @@ export default function Layout() {
             <span>Browse</span>
           </NavLink>
 
-          <NavLink to="/how-it-works" className={({ isActive }) => 'nav-link' + (isActive ? ' active' : '')} title="Learn how Chiron works">
-            <span>How it works</span>
-          </NavLink>
-
           {user && (
             <>
               <NavLink to="/matches" className={({ isActive }) => 'nav-link' + (isActive ? ' active' : '')} title="See suggested matches for your submissions">
