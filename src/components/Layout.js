@@ -3,7 +3,7 @@ import { useAuth } from '../lib/AuthContext'
 import { TRADE_CONFIG } from '../lib/tradeConfig'
 import { useState, useEffect } from 'react'
 import { supabase } from '../lib/supabase'
-import { Search, MessageCircle, Bell, Plus } from 'lucide-react'
+import { Search, MessageCircle, Bell, Plus, HelpCircle } from 'lucide-react'
 import OnboardingModal from './OnboardingModal'
 
 function MatchesIcon({ size = 19 }) {
