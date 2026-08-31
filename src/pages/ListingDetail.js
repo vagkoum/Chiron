@@ -243,14 +243,19 @@ async function toggleFavorite() {
   }
 
   if (!isOwn && listing.active === false && listing.status !== 'sold') {
+    const posterDeleted = listing.profiles?.deleted
     return (
       <div className="page-narrow">
         <button className="btn btn-outline btn-sm" onClick={() => navigate(-1)} style={{ marginBottom: '1rem' }} title="Go back to the previous page">← Back</button>
         <div className="card" style={{ textAlign: 'center', padding: '2rem' }}>
           <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '1rem' }}><Pause size={44} color="#92400e" /></div>
-          <h2 style={{ fontSize: '18px', fontWeight: 600, marginBottom: '8px' }}>This listing is currently paused</h2>
+          <h2 style={{ fontSize: '18px', fontWeight: 600, marginBottom: '8px' }}>
+            {posterDeleted ? 'This listing is no longer available' : 'This listing is currently paused'}
+          </h2>
           <p style={{ fontSize: '13px', color: 'var(--text-muted)' }}>
-            The owner has paused this submission. Check back later or browse other listings.
+            {posterDeleted
+              ? 'The original poster has deleted their account, so this submission can no longer be negotiated or acquired.'
+              : 'The owner has paused this submission. Check back later or browse other listings.'}
           </p>
         </div>
       </div>
