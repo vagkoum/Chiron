@@ -68,10 +68,17 @@ export default function Admin() {
   }
 
   async function toggleBanUser(id, banned) {
-    const verb = banned ? 'unban' : 'ban'
-    if (!window.confirm(`Are you sure you want to ${verb} this user? Their deals, NDAs, and exchange history are preserved either way.`)) return
-    await supabase.from('profiles').update({ banned: !banned }).eq('id', id)
-    setUsers(us => us.map(u => u.id === id ? { ...u, banned: !banned } : u))
+    if (banned) {
+      if (!window.confirm('Are you sure you want to unban this user?')) return
+      await supabase.from('profiles').update({ banned: false }).eq('id', id)
+      setUsers(us => us.map(u => u.id === id ? { ...u, banned: false } : u))
+      return
+    }
+    const reason = window.prompt('Reason for this ban (kept as an internal record, not shown to the user):')
+    if (reason === null) return
+    if (!window.confirm('Are you sure you want to ban this user? Their deals, NDAs, and exchange history are preserved either way.')) return
+    await supabase.from('profiles').update({ banned: true, ban_reason: reason }).eq('id', id)
+    setUsers(us => us.map(u => u.id === id ? { ...u, banned: true, ban_reason: reason } : u))
   }
 
   async function toggleRemoveListing(id, removed) {
