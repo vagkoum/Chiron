@@ -181,10 +181,21 @@ useEffect(() => {
     navigate('/')
   }
 async function handleDeleteAccount() {
-    if (!window.confirm('Are you sure you want to delete your account? This will permanently delete all your data, listings, messages and reviews. This cannot be undone.')) return
-    if (!window.confirm('This is your final confirmation. Your account and all associated data will be permanently deleted. Are you absolutely sure?')) return
-    
-    const { error } = await supabase.from('profiles').delete().eq('id', user.id)
+    if (!window.confirm('Are you sure you want to delete your account? Your listings, messages, and exchange history will be preserved for other users\' records, but your name and contact details will be removed. This cannot be undone.')) return
+    if (!window.confirm('This is your final confirmation. Are you absolutely sure?')) return
+
+    await supabase.from('listings').update({ active: false }).eq('user_id', user.id)
+
+    const { error } = await supabase.from('profiles').update({
+      full_name: 'Deleted user',
+      email: null,
+      bio: null,
+      company: null,
+      location: null,
+      avatar_url: null,
+      deleted: true,
+    }).eq('id', user.id)
+
     if (error) {
       alert('Something went wrong. Please contact us at legal@chironevo.com')
       return
