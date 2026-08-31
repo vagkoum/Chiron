@@ -34,6 +34,13 @@ export function AuthProvider({ children }) {
       setLoading(false)
       return
     }
+    if (data?.deleted) {
+      await supabase.auth.signOut()
+      setUser(null)
+      setProfile(null)
+      setLoading(false)
+      return
+    }
     setProfile(data)
     setLoading(false)
   }
