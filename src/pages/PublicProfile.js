@@ -16,7 +16,7 @@ export default function PublicProfile() {
   useEffect(() => {
     supabase
       .from('profiles')
-      .select('*')
+      .select('id, full_name, company, bio, location, avatar_url, banned, deleted')
       .eq('id', userId)
       .single()
       .then(({ data }) => {
