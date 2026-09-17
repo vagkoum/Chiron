@@ -353,6 +353,9 @@ async function handleDeleteAccount() {
 
       <hr className="divider" />
       <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+        <button className="btn btn-outline btn-sm" onClick={() => navigate('/my-agreements')} title="View your confidentiality agreements">
+          View my agreements
+        </button>
         <button className="btn btn-outline btn-sm" onClick={handleSignOut} style={{ color: 'var(--text-muted)' }} title="Sign out of your account">
           Sign out
         </button>
