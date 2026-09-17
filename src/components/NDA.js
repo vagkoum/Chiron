@@ -16,13 +16,17 @@ function LockIcon({ size = 16, color = '#0F6E56' }) {
   )
 }
 
+const NDA_AGREEMENT_VERSION = 'v1'
+
 export function NDAModal({ listing, onAgreed, onCancel }) {
   const { user } = useAuth()
+  const navigate = useNavigate()
   const [agreed, setAgreed] = useState(false)
   const [loading, setLoading] = useState(false)
   const [alreadySigned, setAlreadySigned] = useState(false)
   const [isReturning, setIsReturning] = useState(false)
-
+  const [showNameWarning, setShowNameWarning] = useState(true)
+  const [scrolledToBottom, setScrolledToBottom] = useState(false)
   const listingOwnerName = listing.profiles?.full_name || 'the listing owner'
   const today = new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })
 
