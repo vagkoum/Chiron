@@ -20,7 +20,7 @@ function LockIcon({ size = 16, color = '#0F6E56' }) {
 const NDA_AGREEMENT_VERSION = 'v1'
 
 export function NDAModal({ listing, onAgreed, onCancel }) {
-  const { user } = useAuth()
+  const { user, profile } = useAuth()
   const navigate = useNavigate()
   const [agreed, setAgreed] = useState(false)
   const [loading, setLoading] = useState(false)
