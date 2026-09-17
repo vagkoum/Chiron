@@ -73,11 +73,23 @@ export function NDAModal({ listing, onAgreed, onCancel }) {
       user_id: user.id,
       listing_id: listing.id,
       listing_owner_id: listing.user_id,
+      agreement_version: NDA_AGREEMENT_VERSION,
     })
     if (error && error.code !== '23505') {
       setLoading(false)
       return
     }
+
+    fetch('/api/send-nda-copy', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        discloserId: listing.user_id,
+        recipientId: user.id,
+        listingId: listing.id,
+      })
+    }).catch(err => console.error('Sending agreement copy failed:', err))
+
     setLoading(false)
     onAgreed()
   }
