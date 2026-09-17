@@ -2,6 +2,8 @@ import { useState, useEffect } from 'react'
 import { supabase } from '../lib/supabase'
 import { useAuth } from '../lib/AuthContext'
 import { Check, X } from 'lucide-react'
+import { useNavigate } from 'react-router-dom'
+import RealNameWarningModal from './RealNameWarningModal'
 
 function LockIcon({ size = 16, color = '#0F6E56' }) {
   return (
