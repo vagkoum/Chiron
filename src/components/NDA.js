@@ -135,7 +135,7 @@ export function NDAModal({ listing, onAgreed, onCancel }) {
         </div>
 
         {/* NDA Text */}
-        <div style={{ padding: '1.25rem 1.5rem', fontSize: '13px', lineHeight: 1.8, color: 'var(--text)', maxHeight: '340px', overflowY: 'auto' }}>
+        <div onScroll={handleScroll} style={{ padding: '1.25rem 1.5rem', fontSize: '13px', lineHeight: 1.8, color: 'var(--text)', maxHeight: '340px', overflowY: 'auto' }}>
           <p style={{ marginBottom: '12px', fontWeight: 500 }}>
             NON-DISCLOSURE AGREEMENT — {today}
           </p>
