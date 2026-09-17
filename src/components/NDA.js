@@ -96,6 +96,15 @@ export function NDAModal({ listing, onAgreed, onCancel }) {
 
   if (alreadySigned) return null
 
+  if (showNameWarning) {
+    return (
+      <RealNameWarningModal
+        onContinueAnyway={() => setShowNameWarning(false)}
+        onGoFixName={() => navigate('/profile')}
+      />
+    )
+  }
+
   return (
     <div
       style={{
