@@ -30,10 +30,7 @@ export function NDAModal({ listing, onAgreed, onCancel }) {
   const [scrolledToBottom, setScrolledToBottom] = useState(false)
   const listingOwnerName = listing.profiles?.full_name || 'the listing owner'
   const today = new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })
-
-  const listingOwnerName = listing.profiles?.full_name || 'the listing owner'
-  const today = new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })
-
+  
   function handleScroll(e) {
     const el = e.target
     if (el.scrollHeight - el.scrollTop - el.clientHeight < 20) {
