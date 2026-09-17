@@ -30,6 +30,16 @@ export function NDAModal({ listing, onAgreed, onCancel }) {
   const listingOwnerName = listing.profiles?.full_name || 'the listing owner'
   const today = new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })
 
+  const listingOwnerName = listing.profiles?.full_name || 'the listing owner'
+  const today = new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })
+
+  function handleScroll(e) {
+    const el = e.target
+    if (el.scrollHeight - el.scrollTop - el.clientHeight < 20) {
+      setScrolledToBottom(true)
+    }
+  }
+
   useEffect(() => {
     if (!user) return
     supabase
