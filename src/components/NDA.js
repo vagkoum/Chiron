@@ -90,7 +90,7 @@ export function NDAModal({ listing, onAgreed, onCancel }) {
 
     openNdaRecord({
       discloserName: listing.profiles?.full_name || '—',
-      recipientName: user.user_metadata?.full_name || 'Recipient',
+      recipientName: profile?.full_name || 'Recipient',
       listingTitle: listing.offer_title,
       acceptedAt: new Date().toISOString(),
       agreementVersion: NDA_AGREEMENT_VERSION,
