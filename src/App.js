@@ -17,6 +17,7 @@ import './styles.css'
 import PublicProfile from './pages/PublicProfile'
 import Favorites from './pages/Favorites'
 import HowItWorks from './pages/HowItWorks'
+import MyAgreements from './pages/MyAgreements'
 
 function PrivateRoute({ children }) {
   const { user, loading } = useAuth()
@@ -33,6 +34,7 @@ export default function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/" element={<Layout />}>
+            <Route path="my-agreements" element={<PrivateRoute><MyAgreements /></PrivateRoute>} />
             <Route path="favorites" element={<PrivateRoute><Favorites /></PrivateRoute>} />
             <Route path="profile/:userId" element={<PublicProfile />} />
             <Route index element={<Home />} />
