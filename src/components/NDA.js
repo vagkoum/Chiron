@@ -182,11 +182,13 @@ export function NDAModal({ listing, onAgreed, onCancel }) {
             <input
               type="checkbox"
               checked={agreed}
+              disabled={!scrolledToBottom}
               onChange={e => setAgreed(e.target.checked)}
               style={{ marginTop: '2px', width: '16px', height: '16px', flexShrink: 0 }}
             />
             <span style={{ fontSize: '13px', color: 'var(--text)' }}>
               I have read and agree to this Non-Disclosure Agreement. I understand that by agreeing, I am legally bound by these terms and my acceptance is digitally recorded with a timestamp.
+              {!scrolledToBottom && <div style={{ color: '#92400e', fontSize: '11px', marginTop: '4px' }}>Please scroll to the end of the agreement above before continuing.</div>}
             </span>
           </label>
 
