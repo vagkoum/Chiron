@@ -261,10 +261,24 @@ export default function EditListing() {
             </div>
           </div>
 
+          <div style={{ background: '#fef9f0', border: '1px solid #f5deb3', borderRadius: '8px', padding: '12px 14px', marginBottom: '1rem' }}>
+            <label style={{ display: 'flex', gap: '10px', alignItems: 'flex-start', cursor: 'pointer' }}>
+              <input
+                type="checkbox"
+                checked={confirmations}
+                onChange={e => setConfirmations(e.target.checked)}
+                style={{ marginTop: '2px', width: '16px', height: '16px', flexShrink: 0 }}
+              />
+              <span style={{ fontSize: '12px', color: '#92400e', lineHeight: 1.6 }}>
+                By saving, I confirm that: my profile information is accurate and I am the person I say I am; I own, or am otherwise entitled to disclose and dispose of, everything I am publishing; what I am publishing infringes no right of any third party; and I am not bound by any confidentiality obligation, employment term, institutional policy, funding condition or contract that prohibits me from disclosing it.
+              </span>
+            </label>
+          </div>
+
           {error && <p className="form-error">{error}</p>}
 
           <div style={{ display: 'flex', gap: '10px', marginTop: '0.5rem' }}>
-            <button type="submit" className="btn btn-primary" disabled={saving}>
+            <button type="submit" className="btn btn-primary" disabled={saving || !confirmations}>
               {saving ? 'Saving…' : 'Save changes'}
             </button>
             <button type="button" className="btn btn-outline" onClick={() => navigate('/profile')}>Cancel</button>
