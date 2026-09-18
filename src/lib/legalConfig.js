@@ -1,0 +1,2 @@
+export const CURRENT_TERMS_VERSION = 'v1'
+export const TERMS_EFFECTIVE_DATE = '2026-09-18'
