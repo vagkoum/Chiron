@@ -267,6 +267,12 @@ export function DealPanel({ threadId, listingId, otherUserId, otherUserName }) {
 
   async function releaseListing() {
     setSubmitting(true)
+    const { data: ndaBefore } = await supabase
+      .from('nda_agreements')
+      .select('user_id, access_status')
+      .eq('listing_id', listingId)
+      .eq('access_status', 'granted')
+      .maybeSingle()
     const { data } = await supabase
       .from('deals')
       .update({ status: 'released', updated_at: new Date().toISOString() })
@@ -275,6 +281,14 @@ export function DealPanel({ threadId, listingId, otherUserId, otherUserName }) {
     setDeal(null)
     const otherPartyId = user.id === deal.proposer_id ? deal.receiver_id : deal.proposer_id
     await postDealUpdate(threadId, user.id, otherPartyId, '🔓 The disputed listing has been released and is available again.')
+    if (ndaBefore) {
+      await supabase.from('nda_agreements').update({
+        access_status: 'revoked',
+        revoked_at: new Date().toISOString(),
+        destruction_due_at: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString(),
+      }).eq('listing_id', listingId).eq('user_id', ndaBefore.user_id)
+      await postDealUpdate(threadId, user.id, ndaBefore.user_id, 'Since this deal ended without agreement, you are required under the Confidentiality Agreement to return or destroy any private information you received, within 30 days.')
+    }
     setSubmitting(false)
   }
 
