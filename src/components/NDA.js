@@ -221,7 +221,7 @@ export function NDAModal({ listing, onAgreed, onCancel }) {
     </div>
   )
 }
-export function AccessRequestPanel({ listingId, listingOwnerId, otherUserId, isOwner }) {
+export function AccessRequestPanel({ listingId, listingOwnerId, otherUserId, isOwner, threadId }) {
   const { user } = useAuth()
   const [ndaRecord, setNdaRecord] = useState(null)
   const [loading, setLoading] = useState(true)
@@ -248,6 +248,23 @@ export function AccessRequestPanel({ listingId, listingOwnerId, otherUserId, isO
     setNdaRecord(data)
     setSubmitting(false)
     window.dispatchEvent(new Event('access-requests-updated'))
+  }
+
+  async function confirmDestruction() {
+    setSubmitting(true)
+    const now = new Date().toISOString()
+    await supabase.from('nda_agreements').update({ destruction_confirmed_at: now }).eq('id', ndaRecord.id)
+    setNdaRecord(r => ({ ...r, destruction_confirmed_at: now }))
+    if (threadId) {
+      await supabase.from('messages').insert({
+        thread_id: threadId,
+        sender_id: user.id,
+        receiver_id: listingOwnerId,
+        content: '✓ Confirmed: the private information received has been returned or destroyed, per the Confidentiality Agreement.',
+        read: false,
+      })
+    }
+    setSubmitting(false)
   }
 
   if (loading || !ndaRecord) return null
@@ -310,6 +327,17 @@ export function AccessRequestPanel({ listingId, listingOwnerId, otherUserId, isO
         </div>
       )
     }
+    if (ndaRecord.access_status === 'revoked') {
+      return (
+        <div style={{ borderTop: '1px solid var(--border)', padding: '12px 14px', background: '#f0efe8' }}>
+          <div style={{ fontSize: '12px', color: 'var(--text-muted)' }}>
+            {ndaRecord.destruction_confirmed_at
+              ? '✓ This user has confirmed they returned or destroyed the private information they received.'
+              : 'This deal ended without agreement. The other party has been asked to return or destroy the private information they received, within 30 days.'}
+          </div>
+        </div>
+      )
+    }
     return null
   }
 
@@ -327,5 +355,26 @@ export function AccessRequestPanel({ listingId, listingOwnerId, otherUserId, isO
       </div>
     )
   }
+  if (ndaRecord.access_status === 'revoked' && ndaRecord.destruction_due_at) {
+    if (ndaRecord.destruction_confirmed_at) {
+      return (
+        <div style={{ borderTop: '1px solid var(--border)', padding: '12px 14px', background: '#f0fdf4' }}>
+          <div style={{ fontSize: '12px', color: '#166534' }}>✓ You confirmed you returned or destroyed the private information you received.</div>
+        </div>
+      )
+    }
+    return (
+      <div style={{ borderTop: '1px solid var(--border)', padding: '12px 14px', background: '#fef9f0' }}>
+        <div style={{ fontSize: '12px', color: '#92400e', marginBottom: '8px' }}>
+          This deal ended without agreement. Under the Confidentiality Agreement, please confirm you have returned or destroyed the private information you received.
+        </div>
+        <button className="btn btn-outline btn-sm" onClick={confirmDestruction} disabled={submitting} style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+          <Check size={13} color="currentColor" /> I confirm I have returned or destroyed it
+        </button>
+      </div>
+    )
+  }
+  return null
+}
   return null
 }
