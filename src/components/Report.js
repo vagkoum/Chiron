@@ -19,6 +19,7 @@ export function ReportButton({ reportedUserId, listingId }) {
   const [loading, setLoading] = useState(false)
   const [submitted, setSubmitted] = useState(false)
   const [error, setError] = useState('')
+  const [goodFaith, setGoodFaith] = useState(false)
 
   if (!user || user.id === reportedUserId) return null
 
