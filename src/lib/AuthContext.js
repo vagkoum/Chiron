@@ -20,7 +20,7 @@ export function AuthProvider({ children }) {
     const { data: listener } = supabase.auth.onAuthStateChange((_event, session) => {
       setUser(session?.user ?? null)
       if (session?.user) fetchProfile(session.user.id)
-      else { setProfile(null); setLoading(false) }
+      else { setProfile(null); setLoading(false); setTermsOutdated(false) }
     })
 
     return () => listener.subscription.unsubscribe()
