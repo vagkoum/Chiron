@@ -9,6 +9,7 @@ export default function EditListing() {
   const { user } = useAuth()
   const { id } = useParams()
   const navigate = useNavigate()
+  const [confirmations, setConfirmations] = useState(false)
   const [loading, setLoading] = useState(true)
   const [saving, setSaving] = useState(false)
   const [error, setError] = useState('')
