@@ -216,6 +216,7 @@ export default function Messages() {
                 listingOwnerId={activeThread.listing?.user_id}
                 otherUserId={getOtherId(activeThread)}
                 isOwner={activeThread.listing?.user_id === user.id}
+                threadId={activeThread.id}
               />
               <div className="msg-footer">
                 <input
