@@ -5,6 +5,7 @@ import { useState, useEffect } from 'react'
 import { supabase } from '../lib/supabase'
 import { Search, MessageCircle, Bell, Plus, HelpCircle } from 'lucide-react'
 import OnboardingModal from './OnboardingModal'
+import TermsReacceptanceModal from './TermsReacceptanceModal'
 
 function MatchesIcon({ size = 24 }) {
   return (
@@ -27,7 +28,7 @@ function DealsIcon({ size = 18 }) {
 }
 
 export default function Layout() {
-  const { user, profile, signOut } = useAuth()
+  const { user, profile, signOut, termsOutdated } = useAuth()
   const navigate = useNavigate()
   const [unread, setUnread] = useState(0)
   const [pendingRequests, setPendingRequests] = useState(0)
@@ -105,6 +106,7 @@ export default function Layout() {
   return (
     <div className="layout">
     {showOnboarding && <OnboardingModal onDone={() => setShowOnboarding(false)} />}
+    {termsOutdated && <TermsReacceptanceModal onAccepted={() => window.location.reload()} />}
       <nav className="navbar">
         <div className="navbar-inner" style={{ padding: '0 8px', whiteSpace: 'nowrap' }}>
           <NavLink to="/" className="nav-logo" style={{ marginRight: '4px' }}>
