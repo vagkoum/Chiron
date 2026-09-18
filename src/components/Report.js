@@ -25,6 +25,7 @@ export function ReportButton({ reportedUserId, listingId }) {
 
   async function handleSubmit() {
     if (!reason) { setError('Please select a reason.'); return }
+    if (!goodFaith) { setError('Please confirm the statement below before submitting.'); return }
     setLoading(true)
     setError('')
     const { error: err } = await supabase.from('reports').insert({
@@ -35,9 +36,16 @@ export function ReportButton({ reportedUserId, listingId }) {
       details: details.trim(),
     })
     if (err) { setError(err.message); setLoading(false); return }
+
+    fetch('/api/send-report-update', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ reporterId: user.id, type: 'received', reason })
+    }).catch(e => console.error('Report receipt notification failed:', e))
+
     setLoading(false)
     setSubmitted(true)
-    setTimeout(() => { setOpen(false); setSubmitted(false); setReason(''); setDetails('') }, 2000)
+    setTimeout(() => { setOpen(false); setSubmitted(false); setReason(''); setDetails(''); setGoodFaith(false) }, 2000)
   }
 
   return (
