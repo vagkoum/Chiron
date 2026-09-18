@@ -153,16 +153,24 @@ export function DealPanel({ threadId, listingId, otherUserId, otherUserName }) {
     setDeal(accept ? data : null)
     if (!accept) {
       await updateTrustScore(deal.proposer_id, 'DEAL_ENDED')
+      const { data: ndaBefore } = await supabase
+        .from('nda_agreements')
+        .select('user_id, access_status')
+        .eq('listing_id', listingId)
+        .eq('access_status', 'granted')
+        .maybeSingle()
       await supabase.rpc('revoke_access_on_decline', { p_deal_id: deal.id })
       window.dispatchEvent(new Event('access-requests-updated'))
       await postDealUpdate(threadId, user.id, deal.proposer_id, '✗ The deal proposal was declined.')
+      if (ndaBefore) {
+        await postDealUpdate(threadId, user.id, ndaBefore.user_id, 'Since this deal ended without agreement, you are required under the Confidentiality Agreement to return or destroy any private information you received, within 30 days.')
+      }
     } else {
       await postDealUpdate(threadId, user.id, deal.proposer_id, '✓ The deal was accepted.')
     }
     window.dispatchEvent(new Event('deals-updated'))
     setSubmitting(false)
   }
-
   async function confirmCompletion() {
     setSubmitting(true)
     const isProposer = user.id === deal.proposer_id
