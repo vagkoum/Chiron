@@ -47,6 +47,7 @@ export default function NewListing() {
   user_id: user.id,
   active: true,
   has_private_details: !!(private_details && private_details.trim()),
+  publisher_confirmed_at: new Date().toISOString(),
 }).select().single()
 
   if (err) { setError(err.message); setLoading(false); return }
