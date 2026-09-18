@@ -43,6 +43,11 @@ export function AuthProvider({ children }) {
       setLoading(false)
       return
     }
+    if (data?.terms_version && data.terms_version !== CURRENT_TERMS_VERSION) {
+      setTermsOutdated(true)
+    } else {
+      setTermsOutdated(false)
+    }
     setProfile(data)
     setLoading(false)
   }
