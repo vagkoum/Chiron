@@ -89,8 +89,20 @@ export default function Admin() {
   }
   
   async function resolveReport(id, status) {
+    const report = reports.find(r => r.id === id)
     await supabase.from('reports').update({ status }).eq('id', id)
     setReports(rs => rs.map(r => r.id === id ? { ...r, status } : r))
+
+    fetch('/api/send-report-update', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        reporterId: report?.reporter_id,
+        type: 'decided',
+        reason: report?.reason,
+        status,
+      })
+    }).catch(err => console.error('Report notification failed:', err))
   }
 
   async function toggleListing(id, active) {
