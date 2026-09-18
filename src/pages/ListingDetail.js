@@ -172,7 +172,7 @@ async function toggleFavorite() {
 
   function handleContactClick() {
     if (!user) { navigate('/login'); return }
-    const hasCurrentAccess = accessStatus === 'granted' || accessStatus === 'pending' || accessStatus === 'denied'
+    const hasCurrentAccess = accessStatus === 'granted' || accessStatus === 'pending' || accessStatus === 'denied' || accessStatus === 'revoked'
     if (hasThread && hasCurrentAccess) {
       openConversation()
     } else {
