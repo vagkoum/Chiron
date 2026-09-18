@@ -110,6 +110,18 @@ export function ReportButton({ reportedUserId, listingId }) {
                   />
                 </div>
 
+                <label style={{ display: 'flex', gap: '8px', alignItems: 'flex-start', cursor: 'pointer', marginBottom: '0.75rem' }}>
+                  <input
+                    type="checkbox"
+                    checked={goodFaith}
+                    onChange={e => setGoodFaith(e.target.checked)}
+                    style={{ marginTop: '2px', width: '15px', height: '15px', flexShrink: 0 }}
+                  />
+                  <span style={{ fontSize: '12px', color: 'var(--text-muted)' }}>
+                    I confirm, in good faith, that the information in this report is accurate and complete to the best of my knowledge.
+                  </span>
+                </label>
+
                 {error && <p className="form-error">{error}</p>}
 
                 <div style={{ display: 'flex', gap: '8px', marginTop: '0.5rem' }}>
