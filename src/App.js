@@ -18,6 +18,7 @@ import PublicProfile from './pages/PublicProfile'
 import Favorites from './pages/Favorites'
 import HowItWorks from './pages/HowItWorks'
 import MyAgreements from './pages/MyAgreements'
+import ExportData from './pages/ExportData'
 
 function PrivateRoute({ children }) {
   const { user, loading } = useAuth()
@@ -30,6 +31,7 @@ export default function App() {
     <AuthProvider>
       <BrowserRouter>
         <Routes>
+          <Route path="export-data" element={<PrivateRoute><ExportData /></PrivateRoute>} />
           <Route path="edit-listing/:id" element={<PrivateRoute><EditListing /></PrivateRoute>} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
