@@ -8,6 +8,7 @@ import { AlertTriangle, Lightbulb, User, Building2, Lock } from 'lucide-react'
 export default function NewListing() {
   const { user } = useAuth()
   const navigate = useNavigate()
+  const [confirmations, setConfirmations] = useState(false)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
   const [form, setForm] = useState({
@@ -202,10 +203,24 @@ export default function NewListing() {
             </div>
           </div>
 
+            <div style={{ background: '#fef9f0', border: '1px solid #f5deb3', borderRadius: '8px', padding: '12px 14px', marginBottom: '1rem' }}>
+            <label style={{ display: 'flex', gap: '10px', alignItems: 'flex-start', cursor: 'pointer' }}>
+              <input
+                type="checkbox"
+                checked={confirmations}
+                onChange={e => setConfirmations(e.target.checked)}
+                style={{ marginTop: '2px', width: '16px', height: '16px', flexShrink: 0 }}
+              />
+              <span style={{ fontSize: '12px', color: '#92400e', lineHeight: 1.6 }}>
+                By publishing, I confirm that: my profile information is accurate and I am the person I say I am; I own, or am otherwise entitled to disclose and dispose of, everything I am publishing; what I am publishing infringes no right of any third party; and I am not bound by any confidentiality obligation, employment term, institutional policy, funding condition or contract that prohibits me from disclosing it.
+              </span>
+            </label>
+          </div>
+
           {error && <p className="form-error">{error}</p>}
 
           <div style={{ display: 'flex', gap: '10px', marginTop: '0.5rem' }}>
-            <button type="submit" className="btn btn-primary" disabled={loading}>
+            <button type="submit" className="btn btn-primary" disabled={loading || !confirmations}>
               {loading ? 'Submitting…' : 'Submit idea'}
             </button>
             <button type="button" className="btn btn-outline" onClick={() => navigate(-1)}>Cancel</button>
