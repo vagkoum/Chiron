@@ -93,6 +93,10 @@ export default function EditListing() {
     setError('Please fill in the required fields.')
     return
   }
+  if (!confirmations) {
+    setError('Please confirm the statement below before saving.')
+    return
+  }
   setSaving(true)
   setError('')
 
@@ -100,7 +104,11 @@ export default function EditListing() {
 
   const { error: err } = await supabase
     .from('listings')
-    .update({ ...publicFields, has_private_details: !!(private_details && private_details.trim()) })
+    .update({
+      ...publicFields,
+      has_private_details: !!(private_details && private_details.trim()),
+      publisher_confirmed_at: new Date().toISOString(),
+    })
     .eq('id', id)
     .eq('user_id', user.id)
   if (err) { setError(err.message); setSaving(false); return }
