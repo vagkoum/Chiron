@@ -19,6 +19,7 @@ import Favorites from './pages/Favorites'
 import HowItWorks from './pages/HowItWorks'
 import MyAgreements from './pages/MyAgreements'
 import ExportData from './pages/ExportData'
+import RegisterForm from './pages/RegisterForm'
 
 function PrivateRoute({ children }) {
   const { user, loading } = useAuth()
@@ -35,6 +36,7 @@ export default function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/" element={<Layout />}>
+            <Route path="register-test-preview" element={<RegisterForm />} />
             <Route path="my-agreements" element={<PrivateRoute><MyAgreements /></PrivateRoute>} />
             <Route path="export-data" element={<PrivateRoute><ExportData /></PrivateRoute>} />
             <Route path="favorites" element={<PrivateRoute><Favorites /></PrivateRoute>} />
