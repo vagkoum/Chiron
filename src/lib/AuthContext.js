@@ -78,12 +78,14 @@ export function AuthProvider({ children }) {
         terms_version: legalConfirmations.terms_version || null,
       })
 
-      // Create trust score
-      await supabase.from('trust_scores').insert({
+      // Create trust score (the database trigger create_trust_score() already
+      // does this automatically on profile creation, but this is kept as a
+      // harmless safety net using correct upsert syntax)
+      await supabase.from('trust_scores').upsert({
         user_id: data.user.id,
         score: 0,
         level: 'new',
-      }).onConflict('user_id').ignore()
+      }, { onConflict: 'user_id', ignoreDuplicates: true })
 
       // Check for duplicate IP — flag if 2+ accounts from same IP
       if (ip) {
