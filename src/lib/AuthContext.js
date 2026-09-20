@@ -52,7 +52,7 @@ export function AuthProvider({ children }) {
     setLoading(false)
   }
 
-  async function signUp(email, password, fullName) {
+  async function signUp(email, password, fullName, legalConfirmations = {}) {
     const { data, error } = await supabase.auth.signUp({ email, password })
     if (error) throw error
     if (data.user) {
@@ -73,6 +73,9 @@ export function AuthProvider({ children }) {
         email,
         signup_ip: ip,
         email_domain: emailDomain,
+        age_confirmed_at: legalConfirmations.age_confirmed_at || null,
+        terms_accepted_at: legalConfirmations.terms_accepted_at || null,
+        terms_version: legalConfirmations.terms_version || null,
       })
 
       // Create trust score
