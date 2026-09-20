@@ -77,8 +77,8 @@ export default function Admin() {
     const reason = window.prompt('Reason for this ban (kept as an internal record, not shown to the user):')
     if (reason === null) return
     if (!window.confirm('Are you sure you want to ban this user? Their deals, NDAs, and exchange history are preserved either way.')) return
-    await supabase.from('profiles').update({ banned: true, ban_reason: reason }).eq('id', id)
-    setUsers(us => us.map(u => u.id === id ? { ...u, banned: true, ban_reason: reason } : u))
+    await supabase.from('profiles').update({ banned: true, ban_reason: reason, ban_reason_recorded_at: new Date().toISOString() }).eq('id', id)
+    setUsers(us => us.map(u => u.id === id ? { ...u, banned: true, ban_reason: reason, ban_reason_recorded_at: new Date().toISOString() } : u))
   }
 
   async function toggleRemoveListing(id, removed) {
