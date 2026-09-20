@@ -194,8 +194,8 @@ async function handleDeleteAccount() {
       location: null,
       avatar_url: null,
       deleted: true,
+      deleted_at: new Date().toISOString(),
     }).eq('id', user.id)
-
     if (error) {
       alert('Something went wrong. Please contact us at legal@chironevo.com')
       return
