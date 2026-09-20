@@ -90,7 +90,7 @@ export default function Admin() {
   
   async function resolveReport(id, status) {
     const report = reports.find(r => r.id === id)
-    await supabase.from('reports').update({ status }).eq('id', id)
+    await supabase.from('reports').update({ status, decided_at: new Date().toISOString() }).eq('id', id)
     setReports(rs => rs.map(r => r.id === id ? { ...r, status } : r))
 
     fetch('/api/send-report-update', {
