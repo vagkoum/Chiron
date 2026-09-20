@@ -330,11 +330,24 @@ export function AccessRequestPanel({ listingId, listingOwnerId, otherUserId, isO
     if (ndaRecord.access_status === 'revoked') {
       return (
         <div style={{ borderTop: '1px solid var(--border)', padding: '12px 14px', background: '#f0efe8' }}>
-          <div style={{ fontSize: '12px', color: 'var(--text-muted)' }}>
+          <div style={{ fontSize: '12px', color: 'var(--text-muted)', marginBottom: '8px' }}>
             {ndaRecord.destruction_confirmed_at
               ? '✓ This user has confirmed they returned or destroyed the private information they received.'
               : 'This deal ended without agreement. The other party has been asked to return or destroy the private information they received, within 30 days.'}
           </div>
+          <button
+            className="btn btn-outline btn-sm"
+            onClick={() => {
+              if (window.confirm('Grant this user access to your private details again? This cannot be undone.')) {
+                respond(true)
+              }
+            }}
+            disabled={submitting}
+            style={{ display: 'flex', alignItems: 'center', gap: '4px' }}
+            title="Grant access again to this user"
+          >
+            <Check size={13} color="currentColor" /> Grant access again
+          </button>
         </div>
       )
     }
