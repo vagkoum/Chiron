@@ -3,6 +3,17 @@ import { useNavigate } from 'react-router-dom'
 import { supabase } from '../lib/supabase'
 import { useAuth } from '../lib/AuthContext'
 
+async function loadRecentFallback(userId) {
+  const { data } = await supabase
+    .from('listings')
+    .select('*, profiles!listings_user_id_fkey(full_name, company)')
+    .neq('user_id', userId)
+    .eq('active', true)
+    .order('created_at', { ascending: false })
+    .limit(10)
+  return data || []
+}
+
 function scoreMatch(myListing, theirListing) {
   let score = 0
   // Skill overlap
