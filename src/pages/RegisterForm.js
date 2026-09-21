@@ -121,7 +121,7 @@ export default function RegisterForm() {
               style={{ marginTop: '2px', width: '16px', height: '16px', flexShrink: 0 }}
             />
             <span style={{ fontSize: '13px' }}>
-              I have read and accept the Terms of Use and Privacy Policy.
+              I have read and accept the <Link to="/terms" target="_blank" style={{ color: '#0F6E56', fontWeight: 500 }}>Terms of Use</Link> and <Link to="/privacy" target="_blank" style={{ color: '#0F6E56', fontWeight: 500 }}>Privacy Policy</Link>.
             </span>
           </label>
 
