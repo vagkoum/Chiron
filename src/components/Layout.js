@@ -6,6 +6,7 @@ import { supabase } from '../lib/supabase'
 import { Search, MessageCircle, Bell, Plus, HelpCircle } from 'lucide-react'
 import OnboardingModal from './OnboardingModal'
 import TermsReacceptanceModal from './TermsReacceptanceModal'
+import Footer from './Footer'
 
 function MatchesIcon({ size = 24 }) {
   return (
@@ -187,6 +188,7 @@ export default function Layout() {
       <main style={{ flex: 1 }}>
         <Outlet />
       </main>
+      <Footer />
     </div>
   )
 }
