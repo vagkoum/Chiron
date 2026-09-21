@@ -197,12 +197,24 @@ export default function Admin() {
                   </td>
                   <td style={{ padding: '10px 14px' }}>
                     {u.id !== ADMIN_ID ? (
-                      <button
-                        className={u.banned ? 'btn btn-outline btn-sm' : 'btn btn-danger btn-sm'}
-                        onClick={() => toggleBanUser(u.id, u.banned)}
-                      >
-                        {u.banned ? 'Unban' : 'Ban'}
-                      </button>
+                      <div style={{ display: 'flex', gap: '6px', flexWrap: 'wrap' }}>
+                        <button
+                          className={u.banned ? 'btn btn-outline btn-sm' : 'btn btn-danger btn-sm'}
+                          onClick={() => toggleBanUser(u.id, u.banned)}
+                        >
+                          {u.banned ? 'Unban' : 'Ban'}
+                        </button>
+                        <button
+                          className="btn btn-outline btn-sm"
+                          onClick={async () => {
+                            await supabase.from('profiles').update({ matches_opt_out: !u.matches_opt_out }).eq('id', u.id)
+                            setUsers(us => us.map(x => x.id === u.id ? { ...x, matches_opt_out: !u.matches_opt_out } : x))
+                          }}
+                          title="Toggle whether this user is shown ranked matches or recent listings"
+                        >
+                          {u.matches_opt_out ? 'Re-enable matching' : 'Opt out of matching'}
+                        </button>
+                      </div>
                     ) : (
                       <span style={{ color: 'var(--text-faint)', fontSize: '11px' }}>You</span>
                     )}
