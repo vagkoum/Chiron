@@ -37,7 +37,7 @@ export default function App() {
         <Routes>
           <Route path="edit-listing/:id" element={<PrivateRoute><EditListing /></PrivateRoute>} />
           <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
+          <Route path="/register" element={<RegisterForm />} />
           <Route path="/" element={<Layout />}>
             <Route path="cookies" element={<Cookies />} />
             <Route path="privacy" element={<Privacy />} />
