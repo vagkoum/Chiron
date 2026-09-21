@@ -100,15 +100,21 @@ export default function Matches() {
 
   return (
     <div className="page">
-      <div className="stats-row">
-        <div className="stat-card"><div className="stat-num">{myListings.length}</div><div className="stat-lbl">Your active listings</div></div>
-        <div className="stat-card"><div className="stat-num">{matches.length}</div><div className="stat-lbl">Potential matches</div></div>
-        <div className="stat-card"><div className="stat-num">{matches.filter(m => m.score >= 50).length}</div><div className="stat-lbl">Strong matches</div></div>
-      </div>
+      {isOptedOut ? (
+        <div style={{ background: '#e6f1fb', border: '1px solid #85B7EB', borderRadius: '8px', padding: '12px 14px', fontSize: '13px', color: '#0c447c', marginBottom: '1.5rem' }}>
+          You've opted out of personalized matching. Showing recent listings instead, sorted by newest first.
+        </div>
+      ) : (
+        <div className="stats-row">
+          <div className="stat-card"><div className="stat-num">{myListings.length}</div><div className="stat-lbl">Your active listings</div></div>
+          <div className="stat-card"><div className="stat-num">{matches.length}</div><div className="stat-lbl">Potential matches</div></div>
+          <div className="stat-card"><div className="stat-num">{matches.filter(m => m.score >= 50).length}</div><div className="stat-lbl">Strong matches</div></div>
+        </div>
+      )}
 
-      <h2 className="section-title" style={{ marginBottom: '1rem' }}>Your best matches</h2>
+      <h2 className="section-title" style={{ marginBottom: '1rem' }}>{isOptedOut ? 'Recent listings' : 'Your best matches'}</h2>
 
-      {myListings.length === 0 ? (
+      {!isOptedOut && myListings.length === 0 ? (
         <div className="empty-state">
           <h3>Post a listing first</h3>
           <p>We need to know what you're offering to find matches.</p>
