@@ -49,13 +49,26 @@ export default function RegisterForm() {
   if (registered) {
     return (
       <div className="auth-page">
-        <div className="auth-box">
+        <div className="auth-box" style={{ textAlign: 'center' }}>
           <div className="auth-logo">{TRADE_CONFIG.platformName}</div>
-          <h2 style={{ fontSize: '16px', fontWeight: 500, textAlign: 'center', marginBottom: '1rem' }}>
+          <div style={{
+            width: '56px', height: '56px', borderRadius: '50%',
+            background: '#E1F5EE', display: 'flex', alignItems: 'center', justifyContent: 'center',
+            margin: '1rem auto'
+          }}>
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#0F6E56" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+              <path d="m22 6-10 7L2 6"/>
+            </svg>
+          </div>
+          <h2 style={{ fontSize: '17px', fontWeight: 600, marginBottom: '10px' }}>
             Check your email
           </h2>
-          <p style={{ fontSize: '13px', color: 'var(--text-muted)', textAlign: 'center', lineHeight: 1.7 }}>
-            We've sent a confirmation link to your email address. Click it to activate your account, then come back and log in.
+          <p style={{ fontSize: '13px', color: 'var(--text-muted)', lineHeight: 1.7, marginBottom: '1.5rem' }}>
+            We've sent a confirmation link to <strong>{email}</strong>. Click it to activate your account, then come back and log in.
+          </p>
+          <p style={{ fontSize: '12px', color: 'var(--text-faint)' }}>
+            Didn't get it? Check your spam folder, or make sure the address is correct.
           </p>
         </div>
       </div>
