@@ -137,11 +137,16 @@ export default function Matches() {
                   <div style={{ fontWeight: 600 }}>{name}</div>
                   <div style={{ fontSize: '13px', color: 'var(--text-muted)' }}>{m.offer_title}</div>
                 </div>
-                <div style={{ textAlign: 'right' }}>
-                  <div className="match-score">{m.score}%</div>
-                  <div style={{ fontSize: '11px', color: 'var(--text-muted)' }}>match</div>
-                </div>
+                {!isOptedOut && (
+                  <div style={{ textAlign: 'right' }}>
+                    <div className="match-score">{m.score}%</div>
+                    <div style={{ fontSize: '11px', color: 'var(--text-muted)' }}>match</div>
+                  </div>
+                )}
               </div>
+              {!isOptedOut && (
+                <div className="match-bar-wrap"><div className="match-bar" style={{ width: `${m.score}%` }} /></div>
+              )}
               <div className="match-bar-wrap"><div className="match-bar" style={{ width: `${m.score}%` }} /></div>
               {m.seek_description && (
                 <div style={{ fontSize: '13px', color: 'var(--text-muted)', marginBottom: '10px' }}>
