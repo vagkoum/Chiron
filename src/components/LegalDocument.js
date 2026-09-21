@@ -49,21 +49,34 @@ export default function LegalDocument({ title, content }) {
             )
           }
 
-          // Bullet list block
+          // Bullet list block — handles both "-   item" and "> • item" / "> item" styles
           const lines = trimmed.split('\n').map(l => l.trim())
-          const isBulletBlock = lines.every(l => l.startsWith('-') || l === '')
-          if (isBulletBlock && lines.length > 0) {
+          const isBulletBlock = lines.every(l => l.startsWith('-') || l.startsWith('>') || l === '')
+          if (isBulletBlock && lines.some(l => l.startsWith('-') || l.startsWith('>'))) {
+            // Join continuation lines back into single bullet items first
+            const rawItems = []
+            let current = ''
+            lines.forEach(l => {
+              const cleaned = l.replace(/^>\s*/, '').replace(/^-+\s*/, '').replace(/^•\s*/, '')
+              if (l.match(/^(-|>\s*•)/) ) {
+                if (current) rawItems.push(current)
+                current = cleaned
+              } else if (cleaned) {
+                current += (current ? ' ' : '') + cleaned
+              }
+            })
+            if (current) rawItems.push(current)
+
             return (
               <ul key={i} style={{ margin: '0 0 1rem', paddingLeft: '1.4rem' }}>
-                {lines.filter(Boolean).map((l, j) => (
+                {rawItems.map((item, j) => (
                   <li key={j} style={{ marginBottom: '6px' }}>
-                    {renderInline(l.replace(/^-+\s*/, ''))}
+                    {renderInline(item)}
                   </li>
                 ))}
               </ul>
             )
           }
-
           // Regular paragraph (may contain inline bold, and internal line breaks)
           return (
             <p key={i} style={{ marginBottom: '1rem', whiteSpace: 'pre-line' }}>
