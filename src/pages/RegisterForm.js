@@ -46,6 +46,22 @@ export default function RegisterForm() {
     }
     setLoading(false)
   }
+  if (registered) {
+    return (
+      <div className="auth-page">
+        <div className="auth-box">
+          <div className="auth-logo">{TRADE_CONFIG.platformName}</div>
+          <h2 style={{ fontSize: '16px', fontWeight: 500, textAlign: 'center', marginBottom: '1rem' }}>
+            Check your email
+          </h2>
+          <p style={{ fontSize: '13px', color: 'var(--text-muted)', textAlign: 'center', lineHeight: 1.7 }}>
+            We've sent a confirmation link to your email address. Click it to activate your account, then come back and log in.
+          </p>
+        </div>
+      </div>
+    )
+  }
+
   return (
     <div className="auth-page">
       <div className="auth-box">
