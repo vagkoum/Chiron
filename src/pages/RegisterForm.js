@@ -15,6 +15,8 @@ export default function RegisterForm() {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
 
+  const [registered, setRegistered] = useState(false)
+
   async function handleSubmit(e) {
     e.preventDefault()
     setError('')
@@ -38,13 +40,12 @@ export default function RegisterForm() {
         terms_accepted_at: now,
         terms_version: CURRENT_TERMS_VERSION,
       })
-      navigate('/')
+      setRegistered(true)
     } catch (err) {
       setError(err.message || 'Something went wrong. Please try again.')
     }
     setLoading(false)
   }
-
   return (
     <div className="auth-page">
       <div className="auth-box">
