@@ -42,7 +42,6 @@ export default function App() {
             <Route path="cookies" element={<Cookies />} />
             <Route path="privacy" element={<Privacy />} />
             <Route path="terms" element={<Terms />} />
-            <Route path="register-test-preview" element={<RegisterForm />} />
             <Route path="my-agreements" element={<PrivateRoute><MyAgreements /></PrivateRoute>} />
             <Route path="export-data" element={<PrivateRoute><ExportData /></PrivateRoute>} />
             <Route path="favorites" element={<PrivateRoute><Favorites /></PrivateRoute>} />
