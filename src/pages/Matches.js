@@ -40,14 +40,24 @@ function scoreMatch(myListing, theirListing) {
 }
 
 export default function Matches() {
-  const { user } = useAuth()
+  const { user, profile } = useAuth()
   const navigate = useNavigate()
   const [myListings, setMyListings] = useState([])
   const [matches, setMatches] = useState([])
   const [loading, setLoading] = useState(true)
+  const [isOptedOut, setIsOptedOut] = useState(false)
 
   useEffect(() => {
     async function load() {
+      if (profile?.matches_opt_out) {
+        setIsOptedOut(true)
+        const recent = await loadRecentFallback(user.id)
+        setMatches(recent.map(l => ({ ...l, score: null })))
+        setLoading(false)
+        return
+      }
+      setIsOptedOut(false)
+
       const { data: mine } = await supabase.from('listings').select('*').eq('user_id', user.id).eq('active', true)
       const { data: others } = await supabase
         .from('listings')
@@ -68,7 +78,7 @@ export default function Matches() {
       setLoading(false)
     }
     load()
-  }, [user])
+  }, [user, profile])
 
   async function handleContact(listing) {
     const { data: existing } = await supabase
