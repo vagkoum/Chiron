@@ -4,7 +4,7 @@ import { supabase } from '../lib/supabase'
 import { TRADE_CONFIG } from '../lib/tradeConfig'
 import ListingCard from '../components/ListingCard'
 import TrustLegend from '../components/TrustLegend'
-import { Handshake, Search, MessageCircle, Repeat } from 'lucide-react'
+import { Handshake, Search, MessageCircle, Repeat, Lock, Award, Lightbulb, Globe } from 'lucide-react'
 import SplashScreen from '../components/SplashScreen'
 
 export default function Home() {
