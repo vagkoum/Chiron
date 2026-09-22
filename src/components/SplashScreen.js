@@ -1,12 +1,10 @@
-import { useState, useEffect } from 'react'
+import { useEffect } from 'react'
 
 export default function SplashScreen({ onDone }) {
-  
 
   useEffect(() => {
     const doneTimer = setTimeout(() => onDone(), 1800)
     return () => {
-      clearTimeout(dismissTimer)
       clearTimeout(doneTimer)
     }
   }, [onDone])
