@@ -3,7 +3,7 @@ import { useEffect } from 'react'
 export default function SplashScreen({ onDone }) {
 
   useEffect(() => {
-    const doneTimer = setTimeout(() => onDone(), 1800)
+    const doneTimer = setTimeout(() => onDone(), 2200)
     return () => {
       clearTimeout(doneTimer)
     }
