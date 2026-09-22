@@ -5,7 +5,6 @@ import { TRADE_CONFIG } from '../lib/tradeConfig'
 import ListingCard from '../components/ListingCard'
 import TrustLegend from '../components/TrustLegend'
 import { Handshake, Search, MessageCircle, Repeat } from 'lucide-react'
-import { useState, useEffect } from 'react'
 import SplashScreen from '../components/SplashScreen'
 
 export default function Home() {
