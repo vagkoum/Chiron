@@ -22,24 +22,27 @@ export default function SplashScreen({ onDone }) {
         zIndex: 2000, cursor: 'pointer', overflow: 'hidden',
       }}
     >
-      <img
+     <img
         src="/logo.png"
         alt="Chiron"
         style={{
           height: '90px', width: 'auto', objectFit: 'contain',
-          animation: 'splashZoomFade 2.2s ease-in-out both',
+          transformOrigin: '18% 50%',
+          willChange: 'transform, opacity',
+          animation: 'splashZoomFade 2.4s ease-in both',
         }}
       />
 
       <style>{`
         @keyframes splashZoomFade {
-          0%   { opacity: 0;    transform: scale(0.7); }
-          25%  { opacity: 1;    transform: scale(1); }
-          65%  { opacity: 1;    transform: scale(1.6); }
-          85%  { opacity: 1;    transform: scale(2);   }
-          100% { opacity: 0;    transform: scale(2.3); }
+          0%   { opacity: 0; transform: scale(0.7); }
+          20%  { opacity: 1; transform: scale(1); }
+          45%  { opacity: 1; transform: scale(2.5); }
+          70%  { opacity: 1; transform: scale(6); }
+          92%  { opacity: 1; transform: scale(12); }
+          100% { opacity: 0; transform: scale(14); }
         }
-      `}</style>>
+      `}</style>
     </div>
   )
 }
