@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 
 export default function SplashScreen({ onDone }) {
-  const [fadingOut, setFadingOut] = useState(false)
+  
 
   useEffect(() => {
     const doneTimer = setTimeout(() => onDone(), 1800)
@@ -12,8 +12,7 @@ export default function SplashScreen({ onDone }) {
   }, [onDone])
 
   function skip() {
-    setFadingOut(true)
-    setTimeout(() => onDone(), 400)
+    onDone()
   }
 
   return (
