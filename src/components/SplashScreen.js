@@ -22,8 +22,6 @@ export default function SplashScreen({ onDone }) {
         position: 'fixed', inset: 0, background: '#EFDFC6',
         display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
         zIndex: 2000, cursor: 'pointer', overflow: 'hidden',
-        opacity: fadingOut ? 0 : 1,
-        transition: 'opacity 0.4s ease',
       }}
     >
       <img
