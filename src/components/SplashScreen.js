@@ -28,16 +28,18 @@ export default function SplashScreen({ onDone }) {
         style={{
           height: '90px', width: 'auto', objectFit: 'contain',
           willChange: 'transform, opacity',
-          animation: 'splashZoomFade 2.2s ease-in-out both',
+          backfaceVisibility: 'hidden',
+          transform: 'translateZ(0)',
+          animation: 'splashZoomFade 2.4s linear 0.05s both',
         }}
       />
 
       <style>{`
         @keyframes splashZoomFade {
-          0%   { opacity: 0; transform: scale(0.8); }
-          15%  { opacity: 1; transform: scale(1); }
-          80%  { opacity: 1; transform: scale(3.2); }
-          100% { opacity: 0; transform: scale(3.8); }
+          0%   { opacity: 0;   transform: scale(0.85); }
+          10%  { opacity: 1;   transform: scale(1); }
+          90%  { opacity: 1;   transform: scale(3.4); }
+          100% { opacity: 0;   transform: scale(3.7); }
         }
       `}</style>
     </div>
