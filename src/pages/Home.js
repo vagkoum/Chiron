@@ -5,10 +5,19 @@ import { TRADE_CONFIG } from '../lib/tradeConfig'
 import ListingCard from '../components/ListingCard'
 import TrustLegend from '../components/TrustLegend'
 import { Handshake, Search, MessageCircle, Repeat } from 'lucide-react'
+import { useState, useEffect } from 'react'
+import SplashScreen from '../components/SplashScreen'
 
 export default function Home() {
   const navigate = useNavigate()
   const [listings, setListings] = useState([])
+  const [showSplash, setShowSplash] = useState(() => !sessionStorage.getItem('chiron_splash_seen'))
+
+  function dismissSplash() {
+  sessionStorage.setItem('chiron_splash_seen', 'true')
+  setShowSplash(false)
+}
+
   useEffect(() => {
     supabase
       .from('listings')
@@ -22,6 +31,7 @@ export default function Home() {
   }, [])
   return (
     <>
+      {showSplash && <SplashScreen onDone={dismissSplash} />}
       <div className="hero" style={{background: '#faf5ee'}}>
         <h1><em>{TRADE_CONFIG.heroTagline.split(',')[0]}</em>{TRADE_CONFIG.heroTagline.includes(',') ? ',' + TRADE_CONFIG.heroTagline.split(',').slice(1).join(',') : ''}</h1>
         <p>{TRADE_CONFIG.heroSubtitle}</p>
