@@ -43,6 +43,30 @@ export default function Home() {
           </button>
         </div>
       </div>
+
+      <div className="page" style={{ paddingBottom: 0 }}>
+        <p style={{
+          fontSize: '18px', textAlign: 'center', color: 'var(--text)',
+          maxWidth: '520px', margin: '0 auto 2rem', lineHeight: 1.6,
+        }}>
+          Worried that sharing your idea means losing it? That's exactly the problem Chiron is built to solve.
+        </p>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '12px', marginBottom: '3rem' }}>
+          {[
+            { Icon: Lock, title: 'Share it safely', text: "Nothing sensitive is shown until someone signs a confidentiality agreement — and you decide who actually gets access, not the platform." },
+            { Icon: Award, title: 'Keep the credit, forever', text: 'Every completed exchange is permanently recorded — who created it, and who acquired it — giving you a timestamped record of the transaction, should you ever need one.' },
+            { Icon: Lightbulb, title: 'Room for every kind of idea', text: "Scientific research, inventions, lab collaborations, lyrics, screenplays — Chiron isn't built around just one field." },
+            { Icon: Globe, title: 'Reach past your usual network', text: "Filter and discover by language, country, and audience — collaborations you'd likely never stumble into otherwise." },
+          ].map(s => (
+            <div key={s.title} className="card" style={{ padding: '1.1rem 1.25rem' }}>
+              <s.Icon size={22} color="#0F6E56" />
+              <div style={{ fontWeight: 600, fontSize: '15px', margin: '8px 0 4px' }}>{s.title}</div>
+              <div style={{ fontSize: '13px', color: 'var(--text-muted)', lineHeight: 1.6 }}>{s.text}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+
       <div className="page">
         <div style={{ display: 'grid', gridTemplateColumns: '260px 1fr', gap: '24px', alignItems: 'start' }}>
           <div style={{ position: 'sticky', top: '20px' }}>
