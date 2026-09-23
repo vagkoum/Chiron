@@ -68,7 +68,7 @@ export default function Home() {
       </div>
 
       <div className="page">
-        <div style={{ display: 'grid', gridTemplateColumns: '260px 1fr', gap: '24px', alignItems: 'start' }}>
+        <div className="home-sidebar-grid" style={{ display: 'grid', gridTemplateColumns: '260px 1fr', gap: '24px', alignItems: 'start' }}>
           <div style={{ position: 'sticky', top: '20px' }}>
             <TrustLegend />
           </div>
