@@ -111,7 +111,7 @@ export default function Layout() {
       <nav className="navbar">
         <div className="navbar-inner" style={{ padding: '0 8px', whiteSpace: 'nowrap' }}>
           <NavLink to="/" className="nav-logo" style={{ marginRight: '4px' }}>
-           <img src="/logo.png" alt="Chiron" style={{height: '52px', width: 'auto', objectFit: 'contain'}} />
+           <img src="/logo.png" alt="Chiron" style={{height: '52px', width: 'auto', objectFit: 'contain', position: 'relative', top: '4px'}} />
           </NavLink>
 
           <NavLink to="/browse" className={({ isActive }) => 'nav-link' + (isActive ? ' active' : '')} title="Browse all active submissions">
