@@ -38,8 +38,8 @@ export default function SplashScreen({ onDone }) {
         @keyframes splashZoomFade {
           0%   { opacity: 0;   transform: scale(0.85); }
           10%  { opacity: 1;   transform: scale(1); }
-          90%  { opacity: 1;   transform: scale(3.4); }
-          100% { opacity: 0;   transform: scale(3.7); }
+          90%  { opacity: 1;   transform: scale(2.0); }
+          100% { opacity: 0;   transform: scale(2.2); }
         }
       `}</style>
     </div>
