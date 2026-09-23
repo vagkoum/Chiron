@@ -90,7 +90,7 @@ export default function Home() {
           </div>
         </div>
 
-        <div style={{ marginTop: '3rem', display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '12px' }}>
+        <div className="home-features-grid" style={{ marginTop: '3rem', display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '12px' }}>
           {[
             { Icon: Handshake, title: 'Post what you offer', text: 'Describe who or what you can trade.' },
             { Icon: Search, title: 'Find a match', text: 'Our system surfaces the best mutual fits.' },
