@@ -262,8 +262,8 @@ input, textarea, select { font-family: inherit; }
   .msg-sidebar { border-right: none; border-bottom: 1px solid var(--border); max-height: 220px; }
   .stats-row { grid-template-columns: 1fr 1fr; }
   .navbar-inner { gap: 2px; padding: 0 0.75rem; }
-  .nav-link { padding: 6px 8px; }
-  .nav-link span { display: none; }
+  .nav-link { padding: 6px 8px; font-size: 12px; }
+  .nav-link svg { display: none; }
   .nav-post { padding: 7px 10px; font-size: 12px; }
   .home-sidebar-grid { grid-template-columns: 1fr !important; }
   .home-features-grid { grid-template-columns: repeat(2, 1fr) !important; gap: 8px !important; }
